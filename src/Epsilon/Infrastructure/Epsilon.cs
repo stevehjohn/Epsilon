@@ -1,4 +1,6 @@
-﻿using Microsoft.Xna.Framework;
+﻿using System.Collections.Generic;
+using Epsilon.Actors;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 
@@ -6,13 +8,13 @@ namespace Epsilon.Infrastructure
 {
     public class Epsilon : Game
     {
-        GraphicsDeviceManager _graphics;
-        SpriteBatch _spriteBatch;
+        private GraphicsDeviceManager _graphics;
+        private SpriteBatch _spriteBatch;
+
+        private List<IActor> _actors;
 
         public Epsilon()
         {
-            _graphics = new GraphicsDeviceManager(this);
-
             _graphics = new GraphicsDeviceManager(this)
                         {
                             PreferredBackBufferWidth = Constants.ScreenBufferWidth,
@@ -20,10 +22,17 @@ namespace Epsilon.Infrastructure
                         };
 
             Content.RootDirectory = "Content";
+
+            _actors = new List<IActor>();
         }
 
         protected override void Initialize()
         {
+            foreach (var actor in _actors)
+            {
+                actor.Initialise();
+            }
+
             base.Initialize();
         }
 
@@ -47,6 +56,15 @@ namespace Epsilon.Infrastructure
             GraphicsDevice.Clear(Color.Black);
 
             _spriteBatch.Begin(SpriteSortMode.FrontToBack, samplerState: SamplerState.PointClamp);
+
+            var depth = 0.0f;
+
+            foreach (var actor in _actors)
+            {
+                depth = actor.Render(depth);
+            }
+
+            _spriteBatch.End();
 
             base.Draw(gameTime);
         }
