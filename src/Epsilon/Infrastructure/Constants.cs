@@ -9,5 +9,7 @@
         public const int ScreenBufferHeight = 720;
 
         public const int MapSize = 512;
+
+        public const int BoardSize = 29;
     }
 }

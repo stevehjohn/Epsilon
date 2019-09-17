@@ -48,6 +48,8 @@
     <Compile Include="Infrastructure\Constants.cs" />
     <Compile Include="Infrastructure\Epsilon.cs" />
     <Compile Include="Infrastructure\Program.cs" />
+    <Compile Include="Maths\Coordinates.cs" />
+    <Compile Include="Maths\Translations.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

@@ -1,4 +1,5 @@
-﻿using Microsoft.Xna.Framework.Content;
+﻿using Epsilon.Infrastructure;
+using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 
 namespace Epsilon.Actors
@@ -25,12 +26,18 @@ namespace Epsilon.Actors
 
         public void UpdateState()
         {
-            throw new System.NotImplementedException();
         }
 
         public float Render(float depth)
         {
-            throw new System.NotImplementedException();
+            for (var y = 0; y < Constants.BoardSize; y++)
+            {
+                for (var x = 0; x < Constants.BoardSize; x++)
+                {
+                }
+            }
+
+            return depth;
         }
     }
 }
