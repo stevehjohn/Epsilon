@@ -11,7 +11,7 @@ namespace Epsilon.Infrastructure
         private GraphicsDeviceManager _graphics;
         private SpriteBatch _spriteBatch;
 
-        private List<IActor> _actors;
+        private readonly List<IActor> _actors;
 
         public Epsilon()
         {
@@ -24,6 +24,9 @@ namespace Epsilon.Infrastructure
             Content.RootDirectory = "Content";
 
             _actors = new List<IActor>();
+
+            // TODO: Maybe use some poncy assembly scanning technique to pick all these up...
+            _actors.Add(new Terrain());
         }
 
         protected override void Initialize()
@@ -39,6 +42,11 @@ namespace Epsilon.Infrastructure
         protected override void LoadContent()
         {
             _spriteBatch = new SpriteBatch(GraphicsDevice);
+
+            foreach (var actor in _actors)
+            {
+                actor.LoadContent();
+            }
         }
 
         protected override void Update(GameTime gameTime)

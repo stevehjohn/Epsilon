@@ -4,6 +4,8 @@
     {
         void Initialise();
 
+        void LoadContent();
+
         void UpdateState();
 
         float Render(float depth);
