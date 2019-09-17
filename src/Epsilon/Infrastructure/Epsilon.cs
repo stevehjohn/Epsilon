@@ -13,6 +13,12 @@ namespace Epsilon.Infrastructure
         {
             _graphics = new GraphicsDeviceManager(this);
 
+            _graphics = new GraphicsDeviceManager(this)
+                        {
+                            PreferredBackBufferWidth = Constants.ScreenBufferWidth,
+                            PreferredBackBufferHeight = Constants.ScreenBufferHeight
+                        };
+
             Content.RootDirectory = "Content";
         }
 
@@ -38,7 +44,9 @@ namespace Epsilon.Infrastructure
 
         protected override void Draw(GameTime gameTime)
         {
-            GraphicsDevice.Clear(Color.CornflowerBlue);
+            GraphicsDevice.Clear(Color.Black);
+
+            _spriteBatch.Begin(SpriteSortMode.FrontToBack, samplerState: SamplerState.PointClamp);
 
             base.Draw(gameTime);
         }
