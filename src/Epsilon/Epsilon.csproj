@@ -43,6 +43,7 @@
   <ItemGroup>
     <Compile Include="Actors\IActor.cs" />
     <Compile Include="Actors\Terrain.cs" />
+    <Compile Include="Environment\Tile.cs" />
     <Compile Include="Environment\WorldMap.cs" />
     <Compile Include="Infrastructure\Constants.cs" />
     <Compile Include="Infrastructure\Epsilon.cs" />

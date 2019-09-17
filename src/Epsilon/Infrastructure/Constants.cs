@@ -7,5 +7,7 @@
 
         public const int ScreenBufferWidth = 1280;
         public const int ScreenBufferHeight = 720;
+
+        public const int MapSize = 512;
     }
 }

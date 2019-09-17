@@ -1,10 +1,22 @@
-﻿namespace Epsilon.Actors
+﻿using Microsoft.Xna.Framework.Content;
+using Microsoft.Xna.Framework.Graphics;
+
+namespace Epsilon.Actors
 {
     public class Terrain : IActor
     {
+        private readonly ContentManager _contentManager;
+
+        private Texture2D _tiles;
+
+        public Terrain(ContentManager contentManager)
+        {
+            _contentManager = contentManager;
+        }
+
         public void Initialise()
         {
-            throw new System.NotImplementedException();
+            _tiles = _contentManager.Load<Texture2D>("tile-set");
         }
 
         public void LoadContent()
