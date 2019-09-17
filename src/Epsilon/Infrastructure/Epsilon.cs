@@ -22,11 +22,13 @@ namespace Epsilon.Infrastructure
                         };
 
             Content.RootDirectory = "Content";
-
-            _actors = new List<IActor>();
-
+            
             // TODO: Maybe use some poncy assembly scanning technique to pick all these up...
-            _actors.Add(new Terrain(Content));
+            _actors = new List<IActor>
+                      {
+                          new Terrain(Content)
+                      };
+
         }
 
         protected override void Initialize()

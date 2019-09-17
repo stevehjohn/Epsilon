@@ -16,11 +16,11 @@ namespace Epsilon.Actors
 
         public void Initialise()
         {
-            _tiles = _contentManager.Load<Texture2D>("tile-set");
         }
 
         public void LoadContent()
         {
+            _tiles = _contentManager.Load<Texture2D>("tile-set");
         }
 
         public void UpdateState()
