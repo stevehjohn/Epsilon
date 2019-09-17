@@ -2,7 +2,7 @@
 
 namespace Epsilon.Infrastructure
 {
-    public static class Program
+    public static class EntryPoint
     {
         [STAThread]
         public static void Main()
