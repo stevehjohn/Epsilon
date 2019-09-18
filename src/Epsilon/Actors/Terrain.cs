@@ -58,7 +58,10 @@ namespace Epsilon.Actors
                         continue;
                     }
 
-                    Draw(position.X, position.Y, tile.Height, tile.TerrainType);
+                    for (var h = Constants.SeaFloor; h <= tile.Height; h++)
+                    {
+                        Draw(position.X, position.Y, h, tile.TerrainType);
+                    }
 
                     if (tile.Height < 0)
                     {
@@ -67,6 +70,7 @@ namespace Epsilon.Actors
                 }
             }
 
+            // TODO: Don't like this.
             if (HighlightTile != null)
             {
                 var position = Translations.BoardToScreen(HighlightTile.X, HighlightTile.Y);

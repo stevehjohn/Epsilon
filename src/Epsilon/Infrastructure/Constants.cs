@@ -22,5 +22,7 @@
         public const int BoardSize = 38;
 
         public const float DepthIncrement = 0.00001f;
+
+        public const int SeaFloor = -5;
     }
 }
