@@ -2,7 +2,7 @@
 {
     public static class Translations
     {
-        public static Coordinates BoardToScreen(Coordinates coordinates)
+        public static Coordinates BoardToScreen(int x, int y)
         {
             return null;
         }

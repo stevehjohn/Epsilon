@@ -11,5 +11,7 @@
         public const int MapSize = 512;
 
         public const int BoardSize = 29;
+
+        public const float DepthIncrement = 0.00001f;
     }
 }
