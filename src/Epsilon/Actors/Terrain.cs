@@ -113,12 +113,13 @@ namespace Epsilon.Actors
             return _depth;
         }
 
+        // TODO: This needs to fade as tiles get deeper
         private void Draw(int x, int y, int height, TerrainType terrainType)
         {
             _spriteBatch.Draw(_tiles,
                               new Vector2(x, y - height * Constants.BlockHeight),
                               new Rectangle(GetTerrainXOffset(terrainType), 0, Constants.TileSpriteWidth, Constants.TileSpriteHeight),
-                              terrainType == TerrainType.Water ? Color.White * 0.6f : Color.White, 0, Vector2.Zero, Vector2.One, SpriteEffects.None, _depth);
+                              GetColor(terrainType, height), 0, Vector2.Zero, Vector2.One, SpriteEffects.None, _depth);
 
             _depth += Constants.DepthIncrement;
         }
@@ -135,7 +136,7 @@ namespace Epsilon.Actors
                 return Color.White;
             }
 
-            return Color.White * (1.0f  * (Constants.SeaFloor - height));
+            return Color.White; // * (1.0f  * (Constants.SeaFloor + height));
         }
 
         private int GetTerrainXOffset(TerrainType terrainType)
