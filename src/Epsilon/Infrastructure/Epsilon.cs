@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using Epsilon.Actors;
+using Epsilon.Environment;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
@@ -10,6 +11,8 @@ namespace Epsilon.Infrastructure
     {
         private GraphicsDeviceManager _graphics;
         private SpriteBatch _spriteBatch;
+
+        private readonly Map _map;
 
         private readonly List<IActor> _actors;
 
@@ -22,13 +25,14 @@ namespace Epsilon.Infrastructure
                         };
 
             Content.RootDirectory = "Content";
-            
+
+            _map = new Map();
+
             // TODO: Maybe use some poncy assembly scanning technique to pick all IActors up...
             _actors = new List<IActor>
                       {
-                          new Terrain()
+                          new Terrain(_map)
                       };
-
         }
 
         protected override void Initialize()

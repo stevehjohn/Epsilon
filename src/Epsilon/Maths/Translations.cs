@@ -8,7 +8,7 @@ namespace Epsilon.Maths
         {
             var sx = Constants.ScreenBufferWidth / 2 + (x - y) * (Constants.TileSpriteWidthHalf) - Constants.TileSpriteWidthHalf;
 
-            var sy = y * Constants.TileHeightHalf + x * Constants.TileHeightHalf - Constants.YScreenOffset;
+            var sy = Constants.YScreenOffset + y * Constants.TileHeightHalf + x * Constants.TileHeightHalf;
 
             return new Coordinates(sx, sy);
         }
