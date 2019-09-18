@@ -6,9 +6,9 @@ namespace Epsilon.Environment
 {
     public class Map
     {
-        private readonly Coordinates _position;
-
         private readonly Tile[,] _tiles;
+
+        private Coordinates _position;
 
         public Map()
         {
@@ -17,25 +17,6 @@ namespace Epsilon.Environment
             _position = new Coordinates(0, 0);
 
             InitialiseTerrain();
-        }
-
-        private void InitialiseTerrain()
-        {
-            _tiles[0, 0] = new Tile(0, TerrainType.Grass);
-            _tiles[2, 2] = new Tile(0, TerrainType.Sand);
-            _tiles[2, 0] = new Tile(0, TerrainType.Rock);
-            _tiles[0, 2] = new Tile(0, TerrainType.Soil);
-
-            _tiles[4, 4] = new Tile(0, TerrainType.Sand);
-            _tiles[4, 5] = new Tile(0, TerrainType.Sand);
-            _tiles[4, 6] = new Tile(0, TerrainType.Sand);
-            _tiles[5, 4] = new Tile(0, TerrainType.Sand);
-            _tiles[5, 5] = new Tile(1, TerrainType.Sand);
-            _tiles[5, 6] = new Tile(0, TerrainType.Sand);
-            _tiles[6, 4] = new Tile(0, TerrainType.Sand);
-            _tiles[6, 5] = new Tile(0, TerrainType.Sand);
-            _tiles[6, 6] = new Tile(0, TerrainType.Sand);
-
         }
 
         public Tile GetTile(int x, int y)
@@ -49,6 +30,11 @@ namespace Epsilon.Environment
             }
 
             return _tiles[x, y] ?? new Tile(0, TerrainType.Water);
+        }
+
+        public void Move(Direction direction)
+        {
+            _position = new Coordinates(_position.X + direction.Dx, _position.Y - direction.Dy);
         }
 
         public Tile GetTile(int x, int y, int rotation)
@@ -77,6 +63,25 @@ namespace Epsilon.Environment
             }
 
             return GetTile(tx, ty);
+        }
+
+        private void InitialiseTerrain()
+        {
+            _tiles[0, 0] = new Tile(0, TerrainType.Grass);
+            _tiles[2, 2] = new Tile(0, TerrainType.Sand);
+            _tiles[2, 0] = new Tile(0, TerrainType.Rock);
+            _tiles[0, 2] = new Tile(0, TerrainType.Soil);
+
+            _tiles[4, 4] = new Tile(0, TerrainType.Sand);
+            _tiles[4, 5] = new Tile(0, TerrainType.Sand);
+            _tiles[4, 6] = new Tile(0, TerrainType.Sand);
+            _tiles[5, 4] = new Tile(0, TerrainType.Sand);
+            _tiles[5, 5] = new Tile(1, TerrainType.Sand);
+            _tiles[5, 6] = new Tile(0, TerrainType.Sand);
+            _tiles[6, 4] = new Tile(0, TerrainType.Sand);
+            _tiles[6, 5] = new Tile(0, TerrainType.Sand);
+            _tiles[6, 6] = new Tile(0, TerrainType.Sand);
+
         }
     }
 }
