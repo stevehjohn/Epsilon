@@ -10,7 +10,7 @@ namespace Epsilon.Environment
 
         private Coordinates _position;
 
-        private int _rotation = 90;
+        private int _rotation;
 
         public int Rotation
         {
@@ -29,7 +29,7 @@ namespace Epsilon.Environment
         {
             _tiles = new Tile[Constants.MapSize, Constants.MapSize];
 
-            _position = new Coordinates(100, 100);
+            _position = new Coordinates(90, 90);
 
             InitialiseTerrain();
         }
