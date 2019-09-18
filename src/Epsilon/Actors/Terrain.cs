@@ -103,7 +103,7 @@ namespace Epsilon.Actors
                 case TerrainType.Snow:
                     return 4 * Constants.TileSpriteWidth;
                 case TerrainType.Water:
-                    return 6 * Constants.TileSpriteWidth;
+                    return 5 * Constants.TileSpriteWidth;
                 default:
                     throw new ArgumentOutOfRangeException(nameof(terrainType), terrainType, null);
             }

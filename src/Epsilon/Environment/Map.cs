@@ -14,7 +14,7 @@ namespace Epsilon.Environment
         {
             _tiles = new Tile[Constants.MapSize, Constants.MapSize];
 
-            _position = new Coordinates(0, 0);
+            _position = new Coordinates(100, 100);
 
             InitialiseTerrain();
         }
@@ -67,21 +67,28 @@ namespace Epsilon.Environment
 
         private void InitialiseTerrain()
         {
-            _tiles[0, 0] = new Tile(0, TerrainType.Grass);
-            _tiles[2, 2] = new Tile(0, TerrainType.Sand);
-            _tiles[2, 0] = new Tile(0, TerrainType.Rock);
-            _tiles[0, 2] = new Tile(0, TerrainType.Soil);
+            for (var x = 0; x < Constants.MapSize; x++)
+            {
+                for (var y = 0; y < Constants.MapSize; y++)
+                {
+                    _tiles[x, y] = new Tile(-5, TerrainType.Soil);
+                }
+            }
 
-            _tiles[4, 4] = new Tile(2, TerrainType.Sand);
-            _tiles[4, 5] = new Tile(1, TerrainType.Sand);
-            _tiles[4, 6] = new Tile(0, TerrainType.Sand);
-            _tiles[5, 4] = new Tile(1, TerrainType.Sand);
-            _tiles[5, 5] = new Tile(0, TerrainType.Sand);
-            _tiles[5, 6] = new Tile(-1, TerrainType.Sand);
-            _tiles[6, 4] = new Tile(0, TerrainType.Sand);
-            _tiles[6, 5] = new Tile(-1, TerrainType.Sand);
-            _tiles[6, 6] = new Tile(-2, TerrainType.Sand);
+            _tiles[100, 100] = new Tile(0, TerrainType.Grass);
+            _tiles[102, 102] = new Tile(0, TerrainType.Sand);
+            _tiles[102, 100] = new Tile(0, TerrainType.Rock);
+            _tiles[100, 102] = new Tile(0, TerrainType.Soil);
 
+            _tiles[104, 104] = new Tile(2, TerrainType.Sand);
+            _tiles[104, 105] = new Tile(1, TerrainType.Sand);
+            _tiles[104, 106] = new Tile(0, TerrainType.Sand);
+            _tiles[105, 104] = new Tile(1, TerrainType.Sand);
+            _tiles[105, 105] = new Tile(0, TerrainType.Sand);
+            _tiles[105, 106] = new Tile(-1, TerrainType.Sand);
+            _tiles[106, 104] = new Tile(0, TerrainType.Sand);
+            _tiles[106, 105] = new Tile(-1, TerrainType.Sand);
+            _tiles[106, 106] = new Tile(-2, TerrainType.Sand);
         }
     }
 }
