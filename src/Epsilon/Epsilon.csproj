@@ -46,7 +46,6 @@
     <Compile Include="Environment\Map.cs" />
     <Compile Include="Environment\TerrainType.cs" />
     <Compile Include="Environment\Tile.cs" />
-    <Compile Include="Environment\WorldMap.cs" />
     <Compile Include="Infrastructure\Constants.cs" />
     <Compile Include="Infrastructure\Epsilon.cs" />
     <Compile Include="Infrastructure\EntryPoint.cs" />
