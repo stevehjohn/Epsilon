@@ -80,6 +80,11 @@ namespace Epsilon.Actors
 
                     var baseHeight = Math.Min(_map.GetTile(x + 1, y)?.Height ?? Constants.SeaFloor, _map.GetTile(x, y + 1)?.Height ?? Constants.SeaFloor);
 
+                    if (baseHeight > tile.Height)
+                    {
+                        baseHeight = tile.Height;
+                    }
+
                     for (var h = baseHeight; h <= tile.Height; h++)
                     {
                         Draw(position.X, position.Y, h, tile.TerrainType);
