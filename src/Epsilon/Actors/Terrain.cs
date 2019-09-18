@@ -123,6 +123,21 @@ namespace Epsilon.Actors
             _depth += Constants.DepthIncrement;
         }
 
+        private Color GetColor(TerrainType terrainType, int height)
+        {
+            if (terrainType == TerrainType.Water)
+            {
+                return Color.White * 0.6f;
+            }
+
+            if (height >= 0)
+            {
+                return Color.White;
+            }
+
+            return Color.White * (1.0f  * (Constants.SeaFloor - height));
+        }
+
         private int GetTerrainXOffset(TerrainType terrainType)
         {
             switch (terrainType)
