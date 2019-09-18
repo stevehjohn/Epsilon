@@ -57,9 +57,19 @@ namespace Epsilon.Actors
                     _spriteBatch.Draw(_tiles, 
                                       new Vector2(position.X, position.Y - tile.Height * Constants.BlockHeight), 
                                       new Rectangle(GetTerrainXOffset(tile.TerrainType), 0, Constants.TileSpriteWidth, Constants.TileSpriteHeight), 
-                                      Color.White, 0, Vector2.Zero, Vector2.One, SpriteEffects.None, depth); 
+                                      tile.TerrainType == TerrainType.Water ? Color.White * 0.6f : Color.White , 0, Vector2.Zero, Vector2.One, SpriteEffects.None, depth); 
 
                     depth += Constants.DepthIncrement;
+
+                    if (tile.Height < 0)
+                    {
+                        _spriteBatch.Draw(_tiles,
+                                          new Vector2(position.X, position.Y),
+                                          new Rectangle(GetTerrainXOffset(TerrainType.Water), 0, Constants.TileSpriteWidth, Constants.TileSpriteHeight),
+                                          Color.White * 0.6f, 0, Vector2.Zero, Vector2.One, SpriteEffects.None, depth);
+
+                        depth += Constants.DepthIncrement;
+                    }
                 }
             }
 

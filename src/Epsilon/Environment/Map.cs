@@ -72,15 +72,15 @@ namespace Epsilon.Environment
             _tiles[2, 0] = new Tile(0, TerrainType.Rock);
             _tiles[0, 2] = new Tile(0, TerrainType.Soil);
 
-            _tiles[4, 4] = new Tile(0, TerrainType.Sand);
-            _tiles[4, 5] = new Tile(0, TerrainType.Sand);
+            _tiles[4, 4] = new Tile(2, TerrainType.Sand);
+            _tiles[4, 5] = new Tile(1, TerrainType.Sand);
             _tiles[4, 6] = new Tile(0, TerrainType.Sand);
-            _tiles[5, 4] = new Tile(0, TerrainType.Sand);
-            _tiles[5, 5] = new Tile(1, TerrainType.Sand);
-            _tiles[5, 6] = new Tile(0, TerrainType.Sand);
+            _tiles[5, 4] = new Tile(1, TerrainType.Sand);
+            _tiles[5, 5] = new Tile(0, TerrainType.Sand);
+            _tiles[5, 6] = new Tile(-1, TerrainType.Sand);
             _tiles[6, 4] = new Tile(0, TerrainType.Sand);
-            _tiles[6, 5] = new Tile(0, TerrainType.Sand);
-            _tiles[6, 6] = new Tile(0, TerrainType.Sand);
+            _tiles[6, 5] = new Tile(-1, TerrainType.Sand);
+            _tiles[6, 6] = new Tile(-2, TerrainType.Sand);
 
         }
     }
