@@ -91,6 +91,26 @@ namespace Epsilon.Infrastructure
                 depth = actor.Render(depth);
             }
 
+            // TODO: Better encapsulation/do this somewhere else?
+            var mouseState = Mouse.GetState();
+
+            // This is horrible. Might be better to have an abstract base class rather than an interface...
+            var terrain = _actors[0] as Terrain;
+
+            if (mouseState.X >= 0 && mouseState.X < Constants.ScreenBufferWidth && mouseState.Y >= 0 && mouseState.Y < Constants.ScreenBufferHeight)
+            {
+                var pos = MouseTracker.GetMousePositionSeaLevel(mouseState);
+
+                Console.WriteLine($"{pos.X}, {pos.Y}");
+
+                terrain.HighlightTile = pos;
+            }
+            else
+            {
+                terrain.HighlightTile = null;
+            }
+            // End TODO
+
             _spriteBatch.End();
 
             base.Draw(gameTime);

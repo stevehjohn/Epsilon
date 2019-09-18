@@ -43,12 +43,11 @@ namespace Epsilon.Controls
         public static Coordinates GetMousePositionSeaLevel(MouseState mouseState)
         {
             // TODO: Get rid of magic numbers!
-            var mouseX = (double) mouseState.X - 622 - Constants.TileWidthHalf;
-            var mouseY = (double) mouseState.Y - 26 - Constants.TileHeightHalf;
+            var mouseX = (double) mouseState.X - (Constants.ScreenBufferWidth / 2 - Constants.TileWidthHalf) - Constants.TileWidthHalf;
+            var mouseY = (double) mouseState.Y - 8 - Constants.TileHeightHalf;
 
-            // TODO: Fix above coords rather than adding 1 here.
-            var x = (int) Math.Floor((mouseX / Constants.TileWidthHalf + mouseY / Constants.TileHeightHalf) / 2) + 1;
-            var y = (int) Math.Floor((mouseY / Constants.TileHeightHalf - mouseX / Constants.TileWidthHalf) / 2) + 1;
+            var x = (int) Math.Floor((mouseX / Constants.TileWidthHalf + mouseY / Constants.TileHeightHalf) / 2);
+            var y = (int) Math.Floor((mouseY / Constants.TileHeightHalf - mouseX / Constants.TileWidthHalf) / 2);
 
             return new Coordinates(x, y);
         }
