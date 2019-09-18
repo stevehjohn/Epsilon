@@ -16,6 +16,8 @@ namespace Epsilon.Actors
 
         private readonly Map _map;
 
+        private float _depth;
+
         public Coordinates HighlightTile { get; set; }
 
         public Terrain(Map map)
@@ -41,6 +43,8 @@ namespace Epsilon.Actors
 
         public float Render(float depth)
         {
+            _depth = depth;
+
             for (var x = 0; x < Constants.BoardSize; x++)
             {
                 for (var y = 0; y < Constants.BoardSize; y++)
@@ -54,21 +58,11 @@ namespace Epsilon.Actors
                         continue;
                     }
 
-                    _spriteBatch.Draw(_tiles, 
-                                      new Vector2(position.X, position.Y - tile.Height * Constants.BlockHeight), 
-                                      new Rectangle(GetTerrainXOffset(tile.TerrainType), 0, Constants.TileSpriteWidth, Constants.TileSpriteHeight), 
-                                      tile.TerrainType == TerrainType.Water ? Color.White * 0.6f : Color.White , 0, Vector2.Zero, Vector2.One, SpriteEffects.None, depth); 
-
-                    depth += Constants.DepthIncrement;
+                    Draw(position.X, position.Y, tile.Height, tile.TerrainType);
 
                     if (tile.Height < 0)
                     {
-                        _spriteBatch.Draw(_tiles,
-                                          new Vector2(position.X, position.Y),
-                                          new Rectangle(GetTerrainXOffset(TerrainType.Water), 0, Constants.TileSpriteWidth, Constants.TileSpriteHeight),
-                                          Color.White * 0.6f, 0, Vector2.Zero, Vector2.One, SpriteEffects.None, depth);
-
-                        depth += Constants.DepthIncrement;
+                        Draw(position.X, position.Y, 0, TerrainType.Water);
                     }
                 }
             }
@@ -80,12 +74,22 @@ namespace Epsilon.Actors
                 _spriteBatch.Draw(_tiles,
                                   new Vector2(position.X, position.Y),
                                   new Rectangle(7 * Constants.TileSpriteWidth, 0, Constants.TileSpriteWidth, Constants.TileSpriteHeight),
-                                  Color.White, 0, Vector2.Zero, Vector2.One, SpriteEffects.None, depth);
+                                  Color.White, 0, Vector2.Zero, Vector2.One, SpriteEffects.None, _depth);
 
-                depth += Constants.DepthIncrement;
+                _depth += Constants.DepthIncrement;
             }
 
-            return depth;
+            return _depth;
+        }
+
+        private void Draw(int x, int y, int height, TerrainType terrainType)
+        {
+            _spriteBatch.Draw(_tiles,
+                              new Vector2(x, y - height * Constants.BlockHeight),
+                              new Rectangle(GetTerrainXOffset(terrainType), 0, Constants.TileSpriteWidth, Constants.TileSpriteHeight),
+                              terrainType == TerrainType.Water ? Color.White * 0.6f : Color.White, 0, Vector2.Zero, Vector2.One, SpriteEffects.None, _depth);
+
+            _depth += Constants.DepthIncrement;
         }
 
         private int GetTerrainXOffset(TerrainType terrainType)
