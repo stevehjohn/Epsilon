@@ -10,7 +10,7 @@ namespace Epsilon.Environment
 
         private Coordinates _position;
 
-        private int _rotation = 180;
+        private int _rotation = 90;
 
         public int Rotation
         {
@@ -88,10 +88,10 @@ namespace Epsilon.Environment
                 }
             }
 
-            _tiles[100, 100] = new Tile(0, TerrainType.Grass);
-            _tiles[102, 102] = new Tile(0, TerrainType.Sand);
-            _tiles[102, 100] = new Tile(0, TerrainType.Rock);
-            _tiles[100, 102] = new Tile(0, TerrainType.Soil);
+            _tiles[100, 100] = new Tile(2, TerrainType.Grass);
+            _tiles[102, 102] = new Tile(4, TerrainType.Sand);
+            _tiles[102, 100] = new Tile(6, TerrainType.Rock);
+            _tiles[100, 102] = new Tile(8, TerrainType.Soil);
 
             _tiles[104, 104] = new Tile(2, TerrainType.Sand);
             _tiles[104, 105] = new Tile(1, TerrainType.Sand);
