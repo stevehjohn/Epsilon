@@ -45,17 +45,15 @@ namespace Epsilon.Actors
                 {
                     var position = Translations.BoardToScreen(x, y);
 
-                    // var tile = _map.GetTile(x, y); // 0°
-                    var tile = _map.GetTile(y, 24 - x); // 90°
-                    // var tile = _map.GetTile(28 - x, 28 - y); // 180°
-                    // var tile = _map.GetTile(28 - y, x); // 270°
+                    var tile = _map.GetTile(x, y); // 0°
+                    //var tile = _map.GetTile(y, 24 - x); // 90°
+                    //var tile = _map.GetTile(24 - x, 24 - y); // 180°
+                    //var tile = _map.GetTile(24 - y, x); // 270°
 
                     if (tile == null)
                     {
                         continue;
                     }
-
-                    Console.WriteLine(tile.Height);
 
                     _spriteBatch.Draw(_tiles, 
                                       new Vector2(position.X, position.Y - tile.Height * Constants.BlockHeight), 
