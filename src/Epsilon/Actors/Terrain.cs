@@ -1,4 +1,6 @@
-﻿using System;
+﻿#define SlowRender
+
+using System;
 using Epsilon.Environment;
 using Epsilon.Infrastructure;
 using Epsilon.Maths;
@@ -41,14 +43,32 @@ namespace Epsilon.Actors
         {
         }
 
+#if SlowRender
+        private int i = 1;
+#endif
+
         public float Render(float depth)
         {
             _depth = depth;
+
+#if SlowRender
+            var j = 0;
+#endif
 
             for (var x = 0; x < Constants.BoardSize; x++)
             {
                 for (var y = 0; y < Constants.BoardSize; y++)
                 {
+#if SlowRender
+                    j++;
+
+                    if (j >= i)
+                    {
+                        i++;
+
+                        return _depth;
+                    }
+#endif
                     var position = Translations.BoardToScreen(x, y);
 
                     var tile = _map.GetTile(x, y);
