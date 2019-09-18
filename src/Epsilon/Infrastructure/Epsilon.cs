@@ -101,8 +101,6 @@ namespace Epsilon.Infrastructure
             {
                 var pos = MouseTracker.GetMousePositionSeaLevel(mouseState);
 
-                Console.WriteLine($"{pos.X}, {pos.Y}");
-
                 terrain.HighlightTile = pos;
             }
             else

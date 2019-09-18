@@ -78,7 +78,9 @@ namespace Epsilon.Actors
                         continue;
                     }
 
-                    for (var h = Constants.SeaFloor; h <= tile.Height; h++)
+                    var baseHeight = Math.Min(_map.GetTile(x + 1, y)?.Height ?? Constants.SeaFloor, _map.GetTile(x, y + 1)?.Height ?? Constants.SeaFloor);
+
+                    for (var h = baseHeight; h <= tile.Height; h++)
                     {
                         Draw(position.X, position.Y, h, tile.TerrainType);
                     }
