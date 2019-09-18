@@ -71,15 +71,15 @@ namespace Epsilon.Actors
                 case TerrainType.Grass:
                     return 0;
                 case TerrainType.Sand:
-                    return 54;
+                    return 1 * Constants.TileSpriteWidth;
                 case TerrainType.Soil:
-                    return 108;
+                    return 2 * Constants.TileSpriteWidth;
                 case TerrainType.Rock:
-                    return 162;
+                    return 3 * Constants.TileSpriteWidth;
                 case TerrainType.Snow:
-                    return 216;
+                    return 4 * Constants.TileSpriteWidth;
                 case TerrainType.Water:
-                    return 324;
+                    return 6 * Constants.TileSpriteWidth;
                 default:
                     throw new ArgumentOutOfRangeException(nameof(terrainType), terrainType, null);
             }

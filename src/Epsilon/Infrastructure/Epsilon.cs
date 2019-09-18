@@ -24,7 +24,7 @@ namespace Epsilon.Infrastructure
                             PreferredBackBufferHeight = Constants.ScreenBufferHeight
                         };
 
-            Content.RootDirectory = "Content";
+            Content.RootDirectory = "_Content";
 
             _map = new Map();
 
