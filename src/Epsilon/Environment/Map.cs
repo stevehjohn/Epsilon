@@ -1,4 +1,5 @@
-﻿using Epsilon.Infrastructure;
+﻿using System;
+using Epsilon.Infrastructure;
 using Epsilon.Maths;
 
 namespace Epsilon.Environment
@@ -50,9 +51,32 @@ namespace Epsilon.Environment
             return _tiles[x, y] ?? new Tile(0, TerrainType.Water);
         }
 
-        public Tile GetTile(Coordinates coordinates)
+        public Tile GetTile(int x, int y, int rotation)
         {
-            return GetTile(coordinates.X, coordinates.Y);
+            var tx = x;
+            var ty = y;
+
+            switch (rotation)
+            {
+                case 0:
+                    break;
+                case 90:
+                    tx = y;
+                    ty = Constants.BoardSize - 1 - x;
+                    break;
+                case 180:
+                    tx = Constants.BoardSize - 1 - x;
+                    ty = Constants.BoardSize - 1 - y;
+                    break;
+                case 270:
+                    tx = Constants.BoardSize - 1 - y;
+                    ty = x;
+                    break;
+                default:
+                    throw new ArgumentOutOfRangeException(nameof(rotation), "Invalid value for rotation, must be 0, 90, 180 or 270");
+            }
+
+            return GetTile(tx, ty);
         }
     }
 }
