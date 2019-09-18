@@ -26,7 +26,7 @@ namespace Epsilon.Infrastructure
             // TODO: Maybe use some poncy assembly scanning technique to pick all IActors up...
             _actors = new List<IActor>
                       {
-                          new Terrain(Content, _spriteBatch)
+                          new Terrain()
                       };
 
         }
@@ -47,7 +47,7 @@ namespace Epsilon.Infrastructure
 
             foreach (var actor in _actors)
             {
-                actor.LoadContent();
+                actor.LoadContent(Content, _spriteBatch);
             }
         }
 

@@ -8,23 +8,19 @@ namespace Epsilon.Actors
 {
     public class Terrain : IActor
     {
-        private readonly ContentManager _contentManager;
-        private readonly SpriteBatch _spriteBatch;
-
+        private SpriteBatch _spriteBatch;
+        private ContentManager _contentManager;
         private Texture2D _tiles;
-
-        public Terrain(ContentManager contentManager, SpriteBatch spriteBatch)
-        {
-            _contentManager = contentManager;
-            _spriteBatch = spriteBatch;
-        }
 
         public void Initialise()
         {
         }
 
-        public void LoadContent()
+        public void LoadContent(ContentManager contentManager, SpriteBatch spriteBatch)
         {
+            _contentManager = contentManager;
+            _spriteBatch = spriteBatch;
+
             _tiles = _contentManager.Load<Texture2D>("tile-set");
         }
 
