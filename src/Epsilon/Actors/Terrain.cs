@@ -16,6 +16,8 @@ namespace Epsilon.Actors
 
         private readonly Map _map;
 
+        public Coordinates HighlightTile { get; set; }
+
         public Terrain(Map map)
         {
             _map = map;
@@ -59,6 +61,18 @@ namespace Epsilon.Actors
 
                     depth += Constants.DepthIncrement;
                 }
+            }
+
+            if (HighlightTile != null)
+            {
+                var position = Translations.BoardToScreen(HighlightTile.X, HighlightTile.Y);
+
+                _spriteBatch.Draw(_tiles,
+                                  new Vector2(position.X, position.Y),
+                                  new Rectangle(7 * Constants.TileSpriteWidth, 0, Constants.TileSpriteWidth, Constants.TileSpriteHeight),
+                                  Color.White, 0, Vector2.Zero, Vector2.One, SpriteEffects.None, depth);
+
+                depth += Constants.DepthIncrement;
             }
 
             return depth;

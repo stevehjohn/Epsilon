@@ -46,6 +46,7 @@ namespace Epsilon.Controls
             var mouseX = (double) mouseState.X - 622 - Constants.TileWidthHalf;
             var mouseY = (double) mouseState.Y - 26 - Constants.TileHeightHalf;
 
+            // TODO: Fix above coords rather than adding 1 here.
             var x = (int) Math.Floor((mouseX / Constants.TileWidthHalf + mouseY / Constants.TileHeightHalf) / 2) + 1;
             var y = (int) Math.Floor((mouseY / Constants.TileHeightHalf - mouseX / Constants.TileWidthHalf) / 2) + 1;
 
