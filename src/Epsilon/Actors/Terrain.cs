@@ -1,4 +1,4 @@
-﻿// #define SlowRender
+﻿#define SlowRender
 
 using System;
 using Epsilon.Environment;

@@ -10,7 +10,7 @@ namespace Epsilon.Environment
 
         private Coordinates _position;
 
-        private int _rotation = 90;
+        private int _rotation;
 
         public int Rotation
         {
