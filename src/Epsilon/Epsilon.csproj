@@ -43,6 +43,7 @@
   <ItemGroup>
     <Compile Include="Actors\IActor.cs" />
     <Compile Include="Actors\Terrain.cs" />
+    <Compile Include="Controls\MouseTracker.cs" />
     <Compile Include="Environment\Map.cs" />
     <Compile Include="Environment\TerrainType.cs" />
     <Compile Include="Environment\Tile.cs" />
@@ -51,6 +52,7 @@
     <Compile Include="Infrastructure\EntryPoint.cs" />
     <Compile Include="Infrastructure\GameState.cs" />
     <Compile Include="Maths\Coordinates.cs" />
+    <Compile Include="Maths\Direction.cs" />
     <Compile Include="Maths\Translations.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

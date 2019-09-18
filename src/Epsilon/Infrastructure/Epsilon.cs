@@ -1,5 +1,7 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using Epsilon.Actors;
+using Epsilon.Controls;
 using Epsilon.Environment;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -14,6 +16,8 @@ namespace Epsilon.Infrastructure
 
         private readonly Map _map;
 
+        private readonly MouseTracker _mouseTracker;
+
         private readonly List<IActor> _actors;
 
         public Epsilon()
@@ -27,6 +31,8 @@ namespace Epsilon.Infrastructure
             Content.RootDirectory = "_Content";
 
             _map = new Map();
+
+            _mouseTracker = new MouseTracker();
 
             // TODO: Maybe use some poncy assembly scanning technique to pick all IActors up...
             _actors = new List<IActor>
@@ -64,6 +70,11 @@ namespace Epsilon.Infrastructure
                 Exit();
             }
 
+            if (IsActive)
+            {
+                var movement = _mouseTracker.GetMovement();
+            }
+
             base.Update(gameTime);
         }
 
@@ -78,6 +89,16 @@ namespace Epsilon.Infrastructure
             foreach (var actor in _actors)
             {
                 depth = actor.Render(depth);
+            }
+
+            // TODO: Better encapsulation/do this somewhere else?
+            var mouseState = Mouse.GetState();
+
+            if (mouseState.X >= 0 && mouseState.X < Constants.ScreenBufferWidth && mouseState.Y >= 0 && mouseState.Y < Constants.ScreenBufferHeight)
+            {
+                var pos = MouseTracker.GetMousePositionSeaLevel(mouseState);
+
+                Console.WriteLine($"{pos.X}, {pos.Y}");
             }
 
             _spriteBatch.End();

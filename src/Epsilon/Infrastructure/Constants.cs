@@ -8,6 +8,7 @@
         public const int TileSpriteWidthHalf = 18;
 
         public const int TileHeightHalf = 9;
+        public const int TileWidthHalf = 19;
 
         public const int BlockHeight = 3;
 

@@ -1,5 +1,4 @@
-﻿using System;
-using Epsilon.Infrastructure;
+﻿using Epsilon.Infrastructure;
 
 namespace Epsilon.Maths
 {

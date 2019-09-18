@@ -1,5 +1,5 @@
-# Epsilon
+﻿# Epsilon
 
-Going to be a game of some sort.
+Improved isometric engine based upon learning experiences with Δ.
 
 ## To Dos
