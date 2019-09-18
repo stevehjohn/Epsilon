@@ -51,7 +51,7 @@ namespace Epsilon.Actors
                 {
                     var position = Translations.BoardToScreen(x, y);
 
-                    var tile = _map.GetTile(x, y, 0);
+                    var tile = _map.GetTile(x, y);
 
                     if (tile == null)
                     {
