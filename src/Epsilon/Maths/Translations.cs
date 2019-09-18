@@ -6,9 +6,9 @@ namespace Epsilon.Maths
     {
         public static Coordinates BoardToScreen(int x, int y)
         {
-            var sx = Constants.ScreenBufferWidth / 2 + x * Constants.TileSpriteWidth - Constants.ScreenBufferWidth / 2;
+            var sx = Constants.ScreenBufferWidth / 2 + (x - y) * (Constants.TileSpriteWidthHalf) - Constants.TileSpriteWidthHalf;
 
-            var sy = 0;
+            var sy = y * Constants.TileHeightHalf + x * Constants.TileHeightHalf - Constants.YScreenOffset;
 
             return new Coordinates(sx, sy);
         }

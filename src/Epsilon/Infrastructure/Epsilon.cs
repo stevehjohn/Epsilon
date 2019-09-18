@@ -38,6 +38,8 @@ namespace Epsilon.Infrastructure
                 actor.Initialise();
             }
 
+            IsMouseVisible = true;
+
             base.Initialize();
         }
 

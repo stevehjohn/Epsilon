@@ -30,9 +30,9 @@ namespace Epsilon.Actors
 
         public float Render(float depth)
         {
-            for (var y = 0; y < Constants.BoardSize; y++)
+            for (var x = 0; x < Constants.BoardSize; x++)
             {
-                for (var x = 0; x < Constants.BoardSize; x++)
+                for (var y = 0; y < Constants.BoardSize; y++)
                 {
                     var position = Translations.BoardToScreen(x, y);
 
