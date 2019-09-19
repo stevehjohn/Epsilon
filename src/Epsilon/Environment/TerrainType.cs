@@ -7,6 +7,7 @@
         Soil,
         Rock,
         Snow,
-        Water
+        Water,
+        Highlight
     }
 }

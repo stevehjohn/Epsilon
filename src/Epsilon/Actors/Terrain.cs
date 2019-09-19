@@ -103,20 +103,12 @@ namespace Epsilon.Actors
                     {
                         Draw(position.X, position.Y, 0, TerrainType.Water);
                     }
+
+                    if (HighlightTile != null && HighlightTile.X == x && HighlightTile.Y == y)
+                    {
+                        Draw(position.X, position.Y, tile.Height, TerrainType.Highlight);
+                    }
                 }
-            }
-
-            // TODO: Don't like this.
-            if (HighlightTile != null)
-            {
-                var position = Translations.BoardToScreen(HighlightTile.X, HighlightTile.Y);
-
-                _spriteBatch.Draw(_tiles,
-                                  new Vector2(position.X, position.Y),
-                                  new Rectangle(6 * Constants.TileSpriteWidth, 0, Constants.TileSpriteWidth, Constants.TileSpriteHeight),
-                                  Color.White, 0, Vector2.Zero, Vector2.One, SpriteEffects.None, _depth);
-
-                _depth += Constants.DepthIncrement;
             }
 
             return _depth;
@@ -166,6 +158,8 @@ namespace Epsilon.Actors
                     return 4 * Constants.TileSpriteWidth;
                 case TerrainType.Water:
                     return 5 * Constants.TileSpriteWidth;
+                case TerrainType.Highlight:
+                    return 6 * Constants.TileSpriteWidth;
                 default:
                     throw new ArgumentOutOfRangeException(nameof(terrainType), terrainType, null);
             }
