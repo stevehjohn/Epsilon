@@ -36,7 +36,21 @@ namespace Epsilon.Environment
 
         public void Move(Direction direction)
         {
-            _position = new Coordinates(_position.X + direction.Dx, _position.Y - direction.Dy);
+            switch (_rotation)
+            {
+                case 90:
+                    _position = new Coordinates(_position.X - direction.Dy, _position.Y - direction.Dx);
+                    break;
+                case 180:
+                    _position = new Coordinates(_position.X - direction.Dx, _position.Y + direction.Dy);
+                    break;
+                case 270:
+                    _position = new Coordinates(_position.X + direction.Dy, _position.Y + direction.Dx);
+                    break;
+                default:
+                    _position = new Coordinates(_position.X + direction.Dx, _position.Y - direction.Dy);
+                    break;
+            }
         }
 
         public Tile GetTile(int x, int y)
