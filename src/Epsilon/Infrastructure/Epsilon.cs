@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using Epsilon.Actors;
 using Epsilon.Controls;
 using Epsilon.Environment;
@@ -92,15 +91,14 @@ namespace Epsilon.Infrastructure
             }
 
             // TODO: Better encapsulation/do this somewhere else?
-            var mouseState = Mouse.GetState();
 
             // This is horrible. Might be better to have an abstract base class rather than an interface...
             var terrain = _actors[0] as Terrain;
 
-            if (mouseState.X >= 0 && mouseState.X < Constants.ScreenBufferWidth && mouseState.Y >= 0 && mouseState.Y < Constants.ScreenBufferHeight)
-            {
-                var pos = MouseTracker.GetMousePositionSeaLevel(mouseState);
+            var pos = MouseTracker.GetMousePositionSeaLevel();
 
+            if (pos.X >= 0 && pos.X < Constants.BoardSize && pos.Y >= 0 && pos.Y < Constants.BoardSize)
+            {
                 terrain.HighlightTile = pos;
             }
             else

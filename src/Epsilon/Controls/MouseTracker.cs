@@ -40,7 +40,14 @@ namespace Epsilon.Controls
             return direction;
         }
 
-        public static Coordinates GetMousePositionSeaLevel(MouseState mouseState)
+        public static Coordinates GetMousePositionSeaLevel()
+        {
+            var mouseState = Mouse.GetState();
+
+            return GetMousePositionSeaLevel(mouseState);
+        }
+
+        private static Coordinates GetMousePositionSeaLevel(MouseState mouseState)
         {
             var mouseX = (double) mouseState.X - (Constants.ScreenBufferWidth / 2 - Constants.TileWidthHalf) - Constants.TileWidthHalf;
             // TODO: Get rid of magic number 12. Where does it come from?
