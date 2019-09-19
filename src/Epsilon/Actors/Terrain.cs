@@ -78,7 +78,16 @@ namespace Epsilon.Actors
                         continue;
                     }
 
-                    var baseHeight = Math.Min(_map.GetTile(x + 1, y)?.Height ?? Constants.SeaFloor, _map.GetTile(x, y + 1)?.Height ?? Constants.SeaFloor);
+                    int baseHeight;
+
+                    if (x == Constants.BoardSize - 1 || y == Constants.BoardSize - 1)
+                    {
+                        baseHeight = Constants.SeaFloor;
+                    }
+                    else
+                    {
+                        baseHeight = Math.Min(_map.GetTile(x + 1, y)?.Height ?? Constants.SeaFloor, _map.GetTile(x, y + 1)?.Height ?? Constants.SeaFloor);
+                    }
 
                     if (baseHeight > tile.Height)
                     {
