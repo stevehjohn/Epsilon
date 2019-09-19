@@ -114,7 +114,6 @@ namespace Epsilon.Actors
             return _depth;
         }
 
-        // TODO: This needs to fade as tiles get deeper
         private void Draw(int x, int y, int height, TerrainType terrainType)
         {
             _spriteBatch.Draw(_tiles,
@@ -142,27 +141,9 @@ namespace Epsilon.Actors
             return new Color(intensity, intensity, intensity);
         }
 
-        private int GetTerrainXOffset(TerrainType terrainType)
+        private static int GetTerrainXOffset(TerrainType terrainType)
         {
-            switch (terrainType)
-            {
-                case TerrainType.Grass:
-                    return 0;
-                case TerrainType.Sand:
-                    return 1 * Constants.TileSpriteWidth;
-                case TerrainType.Soil:
-                    return 2 * Constants.TileSpriteWidth;
-                case TerrainType.Rock:
-                    return 3 * Constants.TileSpriteWidth;
-                case TerrainType.Snow:
-                    return 4 * Constants.TileSpriteWidth;
-                case TerrainType.Water:
-                    return 5 * Constants.TileSpriteWidth;
-                case TerrainType.Highlight:
-                    return 6 * Constants.TileSpriteWidth;
-                default:
-                    throw new ArgumentOutOfRangeException(nameof(terrainType), terrainType, null);
-            }
+            return (int) terrainType * Constants.TileSpriteWidth;
         }
     }
 }
