@@ -103,11 +103,13 @@ namespace Epsilon.Actors
                     {
                         Draw(position.X, position.Y, 0, TerrainType.Water);
                     }
+                }
 
-                    if (HighlightTile != null && HighlightTile.X == x && HighlightTile.Y == y)
-                    {
-                        Draw(position.X, position.Y, tile.Height, TerrainType.Highlight);
-                    }
+                if (HighlightTile != null)
+                {
+                    var position = Translations.BoardToScreen(HighlightTile.X, HighlightTile.Y);
+
+                    Draw(position.X, position.Y, 0, TerrainType.Highlight);
                 }
             }
 
@@ -131,7 +133,7 @@ namespace Epsilon.Actors
                 return Color.White * 0.6f;
             }
 
-            if (height >= 0)
+            if (height >= 0 || terrainType == TerrainType.Highlight)
             {
                 return Color.White;
             }
