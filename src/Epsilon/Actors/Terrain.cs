@@ -113,7 +113,7 @@ namespace Epsilon.Actors
 
                 _spriteBatch.Draw(_tiles,
                                   new Vector2(position.X, position.Y),
-                                  new Rectangle(7 * Constants.TileSpriteWidth, 0, Constants.TileSpriteWidth, Constants.TileSpriteHeight),
+                                  new Rectangle(6 * Constants.TileSpriteWidth, 0, Constants.TileSpriteWidth, Constants.TileSpriteHeight),
                                   Color.White, 0, Vector2.Zero, Vector2.One, SpriteEffects.None, _depth);
 
                 _depth += Constants.DepthIncrement;
