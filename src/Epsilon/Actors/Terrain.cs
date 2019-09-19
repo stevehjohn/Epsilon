@@ -124,7 +124,7 @@ namespace Epsilon.Actors
             _depth += Constants.DepthIncrement;
         }
 
-        private Color GetColor(TerrainType terrainType, int height)
+        private static Color GetColor(TerrainType terrainType, int height)
         {
             if (terrainType == TerrainType.Water)
             {
@@ -136,7 +136,9 @@ namespace Epsilon.Actors
                 return Color.White;
             }
 
-            return Color.White; // * (1.0f  * (Constants.SeaFloor + height));
+            var intensity = (int) (255 * ((Constants.SeaFloor * 1.5f - height) / (Constants.SeaFloor * 1.5f)));
+
+            return new Color(intensity, intensity, intensity);
         }
 
         private int GetTerrainXOffset(TerrainType terrainType)
