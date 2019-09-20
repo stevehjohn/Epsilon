@@ -8,6 +8,7 @@
         Rock,
         Snow,
         Water,
-        Highlight
+        Highlight,
+        Reference
     }
 }

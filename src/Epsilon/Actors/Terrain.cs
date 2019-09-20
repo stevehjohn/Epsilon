@@ -7,6 +7,7 @@ using Epsilon.Maths;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
+using Microsoft.Xna.Framework.Input;
 
 namespace Epsilon.Actors
 {
@@ -15,19 +16,17 @@ namespace Epsilon.Actors
         private SpriteBatch _spriteBatch;
         private ContentManager _contentManager;
         private Texture2D _tiles;
-        private Coordinates _previousPosition;
+        private Coordinates _previousPosition = new Coordinates(-1, -1);
         private byte[,] _tileMap;
         private float _depth;
 
         private readonly Map _map;
         private readonly Coordinates[,] _screenToTileMap;
 
-        public Coordinates HighlightTile { get; set; }
-
         public Terrain(Map map)
         {
             _map = map;
-            _screenToTileMap = new Coordinates[Constants.MapSize, Constants.MapSize];
+            _screenToTileMap = new Coordinates[Constants.ScreenBufferWidth, Constants.ScreenBufferHeight];
         }
 
         public void Initialise()
@@ -55,6 +54,11 @@ namespace Epsilon.Actors
         public float Render(float depth)
         {
             _depth = depth;
+
+            if (_previousPosition.X != _map.Position.X || _previousPosition.X != _map.Position.X)
+            {
+                Array.Clear(_screenToTileMap, 0, _screenToTileMap.Length);
+            }
 
 #if SlowRender
             var j = 0;
@@ -110,11 +114,20 @@ namespace Epsilon.Actors
                     }
                 }
 
-                if (HighlightTile != null)
-                {
-                    var position = Translations.BoardToScreen(HighlightTile.X, HighlightTile.Y);
+                var mouseState = Mouse.GetState();
 
-                    Draw(position.X, position.Y, 0, TerrainType.Highlight);
+                if (mouseState.X >= 0 && mouseState.X < Constants.ScreenBufferWidth && mouseState.Y >= 0 && mouseState.Y < Constants.ScreenBufferHeight)
+                {
+                    var tile = _screenToTileMap[mouseState.X, mouseState.Y];
+
+                    if (tile != null)
+                    {
+                        var position = Translations.BoardToScreen(tile.X, tile.Y);
+
+                        Console.WriteLine($"{tile.X}, {tile.Y}");
+
+                        Draw(position.X, position.Y, _map.GetTile(tile.X, tile.Y).Height, TerrainType.Highlight);
+                    }
                 }
             }
 
@@ -164,17 +177,19 @@ namespace Epsilon.Actors
 
         private void GenerateTileMap()
         {
-            var colours = new Color[Constants.TileSpriteWidth * Constants.TileHeight];
+            var terrains = (TerrainType[]) Enum.GetValues(typeof(TerrainType));
+            
+            var colours = new Color[Constants.TileSpriteWidth * terrains.Length * Constants.TileSpriteHeight];
 
             _tiles.GetData(colours);
 
-            _tileMap = new byte[Constants.TileSpriteWidth, Constants.TileHeight];
+            _tileMap = new byte[Constants.TileSpriteWidth, Constants.TileSpriteHeight];
 
             for (var x = 0; x < Constants.TileSpriteWidth; x++)
             {
                 for (var y = 0; y < Constants.TileSpriteHeight; y++)
                 {
-                    _tileMap[x, y] = colours[y * Constants.TileSpriteWidth + x * Constants.TileSpriteWidth].A;
+                    _tileMap[x, y] = colours[y * Constants.TileSpriteWidth * terrains.Length + x + (int) TerrainType.Water * Constants.TileSpriteWidth].A;
                 }
             }
         }
