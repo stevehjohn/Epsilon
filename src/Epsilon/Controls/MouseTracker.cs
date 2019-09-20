@@ -30,36 +30,41 @@ namespace Epsilon.Controls
 
         public Direction GetMapMovement()
         {
-            return TrackMouse(MouseButton.Left);
+            var mouseState = Mouse.GetState();
+
+            if (! Tracking(mouseState, MouseButton.Left))
+            {
+                return new Direction(0, 0);
+            }
+
+            var coordinates = GetMousePositionSeaLevel(mouseState);
+
+            var direction = new Direction(_previousCoordinates[MouseButton.Left].X - coordinates.X, coordinates.Y - _previousCoordinates[MouseButton.Left].Y);
+
+            _previousCoordinates[MouseButton.Left] = coordinates;
+
+            return direction;
         }
 
-        private Direction TrackMouse(MouseButton mouseButton)
+        private bool Tracking(MouseState mouseState, MouseButton mouseButton)
         {
-            var state = Mouse.GetState();
-
-            if (! state.IsPressed(mouseButton))
+            if (! mouseState.IsPressed(mouseButton))
             {
                 _tracking[mouseButton] = false;
 
-                return new Direction(0, 0);
+                return false;
             }
 
             if (!_tracking[mouseButton])
             {
                 _tracking[mouseButton] = true;
 
-                _previousCoordinates[mouseButton] = GetMousePositionSeaLevel(state);
+                _previousCoordinates[mouseButton] = GetMousePositionSeaLevel(mouseState);
 
-                return new Direction(0, 0);
+                return false;
             }
 
-            var coordinates = GetMousePositionSeaLevel(state);
-
-            var direction = new Direction(_previousCoordinates[mouseButton].X - coordinates.X, coordinates.Y - _previousCoordinates[mouseButton].Y);
-
-            _previousCoordinates[mouseButton] = coordinates;
-
-            return direction;
+            return true;
         }
 
         private static Coordinates GetMousePositionSeaLevel(MouseState mouseState)
