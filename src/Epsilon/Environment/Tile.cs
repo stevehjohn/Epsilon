@@ -4,9 +4,9 @@
     {
         public int Height { get; set; }
 
-        public TerrainType TerrainType { get; set; }
+        public TerrainType? TerrainType { get; set; }
 
-        public Tile(int height, TerrainType terrainType)
+        public Tile(int height, TerrainType? terrainType = null)
         {
             Height = height;
             TerrainType = terrainType;

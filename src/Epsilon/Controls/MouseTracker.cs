@@ -40,13 +40,6 @@ namespace Epsilon.Controls
             return direction;
         }
 
-        public static Coordinates GetMousePositionSeaLevel()
-        {
-            var mouseState = Mouse.GetState();
-
-            return GetMousePositionSeaLevel(mouseState);
-        }
-
         private static Coordinates GetMousePositionSeaLevel(MouseState mouseState)
         {
             var mouseX = (double) mouseState.X - (Constants.ScreenBufferWidth / 2 - Constants.TileWidthHalf) - Constants.TileWidthHalf;
