@@ -17,6 +17,7 @@ namespace Epsilon.Actors
         private Texture2D _tiles;
 
         private readonly Map _map;
+        private readonly Coordinates[,] _screenToTileMap;
 
         private float _depth;
 
@@ -25,6 +26,7 @@ namespace Epsilon.Actors
         public Terrain(Map map)
         {
             _map = map;
+            _screenToTileMap = new Coordinates[Constants.MapSize, Constants.MapSize];
         }
 
         public void Initialise()
@@ -96,7 +98,7 @@ namespace Epsilon.Actors
 
                     for (var h = baseHeight; h <= tile.Height; h++)
                     {
-                        Draw(position.X, position.Y, h, tile.TerrainType);
+                        Draw(position.X, position.Y, h, tile.TerrainType, x, y);
                     }
 
                     if (tile.Height < 0)
@@ -116,7 +118,7 @@ namespace Epsilon.Actors
             return _depth;
         }
 
-        private void Draw(int x, int y, int height, TerrainType terrainType)
+        private void Draw(int x, int y, int height, TerrainType terrainType, int? tileX = null, int? tileY = null)
         {
             _spriteBatch.Draw(_tiles,
                               new Vector2(x, y - height * Constants.BlockHeight),
@@ -124,6 +126,15 @@ namespace Epsilon.Actors
                               GetColor(terrainType, height), 0, Vector2.Zero, Vector2.One, SpriteEffects.None, _depth);
 
             _depth += Constants.DepthIncrement;
+
+            if (tileX.HasValue && tileY.HasValue)
+            {
+                AddTileToScreenMap(x, y, tileX.Value, tileY.Value);
+            }
+        }
+
+        private void AddTileToScreenMap(int sx, int sy, int tx, int ty)
+        {
         }
 
         private static Color GetColor(TerrainType terrainType, int height)
