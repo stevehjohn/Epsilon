@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
+using Epsilon.Extensions;
 using Epsilon.Infrastructure;
 using Epsilon.Maths;
 using Microsoft.Xna.Framework.Input;
@@ -7,35 +9,55 @@ namespace Epsilon.Controls
 {
     public class MouseTracker
     {
-        private bool _tracking;
+        private readonly Dictionary<MouseButton, bool> _tracking;
 
-        private Coordinates _previousCoordinates;
+        private readonly Dictionary<MouseButton, Coordinates> _previousCoordinates;
 
-        public Direction GetMovement()
+        public MouseTracker()
+        {
+            var buttons = (MouseButton[]) Enum.GetValues(typeof(MouseButton));
+
+            _tracking = new Dictionary<MouseButton, bool>();
+            _previousCoordinates = new Dictionary<MouseButton, Coordinates>();
+
+            foreach (var button in buttons)
+            {
+                _tracking.Add(button, false);
+
+                _previousCoordinates.Add(button, null);
+            }
+        }
+
+        public Direction GetMapMovement()
+        {
+            return TrackMouse(MouseButton.Left);
+        }
+
+        private Direction TrackMouse(MouseButton mouseButton)
         {
             var state = Mouse.GetState();
 
-            if (state.LeftButton != ButtonState.Pressed)
+            if (! state.IsPressed(mouseButton))
             {
-                _tracking = false;
+                _tracking[mouseButton] = false;
 
                 return new Direction(0, 0);
             }
 
-            if (! _tracking)
+            if (!_tracking[mouseButton])
             {
-                _tracking = true;
+                _tracking[mouseButton] = true;
 
-                _previousCoordinates = GetMousePositionSeaLevel(state);
+                _previousCoordinates[mouseButton] = GetMousePositionSeaLevel(state);
 
                 return new Direction(0, 0);
             }
 
             var coordinates = GetMousePositionSeaLevel(state);
 
-            var direction = new Direction(_previousCoordinates.X - coordinates.X, coordinates.Y - _previousCoordinates.Y);
+            var direction = new Direction(_previousCoordinates[mouseButton].X - coordinates.X, coordinates.Y - _previousCoordinates[mouseButton].Y);
 
-            _previousCoordinates = coordinates;
+            _previousCoordinates[mouseButton] = coordinates;
 
             return direction;
         }

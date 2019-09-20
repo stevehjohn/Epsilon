@@ -71,7 +71,9 @@ namespace Epsilon.Infrastructure
 
             if (IsActive)
             {
-                _map.Move(_mouseTracker.GetMovement());
+                var movement = _mouseTracker.GetMapMovement();
+
+                _map.Move(movement);
             }
 
             base.Update(gameTime);

@@ -43,10 +43,12 @@
   <ItemGroup>
     <Compile Include="Actors\IActor.cs" />
     <Compile Include="Actors\Terrain.cs" />
+    <Compile Include="Controls\MouseButton.cs" />
     <Compile Include="Controls\MouseTracker.cs" />
     <Compile Include="Environment\Map.cs" />
     <Compile Include="Environment\TerrainType.cs" />
     <Compile Include="Environment\Tile.cs" />
+    <Compile Include="Extensions\MouseStateExtensions.cs" />
     <Compile Include="Infrastructure\Constants.cs" />
     <Compile Include="Infrastructure\Epsilon.cs" />
     <Compile Include="Infrastructure\EntryPoint.cs" />
