@@ -101,21 +101,6 @@ namespace Epsilon.Environment
                     _tiles[x, y] = new Tile(Constants.SeaFloor, TerrainType.Soil);
                 }
             }
-
-            _tiles[100, 100] = new Tile(2);
-            _tiles[102, 102] = new Tile(6);
-            _tiles[102, 100] = new Tile(8);
-            _tiles[100, 102] = new Tile(4);
-
-            _tiles[104, 104] = new Tile(3);
-            _tiles[104, 105] = new Tile(2);
-            _tiles[104, 106] = new Tile(1);
-            _tiles[105, 104] = new Tile(2);
-            _tiles[105, 105] = new Tile(1);
-            _tiles[105, 106] = new Tile(0);
-            _tiles[106, 104] = new Tile(1);
-            _tiles[106, 105] = new Tile(0);
-            _tiles[106, 106] = new Tile(-1);
         }
     }
 }
