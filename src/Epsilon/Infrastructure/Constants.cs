@@ -7,6 +7,7 @@
 
         public const int TileSpriteWidthHalf = 18;
 
+        public const int TileHeight = 19;
         public const int TileHeightHalf = 9;
         public const int TileWidthHalf = 18;
 

@@ -19,6 +19,8 @@ namespace Epsilon.Actors
         private readonly Map _map;
         private readonly Coordinates[,] _screenToTileMap;
 
+        private byte[,] _tileMap;
+
         private float _depth;
 
         public Coordinates HighlightTile { get; set; }
@@ -39,6 +41,8 @@ namespace Epsilon.Actors
             _spriteBatch = spriteBatch;
 
             _tiles = _contentManager.Load<Texture2D>("tile-set");
+
+            GenerateTileMap();
         }
 
         public void UpdateState()
@@ -135,6 +139,23 @@ namespace Epsilon.Actors
 
         private void AddTileToScreenMap(int sx, int sy, int tx, int ty)
         {
+        }
+
+        private void GenerateTileMap()
+        {
+            var colours = new Color[Constants.TileSpriteWidth * Constants.TileHeight];
+
+            _tiles.GetData(colours);
+
+            _tileMap = new byte[Constants.TileSpriteWidth, Constants.TileHeight];
+
+            for (var x = 0; x < Constants.TileSpriteWidth; x++)
+            {
+                for (var y = 0; y < Constants.TileSpriteHeight; y++)
+                {
+                    _tileMap[x, y] = colours[y * Constants.TileSpriteWidth + x * Constants.TileSpriteWidth].A;
+                }
+            }
         }
 
         private static Color GetColor(TerrainType terrainType, int height)
