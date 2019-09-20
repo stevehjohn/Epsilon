@@ -15,13 +15,12 @@ namespace Epsilon.Actors
         private SpriteBatch _spriteBatch;
         private ContentManager _contentManager;
         private Texture2D _tiles;
+        private Coordinates _previousPosition;
+        private byte[,] _tileMap;
+        private float _depth;
 
         private readonly Map _map;
         private readonly Coordinates[,] _screenToTileMap;
-
-        private byte[,] _tileMap;
-
-        private float _depth;
 
         public Coordinates HighlightTile { get; set; }
 
@@ -119,6 +118,8 @@ namespace Epsilon.Actors
                 }
             }
 
+            _previousPosition = _map.Position;
+
             return _depth;
         }
 
@@ -139,6 +140,26 @@ namespace Epsilon.Actors
 
         private void AddTileToScreenMap(int sx, int sy, int tx, int ty)
         {
+            if (_previousPosition.X == _map.Position.X && _previousPosition.Y == _map.Position.Y)
+            {
+                return;
+            }
+
+            var coordinates = new Coordinates(tx, ty);
+
+            for (var x = 0; x < Constants.TileSpriteWidth; x++)
+            {
+                for (var y = 0; y < Constants.TileHeight; y++)
+                { 
+                    var ax = sx + x;
+                    var ay = sy + y;
+
+                    if (ax >= 0 && ax < Constants.ScreenBufferWidth && ay >= 0 && ay < Constants.ScreenBufferHeight && _tileMap[x, y] > 0)
+                    {
+                        _screenToTileMap[ax, ay] = coordinates;
+                    }
+                }
+            }
         }
 
         private void GenerateTileMap()

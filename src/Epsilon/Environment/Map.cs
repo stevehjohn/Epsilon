@@ -8,9 +8,9 @@ namespace Epsilon.Environment
     {
         private readonly Tile[,] _tiles;
 
-        private Coordinates _position;
-
         private int _rotation;
+
+        public Coordinates Position;
 
         public int Rotation
         {
@@ -29,7 +29,7 @@ namespace Epsilon.Environment
         {
             _tiles = new Tile[Constants.MapSize, Constants.MapSize];
 
-            _position = new Coordinates(90, 90);
+            Position = new Coordinates(90, 90);
 
             InitialiseTerrain();
         }
@@ -39,16 +39,16 @@ namespace Epsilon.Environment
             switch (_rotation)
             {
                 case 90:
-                    _position = new Coordinates(_position.X - direction.Dy, _position.Y - direction.Dx);
+                    Position = new Coordinates(Position.X - direction.Dy, Position.Y - direction.Dx);
                     break;
                 case 180:
-                    _position = new Coordinates(_position.X - direction.Dx, _position.Y + direction.Dy);
+                    Position = new Coordinates(Position.X - direction.Dx, Position.Y + direction.Dy);
                     break;
                 case 270:
-                    _position = new Coordinates(_position.X + direction.Dy, _position.Y + direction.Dx);
+                    Position = new Coordinates(Position.X + direction.Dy, Position.Y + direction.Dx);
                     break;
                 default:
-                    _position = new Coordinates(_position.X + direction.Dx, _position.Y - direction.Dy);
+                    Position = new Coordinates(Position.X + direction.Dx, Position.Y - direction.Dy);
                     break;
             }
         }
@@ -81,8 +81,8 @@ namespace Epsilon.Environment
 
         private Tile SafeGetTile(int x, int y)
         {
-            x += _position.X;
-            y += _position.Y;
+            x += Position.X;
+            y += Position.Y;
 
             if (x < 0 || x >= Constants.MapSize || y < 0 || y >= Constants.MapSize)
             {
