@@ -23,6 +23,8 @@ namespace Epsilon.Actors
         private readonly Map _map;
         private readonly Coordinates[,] _screenToTileMap;
 
+        public bool UpdateTileMap { get; set; }
+
         public Terrain(Map map)
         {
             _map = map;
@@ -55,7 +57,7 @@ namespace Epsilon.Actors
         {
             _depth = depth;
 
-            if (_previousPosition.X != _map.Position.X || _previousPosition.X != _map.Position.X)
+            if (_previousPosition.X != _map.Position.X || _previousPosition.X != _map.Position.X || UpdateTileMap)
             {
                 Array.Clear(_screenToTileMap, 0, _screenToTileMap.Length);
             }
@@ -133,6 +135,8 @@ namespace Epsilon.Actors
 
             _previousPosition = _map.Position;
 
+            UpdateTileMap = false;
+
             return _depth;
         }
 
@@ -183,7 +187,7 @@ namespace Epsilon.Actors
 
         private void AddTileToScreenMap(int sx, int sy, int tx, int ty, int height)
         {
-            if (_previousPosition.X == _map.Position.X && _previousPosition.Y == _map.Position.Y)
+            if (_previousPosition.X == _map.Position.X && _previousPosition.Y == _map.Position.Y && ! UpdateTileMap)
             {
                 return;
             }
