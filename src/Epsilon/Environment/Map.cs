@@ -74,6 +74,8 @@ namespace Epsilon.Environment
                     tx = Constants.BoardSize - 1 - y;
                     ty = x;
                     break;
+                default:
+                    throw new InvalidOperationException("Rotation is not a valid value, it should be 0, 90, 180 or 270");
             }
 
             return SafeGetTile(tx, ty);
