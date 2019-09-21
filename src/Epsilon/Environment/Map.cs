@@ -153,6 +153,11 @@ namespace Epsilon.Environment
                     {
                         _tiles[x, y].SceneryType = SceneryType.Goat;
                     }
+
+                    if (terrainType == TerrainType.Snow && _rng.Next(100) == 0)
+                    {
+                        _tiles[x, y].SceneryType = SceneryType.Snowman;
+                    }
                 }
             }
         }
