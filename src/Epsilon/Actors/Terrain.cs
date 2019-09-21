@@ -166,22 +166,22 @@ namespace Epsilon.Actors
                 return TerrainType.Soil;
             }
 
-            if (height < 5)
+            if (height < 10)
             {
                 return TerrainType.Sand;
             }
 
-            if (height < 8)
+            if (height < 15)
             {
                 return TerrainType.Soil;
             }
 
-            if (height < 20)
+            if (height < 40)
             {
                 return TerrainType.Grass;
             }
 
-            if (height < 30)
+            if (height < 60)
             {
                 return TerrainType.Rock;
             }

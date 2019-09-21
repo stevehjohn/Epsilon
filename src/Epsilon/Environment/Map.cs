@@ -100,7 +100,7 @@ namespace Epsilon.Environment
             {
                 for (var y = 0; y < Constants.MapSize; y++)
                 {
-                    _tiles[x, y] = new Tile(Constants.SeaFloor, TerrainType.Soil);
+                    _tiles[x, y] = new Tile(Constants.SeaFloor);
                 }
             }
         }

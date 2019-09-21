@@ -52,7 +52,6 @@
     <Compile Include="Infrastructure\Constants.cs" />
     <Compile Include="Infrastructure\Epsilon.cs" />
     <Compile Include="Infrastructure\EntryPoint.cs" />
-    <Compile Include="Infrastructure\GameState.cs" />
     <Compile Include="Maths\Coordinates.cs" />
     <Compile Include="Maths\Direction.cs" />
     <Compile Include="Maths\Translations.cs" />
