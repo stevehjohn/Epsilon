@@ -33,7 +33,7 @@ namespace Epsilon.Infrastructure
 
             _mouseTracker = new MouseTracker();
 
-            // TODO: Maybe use some poncy assembly scanning technique to pick all IActors up...
+            // TODO: Maybe use some assembly scanning technique to pick all IActors up...
             _actors = new List<IActor>
                       {
                           new Terrain(_map)
