@@ -107,7 +107,9 @@ namespace Epsilon.Actors
 
                     int baseHeight;
 
-                    if (AppSettings.Instance.Rendering.RenderBoardEdges && (x == Constants.BoardSize - 1 || y == Constants.BoardSize - 1))
+                    var edge = x == Constants.BoardSize - 1 || y == Constants.BoardSize - 1;
+
+                    if (AppSettings.Instance.Rendering.RenderBoardEdges && edge)
                     {
                         baseHeight = Constants.SeaFloor;
                     }
@@ -125,11 +127,11 @@ namespace Epsilon.Actors
                     {
                         if (h > tile.Height - 2)
                         {
-                            Draw(position.X, position.Y, h, tile.TerrainType, x, y);
+                            Draw(position.X, position.Y, h, tile.TerrainType, x, y, edge ? Color.White : (Color?) null);
                         }
                         else
                         {
-                            Draw(position.X, position.Y, h, Map.GetDefaultTerrainType(h + _edgeOffsets[y == Constants.BoardSize - 1 ? _map.Position.X + x : _map.Position.Y + y]), x, y);
+                            Draw(position.X, position.Y, h, Map.GetDefaultTerrainType(h + _edgeOffsets[y == Constants.BoardSize - 1 ? _map.Position.X + x : _map.Position.Y + y]), x, y, edge ? Color.White : (Color?) null);
                         }
                     }
 
@@ -142,7 +144,7 @@ namespace Epsilon.Actors
                     {
                         Draw(position.X, position.Y, GameState.WaterLevel, TerrainType.Water);
 
-                        if (x == Constants.BoardSize - 1 || y == Constants.BoardSize - 1)
+                        if (edge)
                         {
                             for (var i = GameState.WaterLevel; i > tile.Height; i--)
                             {
@@ -150,6 +152,7 @@ namespace Epsilon.Actors
                                 {
                                     Draw(position.X, position.Y, i, i == GameState.WaterLevel ? TerrainType.WaterLeftEdgeTop : TerrainType.WaterLeftEdge);
                                 }
+
                                 if (x == Constants.BoardSize - 1)
                                 {
                                     Draw(position.X, position.Y, i, i == GameState.WaterLevel ? TerrainType.WaterRightEdgeTop : TerrainType.WaterRightEdge);
@@ -190,12 +193,12 @@ namespace Epsilon.Actors
             return _depth;
         }
 
-        private void Draw(int x, int y, int height, TerrainType? terrainType, int? tileX = null, int? tileY = null)
+        private void Draw(int x, int y, int height, TerrainType? terrainType, int? tileX = null, int? tileY = null, Color? color = null)
         {
             _spriteBatch.Draw(_tiles,
                               new Vector2(x, y - height * Constants.BlockHeight),
                               new Rectangle(GetTerrainXOffset(terrainType ?? Map.GetDefaultTerrainType(height)), 0, Constants.TileSpriteWidth, Constants.TileSpriteHeight),
-                              GetColor(terrainType ?? Map.GetDefaultTerrainType(height), height), 0, Vector2.Zero, Vector2.One, SpriteEffects.None, _depth);
+                              color ?? GetColor(terrainType ?? Map.GetDefaultTerrainType(height), height), 0, Vector2.Zero, Vector2.One, SpriteEffects.None, _depth);
 
             _depth += Constants.DepthIncrement;
 
@@ -260,7 +263,8 @@ namespace Epsilon.Actors
 
         private static Color GetColor(TerrainType? terrainType, int height)
         {
-            if (terrainType == TerrainType.Water || terrainType == TerrainType.WaterLeftEdge || terrainType == TerrainType.WaterRightEdge || terrainType == TerrainType.WaterLeftEdgeTop || terrainType == TerrainType.WaterRightEdgeTop)
+            if (terrainType == TerrainType.Water || terrainType == TerrainType.WaterLeftEdge || terrainType == TerrainType.WaterRightEdge ||
+                terrainType == TerrainType.WaterLeftEdgeTop || terrainType == TerrainType.WaterRightEdgeTop)
             {
                 return Color.White * 0.6f;
             }
