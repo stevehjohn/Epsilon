@@ -17,6 +17,7 @@ namespace Epsilon.Actors
         private SpriteBatch _spriteBatch;
         private ContentManager _contentManager;
         private Texture2D _tiles;
+        private Texture2D _scenery;
         private Coordinates _previousPosition = new Coordinates(-1, -1);
         private byte[,] _tileMap;
         private float _depth;
@@ -44,6 +45,7 @@ namespace Epsilon.Actors
             _spriteBatch = spriteBatch;
 
             _tiles = _contentManager.Load<Texture2D>("tile-set");
+            _scenery = _contentManager.Load<Texture2D>("scenery");
 
             GenerateTileMap();
         }
@@ -113,6 +115,11 @@ namespace Epsilon.Actors
                         Draw(position.X, position.Y, h, tile.TerrainType, x, y);
                     }
 
+                    if (tile.SceneryType != null)
+                    {
+                        DrawScenery(position.X, position.Y, tile.Height, tile.SceneryType.Value);
+                    }
+
                     if (tile.Height < 0)
                     {
                         Draw(position.X, position.Y, 0, TerrainType.Water);
@@ -163,6 +170,16 @@ namespace Epsilon.Actors
             {
                 AddTileToScreenMap(x, y, tileX.Value, tileY.Value, height);
             }
+        }
+
+        private void DrawScenery(int x, int y, int height, SceneryType sceneryType)
+        {
+            _spriteBatch.Draw(_scenery,
+                              new Vector2(x, y - (height + 1) * Constants.BlockHeight - (Constants.ScenerySpriteHeight - Constants.TileSpriteHeight)),
+                              new Rectangle((int) sceneryType * Constants.ScenerySpriteWidth, 0, Constants.ScenerySpriteWidth, Constants.ScenerySpriteHeight),
+                              Color.White, 0, Vector2.Zero, Vector2.One, SpriteEffects.None, _depth);
+
+            _depth += Constants.DepthIncrement;
         }
 
         private void AddTileToScreenMap(int sx, int sy, int tx, int ty, int height)

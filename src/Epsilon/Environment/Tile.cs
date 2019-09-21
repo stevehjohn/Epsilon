@@ -6,6 +6,8 @@
 
         public TerrainType? TerrainType { get; set; }
 
+        public SceneryType? SceneryType { get; set; }
+
         public Tile(int height, TerrainType? terrainType = null)
         {
             Height = height;

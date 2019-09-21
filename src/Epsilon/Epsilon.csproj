@@ -48,6 +48,7 @@
     <Compile Include="Controls\MouseButton.cs" />
     <Compile Include="Controls\MouseTracker.cs" />
     <Compile Include="Environment\Map.cs" />
+    <Compile Include="Environment\SceneryType.cs" />
     <Compile Include="Environment\TerrainType.cs" />
     <Compile Include="Environment\Tile.cs" />
     <Compile Include="Extensions\MouseStateExtensions.cs" />

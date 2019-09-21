@@ -137,7 +137,16 @@ namespace Epsilon.Environment
                 {
                     var height = TranslateNoiseToHeight(noise[x, y]);
 
-                    _tiles[x, y] = new Tile(height, GetDefaultTerrainType(height - 1 + _rng.Next(3)));
+                    // TODO: Magic numbers -1 and 3
+                    var terrainType = GetDefaultTerrainType(height - 1 + _rng.Next(3));
+
+                    _tiles[x, y] = new Tile(height, terrainType);
+
+                    // TODO: Magic number 10
+                    if (terrainType == TerrainType.Grass && _rng.Next(10) == 0)
+                    {
+                        _tiles[x, y].SceneryType = SceneryType.Tree;
+                    }
                 }
             }
         }

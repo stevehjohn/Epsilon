@@ -11,6 +11,9 @@
         public const int TileHeightHalf = 9;
         public const int TileWidthHalf = 18;
 
+        public const int ScenerySpriteHeight = 60;
+        public const int ScenerySpriteWidth = 38;
+
         public const int BlockHeight = 3;
 
         public const int ScreenBufferWidth = 1280;
