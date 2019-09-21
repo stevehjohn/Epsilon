@@ -6,6 +6,7 @@ Improved isometric engine based upon learning experiences with Δ.
 
 - Inertial scrolling
 - Terrain manipulation
+- Unit tests?
 
 ### Scaling / Zooming
 

@@ -13,6 +13,7 @@ namespace Epsilon.Infrastructure
         private readonly GraphicsDeviceManager _graphics;
         private readonly Map _map;
         private readonly MouseTracker _mouseTracker;
+        private readonly KeyBoardTracker _keyBoardTracker;
         private readonly List<IActor> _actors;
 
         private SpriteBatch _spriteBatch;
@@ -30,6 +31,7 @@ namespace Epsilon.Infrastructure
             _map = new Map();
 
             _mouseTracker = new MouseTracker();
+            _keyBoardTracker = new KeyBoardTracker();
 
             // TODO: Maybe use some assembly scanning technique to pick all IActors up...
             _actors = new List<IActor>
@@ -69,6 +71,26 @@ namespace Epsilon.Infrastructure
 
             if (IsActive)
             {
+                _keyBoardTracker.TrackState();
+
+                Keys? key;
+
+                while ((key = _keyBoardTracker.GetKeyPress()) != null)
+                {
+                    if (key == Keys.Right)
+                    {
+                        _map.Rotation = _map.Rotation == 270
+                                            ? 0
+                                            : _map.Rotation + 90;
+                    }
+                    else if (key == Keys.Left)
+                    {
+                        _map.Rotation = _map.Rotation == 0
+                                            ? 270
+                                            : _map.Rotation - 90;
+                    }
+                }
+
                 var movement = _mouseTracker.GetMapMovement();
 
                 _map.Move(movement);
@@ -84,6 +106,11 @@ namespace Epsilon.Infrastructure
                     // TODO: Map manipulation within map class itself
                     _map.GetTile(terrain.SelectedTile.X, terrain.SelectedTile.Y).Height += heightManipulation;
                 }
+            }
+
+            foreach (var actor in _actors)
+            {
+                actor.UpdateState();
             }
 
             base.Update(gameTime);

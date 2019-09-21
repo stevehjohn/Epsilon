@@ -14,6 +14,7 @@ namespace Epsilon.Environment
 
         public int Rotation
         {
+            get => _rotation;
             set
             {
                 if (value < 0 || value > 270 || value % 90 != 0)

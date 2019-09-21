@@ -44,6 +44,7 @@
   <ItemGroup>
     <Compile Include="Actors\IActor.cs" />
     <Compile Include="Actors\Terrain.cs" />
+    <Compile Include="Controls\KeyBoardTracker.cs" />
     <Compile Include="Controls\MouseButton.cs" />
     <Compile Include="Controls\MouseTracker.cs" />
     <Compile Include="Environment\Map.cs" />
