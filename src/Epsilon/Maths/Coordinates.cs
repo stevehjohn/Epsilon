@@ -1,4 +1,6 @@
-﻿namespace Epsilon.Maths
+﻿using Microsoft.Xna.Framework.Input;
+
+namespace Epsilon.Maths
 {
     public class Coordinates
     {
@@ -10,6 +12,12 @@
         {
             X = x;
             Y = y;
+        }
+
+        public Coordinates(MouseState mouseState)
+        {
+            X = mouseState.X;
+            Y = mouseState.Y;
         }
     }
 }

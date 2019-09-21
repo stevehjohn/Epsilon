@@ -43,9 +43,27 @@ namespace Epsilon.Controls
 
             var direction = new Direction(previousCoordinates.X - coordinates.X, coordinates.Y - previousCoordinates.Y);
 
-            _previousCoordinates[MouseButton.Left] = new Coordinates(mouseState.X, mouseState.Y);
+            _previousCoordinates[MouseButton.Left] = new Coordinates(mouseState);
 
             return direction;
+        }
+
+        public int GetMouseHeightManipulation()
+        {
+            var mouseState = Mouse.GetState();
+
+            if (! Tracking(mouseState, MouseButton.Right))
+            {
+                return 0;
+            }
+
+            var dy = _previousCoordinates[MouseButton.Right].Y - mouseState.Y;
+
+            _previousCoordinates[MouseButton.Right] = new Coordinates(0, mouseState.Y + dy % Constants.BlockHeight);
+
+            Console.WriteLine(dy / Constants.BlockHeight);
+
+            return dy / Constants.BlockHeight;
         }
 
         private bool Tracking(MouseState mouseState, MouseButton mouseButton)
@@ -57,11 +75,11 @@ namespace Epsilon.Controls
                 return false;
             }
 
-            if (!_tracking[mouseButton])
+            if (! _tracking[mouseButton])
             {
                 _tracking[mouseButton] = true;
 
-                _previousCoordinates[mouseButton] = new Coordinates(mouseState.X, mouseState.Y);
+                _previousCoordinates[mouseButton] = new Coordinates(mouseState);
 
                 return false;
             }
@@ -80,8 +98,8 @@ namespace Epsilon.Controls
             // TODO: Get rid of magic number 12. Where does it come from?
             var mouseY = (double) y - 12 - Constants.TileHeightHalf;
 
-            var px = (int)Math.Floor((mouseX / Constants.TileWidthHalf + mouseY / Constants.TileHeightHalf) / 2);
-            var py = (int)Math.Floor((mouseY / Constants.TileHeightHalf - mouseX / Constants.TileWidthHalf) / 2);
+            var px = (int) Math.Floor((mouseX / Constants.TileWidthHalf + mouseY / Constants.TileHeightHalf) / 2);
+            var py = (int) Math.Floor((mouseY / Constants.TileHeightHalf - mouseX / Constants.TileWidthHalf) / 2);
 
             return new Coordinates(px, py);
         }

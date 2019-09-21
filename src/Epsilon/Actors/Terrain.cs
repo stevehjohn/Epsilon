@@ -126,8 +126,6 @@ namespace Epsilon.Actors
                     {
                         var position = Translations.BoardToScreen(tile.X, tile.Y);
 
-                        Console.WriteLine($"{tile.X}, {tile.Y}");
-
                         Draw(position.X, position.Y, _map.GetTile(tile.X, tile.Y).Height, TerrainType.Highlight);
                     }
                 }
