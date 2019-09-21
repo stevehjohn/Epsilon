@@ -2,6 +2,7 @@
 {
     public enum SceneryType
     {
-        Tree
+        Tree,
+        Goat
     }
 }
