@@ -10,14 +10,12 @@ namespace Epsilon.Infrastructure
 {
     public class Epsilon : Game
     {
-        private GraphicsDeviceManager _graphics;
-        private SpriteBatch _spriteBatch;
-
+        private readonly GraphicsDeviceManager _graphics;
         private readonly Map _map;
-
         private readonly MouseTracker _mouseTracker;
-
         private readonly List<IActor> _actors;
+
+        private SpriteBatch _spriteBatch;
 
         public Epsilon()
         {
@@ -103,7 +101,7 @@ namespace Epsilon.Infrastructure
             {
                 depth = actor.Render(depth);
             }
-
+            
             _spriteBatch.End();
 
             base.Draw(gameTime);

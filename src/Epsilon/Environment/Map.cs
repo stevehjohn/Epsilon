@@ -31,7 +31,7 @@ namespace Epsilon.Environment
 
             Position = new Coordinates(90, 90);
 
-            InitialiseTerrain();
+            InitialiseTerrainWithSimplexNoise();
         }
 
         public void Move(Direction direction)
@@ -109,6 +109,23 @@ namespace Epsilon.Environment
 
         private void InitialiseTerrain()
         {
+            for (var x = 0; x < Constants.MapSize; x++)
+            {
+                for (var y = 0; y < Constants.MapSize; y++)
+                {
+                    _tiles[x, y] = new Tile(Constants.SeaFloor);
+                }
+            }
+
+            var noise = new float[Constants.BoardSize, Constants.BoardSize];
+
+
+        }
+
+        private void InitialiseTerrainWithSimplexNoise()
+        {
+            var noise = SimplexNoise.Noise.Calc2D(Constants.MapSize, Constants.MapSize, 0.0001f);
+
             for (var x = 0; x < Constants.MapSize; x++)
             {
                 for (var y = 0; y < Constants.MapSize; y++)
