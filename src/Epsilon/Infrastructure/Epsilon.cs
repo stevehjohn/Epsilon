@@ -3,6 +3,7 @@ using Epsilon.Actors;
 using Epsilon.Controls;
 using Epsilon.Environment;
 using Epsilon.Infrastructure.Configuration;
+using Epsilon.State;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
@@ -89,6 +90,12 @@ namespace Epsilon.Infrastructure
                             _map.Rotation = _map.Rotation == 0
                                                 ? 270
                                                 : _map.Rotation - 90;
+                            break;
+                        case Keys.Up:
+                            GameState.WaterLevel++;
+                            break;
+                        case Keys.Down:
+                            GameState.WaterLevel--;
                             break;
                         case Keys.E:
                             AppSettings.Instance.Rendering.RenderBoardEdges = ! AppSettings.Instance.Rendering.RenderBoardEdges;

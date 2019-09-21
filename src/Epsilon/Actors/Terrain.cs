@@ -5,6 +5,7 @@ using Epsilon.Environment;
 using Epsilon.Infrastructure;
 using Epsilon.Infrastructure.Configuration;
 using Epsilon.Maths;
+using Epsilon.State;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
@@ -128,8 +129,7 @@ namespace Epsilon.Actors
                         }
                         else
                         {
-                            Draw(position.X, position.Y, h, Map.GetDefaultTerrainType(h + _edgeOffsets[y == Constants.BoardSize - 1 ? _map.Position.X + x : _map.Position.Y + y]),
-                                 x, y);
+                            Draw(position.X, position.Y, h, Map.GetDefaultTerrainType(h + _edgeOffsets[y == Constants.BoardSize - 1 ? _map.Position.X + x : _map.Position.Y + y]), x, y);
                         }
                     }
 
@@ -138,21 +138,21 @@ namespace Epsilon.Actors
                         DrawScenery(position.X, position.Y, tile.Height, tile.SceneryType.Value);
                     }
 
-                    if (tile.Height < 0)
+                    if (tile.Height < GameState.WaterLevel)
                     {
-                        Draw(position.X, position.Y, 0, TerrainType.Water);
+                        Draw(position.X, position.Y, GameState.WaterLevel, TerrainType.Water);
 
                         if (x == Constants.BoardSize - 1 || y == Constants.BoardSize - 1)
                         {
-                            for (var i = 0; i > tile.Height; i--)
+                            for (var i = GameState.WaterLevel; i > tile.Height; i--)
                             {
                                 if (y == Constants.BoardSize - 1)
                                 {
-                                    Draw(position.X, position.Y, i, i == 0 ? TerrainType.WaterLeftEdgeTop : TerrainType.WaterLeftEdge);
+                                    Draw(position.X, position.Y, i, i == GameState.WaterLevel ? TerrainType.WaterLeftEdgeTop : TerrainType.WaterLeftEdge);
                                 }
                                 if (x == Constants.BoardSize - 1)
                                 {
-                                    Draw(position.X, position.Y, i, i == 0 ? TerrainType.WaterRightEdgeTop : TerrainType.WaterRightEdge);
+                                    Draw(position.X, position.Y, i, i == GameState.WaterLevel ? TerrainType.WaterRightEdgeTop : TerrainType.WaterRightEdge);
                                 }
                             }
                         }
