@@ -127,7 +127,7 @@ namespace Epsilon.Actors
                     {
                         if (h > tile.Height - 2)
                         {
-                            Draw(position.X, position.Y, h, tile.TerrainType, x, y, edge && h < tile.Height ? Color.White : (Color?) null);
+                            Draw(position.X, position.Y, h, tile.TerrainType, x, y, edge ? Color.White : (Color?) null);
                         }
                         else
                         {
