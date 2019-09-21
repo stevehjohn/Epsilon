@@ -150,12 +150,12 @@ namespace Epsilon.Actors
                             {
                                 if (y == Constants.BoardSize - 1)
                                 {
-                                    Draw(position.X, position.Y, i, i == GameState.WaterLevel ? TerrainType.WaterLeftEdgeTop : TerrainType.WaterLeftEdge);
+                                    Draw(position.X, position.Y, i, TerrainType.WaterLeftEdge);
                                 }
 
                                 if (x == Constants.BoardSize - 1)
                                 {
-                                    Draw(position.X, position.Y, i, i == GameState.WaterLevel ? TerrainType.WaterRightEdgeTop : TerrainType.WaterRightEdge);
+                                    Draw(position.X, position.Y, i, TerrainType.WaterRightEdge);
                                 }
                             }
                         }
@@ -263,8 +263,7 @@ namespace Epsilon.Actors
 
         private static Color GetColor(TerrainType? terrainType, int height)
         {
-            if (terrainType == TerrainType.Water || terrainType == TerrainType.WaterLeftEdge || terrainType == TerrainType.WaterRightEdge ||
-                terrainType == TerrainType.WaterLeftEdgeTop || terrainType == TerrainType.WaterRightEdgeTop)
+            if (terrainType == TerrainType.Water || terrainType == TerrainType.WaterLeftEdge || terrainType == TerrainType.WaterRightEdge)
             {
                 return Color.White * 0.6f;
             }
