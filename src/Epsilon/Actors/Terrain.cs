@@ -112,7 +112,14 @@ namespace Epsilon.Actors
 
                     for (var h = baseHeight; h <= tile.Height; h++)
                     {
-                        Draw(position.X, position.Y, h, tile.TerrainType, x, y);
+                        if (h > tile.Height - 2)
+                        {
+                            Draw(position.X, position.Y, h, tile.TerrainType, x, y);
+                        }
+                        else
+                        {
+                            Draw(position.X, position.Y, h, Map.GetDefaultTerrainType(h), x, y);
+                        }
                     }
 
                     if (tile.SceneryType != null)

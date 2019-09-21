@@ -147,6 +147,8 @@ namespace Epsilon.Environment
                     {
                         _tiles[x, y].SceneryType = SceneryType.Tree;
                     }
+
+                    // TODO: Magic number 200
                     if (terrainType == TerrainType.Grass && _rng.Next(200) == 0)
                     {
                         _tiles[x, y].SceneryType = SceneryType.Goat;
