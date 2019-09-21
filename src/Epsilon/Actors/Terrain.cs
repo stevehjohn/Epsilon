@@ -153,8 +153,8 @@ namespace Epsilon.Actors
         {
             _spriteBatch.Draw(_tiles,
                               new Vector2(x, y - height * Constants.BlockHeight),
-                              new Rectangle(GetTerrainXOffset(terrainType ?? GetDefaultTerrainType(height)), 0, Constants.TileSpriteWidth, Constants.TileSpriteHeight),
-                              GetColor(terrainType ?? GetDefaultTerrainType(height), height), 0, Vector2.Zero, Vector2.One, SpriteEffects.None, _depth);
+                              new Rectangle(GetTerrainXOffset(terrainType ?? Map.GetDefaultTerrainType(height)), 0, Constants.TileSpriteWidth, Constants.TileSpriteHeight),
+                              GetColor(terrainType ?? Map.GetDefaultTerrainType(height), height), 0, Vector2.Zero, Vector2.One, SpriteEffects.None, _depth);
 
             _depth += Constants.DepthIncrement;
 
@@ -162,36 +162,6 @@ namespace Epsilon.Actors
             {
                 AddTileToScreenMap(x, y, tileX.Value, tileY.Value, height);
             }
-        }
-
-        private static TerrainType GetDefaultTerrainType(int height)
-        {
-            if (height < -4)
-            {
-                return TerrainType.Soil;
-            }
-
-            if (height < 10)
-            {
-                return TerrainType.Sand;
-            }
-
-            if (height < 15)
-            {
-                return TerrainType.Soil;
-            }
-
-            if (height < 40)
-            {
-                return TerrainType.Grass;
-            }
-
-            if (height < 60)
-            {
-                return TerrainType.Rock;
-            }
-
-            return TerrainType.Snow;
         }
 
         private void AddTileToScreenMap(int sx, int sy, int tx, int ty, int height)

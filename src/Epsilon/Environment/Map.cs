@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Runtime.Remoting.Messaging;
 using Epsilon.Infrastructure;
 using Epsilon.Maths;
 
@@ -30,7 +29,7 @@ namespace Epsilon.Environment
         {
             _tiles = new Tile[Constants.MapSize, Constants.MapSize];
 
-            Position = new Coordinates(90, 90);
+            Position = new Coordinates(256, 256);
 
             InitialiseTerrainWithSimplexNoise();
         }
@@ -82,6 +81,36 @@ namespace Epsilon.Environment
             return SafeGetTile(tx, ty);
         }
 
+        public static TerrainType GetDefaultTerrainType(int height)
+        {
+            if (height < -4)
+            {
+                return TerrainType.Soil;
+            }
+
+            if (height < 10)
+            {
+                return TerrainType.Sand;
+            }
+
+            if (height < 15)
+            {
+                return TerrainType.Soil;
+            }
+
+            if (height < 40)
+            {
+                return TerrainType.Grass;
+            }
+
+            if (height < 57)
+            {
+                return TerrainType.Rock;
+            }
+
+            return TerrainType.Snow;
+        }
+
         //public void RaiseGround(int x, int y, int h)
         //{
         //    for (var i = h; i >= 0; i--)
@@ -108,20 +137,16 @@ namespace Epsilon.Environment
             return _tiles[x, y] ?? new Tile(0, TerrainType.Water);
         }
 
-        private void InitialiseTerrain()
-        {
-            for (var x = 0; x < Constants.MapSize; x++)
-            {
-                for (var y = 0; y < Constants.MapSize; y++)
-                {
-                    _tiles[x, y] = new Tile(Constants.SeaFloor);
-                }
-            }
-
-            var noise = new float[Constants.BoardSize, Constants.BoardSize];
-
-
-        }
+        //private void InitialiseTerrain()
+        //{
+        //    for (var x = 0; x < Constants.MapSize; x++)
+        //    {
+        //        for (var y = 0; y < Constants.MapSize; y++)
+        //        {
+        //            _tiles[x, y] = new Tile(Constants.SeaFloor);
+        //        }
+        //    }
+        //}
 
         private void InitialiseTerrainWithSimplexNoise()
         {
@@ -138,7 +163,7 @@ namespace Epsilon.Environment
 
         private static int TranslateNoiseToHeight(float noise)
         {
-            return (int) (Constants.SeaFloor + (noise / 255) * (Constants.MaxHeight + Math.Abs(Constants.SeaFloor)));
+            return (int) (Constants.SeaFloor + noise / 255 * (Constants.MaxHeight + Math.Abs(Constants.SeaFloor)));
         }
     }
 }
