@@ -2,6 +2,7 @@
 using Epsilon.Actors;
 using Epsilon.Controls;
 using Epsilon.Environment;
+using Epsilon.Infrastructure.Configuration;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
@@ -77,17 +78,21 @@ namespace Epsilon.Infrastructure
 
                 while ((key = _keyBoardTracker.GetKeyPress()) != null)
                 {
-                    if (key == Keys.Right)
+                    switch (key)
                     {
-                        _map.Rotation = _map.Rotation == 270
-                                            ? 0
-                                            : _map.Rotation + 90;
-                    }
-                    else if (key == Keys.Left)
-                    {
-                        _map.Rotation = _map.Rotation == 0
-                                            ? 270
-                                            : _map.Rotation - 90;
+                        case Keys.Right:
+                            _map.Rotation = _map.Rotation == 270
+                                                ? 0
+                                                : _map.Rotation + 90;
+                            break;
+                        case Keys.Left:
+                            _map.Rotation = _map.Rotation == 0
+                                                ? 270
+                                                : _map.Rotation - 90;
+                            break;
+                        case Keys.E:
+                            AppSettings.Instance.Rendering.RenderBoardEdges = ! AppSettings.Instance.Rendering.RenderBoardEdges;
+                            break;
                     }
                 }
 

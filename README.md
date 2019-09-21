@@ -11,9 +11,15 @@ Improved isometric engine based upon learning experiences with Δ.
 
 ## Controls
 
-- <kbd>Left Mouse</kbd>: Drag map
-- <kbd>Right Arrow</kbd>: Rotate 90° 
-- <kbd>Left Arrow</kbd>: Rotate -90°
+### Viewport
+
+- <kbd>Left Mouse</kbd> Drag map
+- <kbd>Right Arrow</kbd> Rotate 90° 
+- <kbd>Left Arrow</kbd> Rotate -90°
+
+### Feature Toggles
+
+- <kbd>E</kbd> Edge rendering
 
 ## Scaling / Zooming
 
