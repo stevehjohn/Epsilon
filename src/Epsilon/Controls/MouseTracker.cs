@@ -61,8 +61,6 @@ namespace Epsilon.Controls
 
             _previousCoordinates[MouseButton.Right] = new Coordinates(0, mouseState.Y + dy % Constants.BlockHeight);
 
-            Console.WriteLine(dy / Constants.BlockHeight);
-
             return dy / Constants.BlockHeight;
         }
 

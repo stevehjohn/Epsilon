@@ -76,6 +76,16 @@ namespace Epsilon.Infrastructure
                 _map.Move(movement);
 
                 var heightManipulation = _mouseTracker.GetMouseHeightManipulation();
+
+                // TODO: Yuck.
+                var terrain = _actors[0] as Terrain;
+
+                // ReSharper disable once PossibleNullReferenceException
+                if (heightManipulation > 0 && terrain.SelectedTile != null)
+                {
+                    // TODO: Map manipulation within map class itself
+                    _map.GetTile(terrain.SelectedTile.X, terrain.SelectedTile.Y).Height += heightManipulation;
+                }
             }
 
             base.Update(gameTime);

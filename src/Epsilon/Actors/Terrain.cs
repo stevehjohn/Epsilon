@@ -25,6 +25,8 @@ namespace Epsilon.Actors
 
         public bool UpdateTileMap { get; set; }
 
+        public Coordinates SelectedTile { get; set; }
+
         public Terrain(Map map)
         {
             _map = map;
@@ -118,6 +120,8 @@ namespace Epsilon.Actors
 
                 var mouseState = Mouse.GetState();
 
+                SelectedTile = null;
+
                 if (mouseState.X >= 0 && mouseState.X < Constants.ScreenBufferWidth && mouseState.Y >= 0 && mouseState.Y < Constants.ScreenBufferHeight)
                 {
                     var tile = _screenToTileMap[mouseState.X, mouseState.Y];
@@ -127,6 +131,8 @@ namespace Epsilon.Actors
                         var position = Translations.BoardToScreen(tile.X, tile.Y);
 
                         Draw(position.X, position.Y, _map.GetTile(tile.X, tile.Y).Height, TerrainType.Highlight);
+
+                        SelectedTile = tile;
                     }
                 }
             }
