@@ -4,6 +4,7 @@
     {
         Tree,
         Goat,
-        Snowman
+        Snowman,
+        Fish
     }
 }
