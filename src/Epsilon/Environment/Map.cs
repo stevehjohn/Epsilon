@@ -81,6 +81,19 @@ namespace Epsilon.Environment
             return SafeGetTile(tx, ty);
         }
 
+        //public void RaiseGround(int x, int y, int h)
+        //{
+        //    for (var i = h; i >= 0; i--)
+        //    {
+        //        OperateOnDiamond(x, y, h - i + 1, (dx, dy) => _tiles[dx, dy].Height += 1);
+        //    }
+        //}
+
+        //private static void OperateOnDiamond(int x, int y, int r, Action<int, int> action)
+        //{
+        //    for (var i = 1; i < r;
+        //}
+
         private Tile SafeGetTile(int x, int y)
         {
             x += Position.X;

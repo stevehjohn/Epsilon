@@ -59,7 +59,7 @@ namespace Epsilon.Controls
 
             var dy = _previousCoordinates[MouseButton.Right].Y - mouseState.Y;
 
-            _previousCoordinates[MouseButton.Right] = new Coordinates(0, mouseState.Y + dy % Constants.BlockHeight);
+            _previousCoordinates[MouseButton.Right] = new Coordinates(mouseState.Y, mouseState.Y + dy % Constants.BlockHeight);
 
             return dy / Constants.BlockHeight;
         }
