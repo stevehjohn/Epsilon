@@ -210,7 +210,7 @@ namespace Epsilon.Actors
             _spriteBatch.Draw(_scenery,
                               new Vector2(x, y - (height + 1) * Constants.BlockHeight - (Constants.ScenerySpriteHeight - Constants.TileSpriteHeight)),
                               new Rectangle((int) sceneryType * Constants.ScenerySpriteWidth, 0, Constants.ScenerySpriteWidth, Constants.ScenerySpriteHeight),
-                              Color.White, 0, Vector2.Zero, Vector2.One, SpriteEffects.None, _depth);
+                              GetColor(null, height), 0, Vector2.Zero, Vector2.One, SpriteEffects.None, _depth);
 
             _depth += Constants.DepthIncrement;
         }
@@ -258,7 +258,7 @@ namespace Epsilon.Actors
             }
         }
 
-        private static Color GetColor(TerrainType terrainType, int height)
+        private static Color GetColor(TerrainType? terrainType, int height)
         {
             if (terrainType == TerrainType.Water || terrainType == TerrainType.WaterLeftEdge || terrainType == TerrainType.WaterRightEdge || terrainType == TerrainType.WaterLeftEdgeTop || terrainType == TerrainType.WaterRightEdgeTop)
             {
