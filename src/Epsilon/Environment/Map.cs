@@ -7,9 +7,9 @@ namespace Epsilon.Environment
     public class Map
     {
         private readonly Tile[,] _tiles;
+        private readonly Random _rng;
 
         private int _rotation;
-
         public Coordinates Position;
 
         public int Rotation
@@ -30,6 +30,8 @@ namespace Epsilon.Environment
             _tiles = new Tile[Constants.MapSize, Constants.MapSize];
 
             Position = new Coordinates(256, 256);
+
+            _rng = new Random();
 
             InitialiseTerrainWithSimplexNoise();
         }
@@ -156,7 +158,9 @@ namespace Epsilon.Environment
             {
                 for (var y = 0; y < Constants.MapSize; y++)
                 {
-                    _tiles[x, y] = new Tile(TranslateNoiseToHeight(noise[x, y]));
+                    var height = TranslateNoiseToHeight(noise[x, y]);
+
+                    _tiles[x, y] = new Tile(height, GetDefaultTerrainType(height - 1 + _rng.Next(3)));
                 }
             }
         }
