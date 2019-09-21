@@ -6,6 +6,7 @@ Improved isometric engine based upon learning experiences with Δ.
 
 - Inertial scrolling
 - Terrain manipulation
+- Not just height based terrain colouring. Might want areas of desert, mountains grassland etc...
 - Unit tests?
 
 ### Scaling / Zooming
