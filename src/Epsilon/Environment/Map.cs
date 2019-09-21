@@ -113,19 +113,6 @@ namespace Epsilon.Environment
             return TerrainType.Snow;
         }
 
-        //public void RaiseGround(int x, int y, int h)
-        //{
-        //    for (var i = h; i >= 0; i--)
-        //    {
-        //        OperateOnDiamond(x, y, h - i + 1, (dx, dy) => _tiles[dx, dy].Height += 1);
-        //    }
-        //}
-
-        //private static void OperateOnDiamond(int x, int y, int r, Action<int, int> action)
-        //{
-        //    for (var i = 1; i < r;
-        //}
-
         private Tile SafeGetTile(int x, int y)
         {
             x += Position.X;
@@ -138,17 +125,6 @@ namespace Epsilon.Environment
 
             return _tiles[x, y] ?? new Tile(0, TerrainType.Water);
         }
-
-        //private void InitialiseTerrain()
-        //{
-        //    for (var x = 0; x < Constants.MapSize; x++)
-        //    {
-        //        for (var y = 0; y < Constants.MapSize; y++)
-        //        {
-        //            _tiles[x, y] = new Tile(Constants.SeaFloor);
-        //        }
-        //    }
-        //}
 
         private void InitialiseTerrainWithSimplexNoise()
         {

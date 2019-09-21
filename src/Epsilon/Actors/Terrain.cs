@@ -3,6 +3,7 @@
 using System;
 using Epsilon.Environment;
 using Epsilon.Infrastructure;
+using Epsilon.Infrastructure.Configuration;
 using Epsilon.Maths;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
@@ -93,7 +94,7 @@ namespace Epsilon.Actors
 
                     int baseHeight;
 
-                    if (x == Constants.BoardSize - 1 || y == Constants.BoardSize - 1)
+                    if (AppSettings.Instance.Rendering.RenderBoardEdges && (x == Constants.BoardSize - 1 || y == Constants.BoardSize - 1))
                     {
                         baseHeight = Constants.SeaFloor;
                     }
