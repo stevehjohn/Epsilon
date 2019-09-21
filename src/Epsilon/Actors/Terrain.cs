@@ -130,9 +130,14 @@ namespace Epsilon.Actors
                     {
                         var position = Translations.BoardToScreen(tile.X, tile.Y);
 
-                        Draw(position.X, position.Y, _map.GetTile(tile.X, tile.Y).Height, TerrainType.Highlight);
+                        var mapTile = _map.GetTile(tile.X, tile.Y);
 
-                        SelectedTile = tile;
+                        if (mapTile != null)
+                        {
+                            Draw(position.X, position.Y, mapTile.Height, TerrainType.Highlight);
+
+                            SelectedTile = tile;
+                        }
                     }
                 }
             }

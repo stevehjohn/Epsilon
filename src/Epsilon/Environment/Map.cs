@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Runtime.Remoting.Messaging;
 using Epsilon.Infrastructure;
 using Epsilon.Maths;
 
@@ -124,15 +125,20 @@ namespace Epsilon.Environment
 
         private void InitialiseTerrainWithSimplexNoise()
         {
-            var noise = SimplexNoise.Noise.Calc2D(Constants.MapSize, Constants.MapSize, 0.0001f);
+            var noise = SimplexNoise.Noise.Calc2D(Constants.MapSize, Constants.MapSize, 0.025f);
 
             for (var x = 0; x < Constants.MapSize; x++)
             {
                 for (var y = 0; y < Constants.MapSize; y++)
                 {
-                    _tiles[x, y] = new Tile(Constants.SeaFloor);
+                    _tiles[x, y] = new Tile(TranslateNoiseToHeight(noise[x, y]));
                 }
             }
+        }
+
+        private static int TranslateNoiseToHeight(float noise)
+        {
+            return (int) (Constants.SeaFloor + (noise / 255) * (Constants.MaxHeight + Math.Abs(Constants.SeaFloor)));
         }
     }
 }

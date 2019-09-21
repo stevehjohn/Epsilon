@@ -25,5 +25,6 @@
         public const float DepthIncrement = 0.00001f;
 
         public const int SeaFloor = -20;
+        public const int MaxHeight = 65;
     }
 }
