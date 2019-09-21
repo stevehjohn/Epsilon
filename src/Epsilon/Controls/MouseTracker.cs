@@ -37,11 +37,13 @@ namespace Epsilon.Controls
                 return new Direction(0, 0);
             }
 
-            var coordinates = GetMousePositionSeaLevel(mouseState);
+            var coordinates = GetMousePositionSeaLevel(mouseState.X, mouseState.Y);
 
-            var direction = new Direction(_previousCoordinates[MouseButton.Left].X - coordinates.X, coordinates.Y - _previousCoordinates[MouseButton.Left].Y);
+            var previousCoordinates = GetMousePositionSeaLevel(_previousCoordinates[MouseButton.Left]);
 
-            _previousCoordinates[MouseButton.Left] = coordinates;
+            var direction = new Direction(previousCoordinates.X - coordinates.X, coordinates.Y - previousCoordinates.Y);
+
+            _previousCoordinates[MouseButton.Left] = new Coordinates(mouseState.X, mouseState.Y);
 
             return direction;
         }
@@ -59,7 +61,7 @@ namespace Epsilon.Controls
             {
                 _tracking[mouseButton] = true;
 
-                _previousCoordinates[mouseButton] = GetMousePositionSeaLevel(mouseState);
+                _previousCoordinates[mouseButton] = new Coordinates(mouseState.X, mouseState.Y);
 
                 return false;
             }
@@ -67,16 +69,21 @@ namespace Epsilon.Controls
             return true;
         }
 
-        private static Coordinates GetMousePositionSeaLevel(MouseState mouseState)
+        private static Coordinates GetMousePositionSeaLevel(Coordinates coordinates)
         {
-            var mouseX = (double) mouseState.X - (Constants.ScreenBufferWidth / 2 - Constants.TileWidthHalf) - Constants.TileWidthHalf;
+            return GetMousePositionSeaLevel(coordinates.X, coordinates.Y);
+        }
+
+        private static Coordinates GetMousePositionSeaLevel(int x, int y)
+        {
+            var mouseX = (double) x - (Constants.ScreenBufferWidth / 2 - Constants.TileWidthHalf) - Constants.TileWidthHalf;
             // TODO: Get rid of magic number 12. Where does it come from?
-            var mouseY = (double) mouseState.Y - 12 - Constants.TileHeightHalf;
+            var mouseY = (double) y - 12 - Constants.TileHeightHalf;
 
-            var x = (int) Math.Floor((mouseX / Constants.TileWidthHalf + mouseY / Constants.TileHeightHalf) / 2);
-            var y = (int) Math.Floor((mouseY / Constants.TileHeightHalf - mouseX / Constants.TileWidthHalf) / 2);
+            var px = (int)Math.Floor((mouseX / Constants.TileWidthHalf + mouseY / Constants.TileHeightHalf) / 2);
+            var py = (int)Math.Floor((mouseY / Constants.TileHeightHalf - mouseX / Constants.TileWidthHalf) / 2);
 
-            return new Coordinates(x, y);
+            return new Coordinates(px, py);
         }
     }
 }
