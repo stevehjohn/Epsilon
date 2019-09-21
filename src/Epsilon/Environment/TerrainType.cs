@@ -8,6 +8,10 @@
         Rock,
         Snow,
         Water,
+        WaterLeftEdge,
+        WaterRightEdge,
+        WaterLeftEdgeTop,
+        WaterRightEdgeTop,
         Highlight,
         Reference
     }

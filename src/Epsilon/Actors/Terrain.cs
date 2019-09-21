@@ -128,7 +128,8 @@ namespace Epsilon.Actors
                         }
                         else
                         {
-                            Draw(position.X, position.Y, h, Map.GetDefaultTerrainType(h + _edgeOffsets[y == Constants.BoardSize - 1 ? _map.Position.X + x : _map.Position.Y + y]), x, y);
+                            Draw(position.X, position.Y, h, Map.GetDefaultTerrainType(h + _edgeOffsets[y == Constants.BoardSize - 1 ? _map.Position.X + x : _map.Position.Y + y]),
+                                 x, y);
                         }
                     }
 
@@ -140,6 +141,21 @@ namespace Epsilon.Actors
                     if (tile.Height < 0)
                     {
                         Draw(position.X, position.Y, 0, TerrainType.Water);
+
+                        if (x == Constants.BoardSize - 1 || y == Constants.BoardSize - 1)
+                        {
+                            for (var i = 0; i > tile.Height; i--)
+                            {
+                                if (y == Constants.BoardSize - 1)
+                                {
+                                    Draw(position.X, position.Y, i, i == 0 ? TerrainType.WaterLeftEdgeTop : TerrainType.WaterLeftEdge);
+                                }
+                                if (x == Constants.BoardSize - 1)
+                                {
+                                    Draw(position.X, position.Y, i, i == 0 ? TerrainType.WaterRightEdgeTop : TerrainType.WaterRightEdge);
+                                }
+                            }
+                        }
                     }
                 }
 
@@ -244,7 +260,7 @@ namespace Epsilon.Actors
 
         private static Color GetColor(TerrainType terrainType, int height)
         {
-            if (terrainType == TerrainType.Water)
+            if (terrainType == TerrainType.Water || terrainType == TerrainType.WaterLeftEdge || terrainType == TerrainType.WaterRightEdge || terrainType == TerrainType.WaterLeftEdgeTop || terrainType == TerrainType.WaterRightEdgeTop)
             {
                 return Color.White * 0.6f;
             }
