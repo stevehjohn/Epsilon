@@ -22,6 +22,7 @@ namespace Epsilon.Actors
         private byte[,] _tileMap;
         private float _depth;
 
+        private readonly int[] _edgeOffsets;
         private readonly Map _map;
         private readonly Coordinates[,] _screenToTileMap;
 
@@ -33,6 +34,15 @@ namespace Epsilon.Actors
         {
             _map = map;
             _screenToTileMap = new Coordinates[Constants.ScreenBufferWidth, Constants.ScreenBufferHeight];
+
+            _edgeOffsets = new int[Constants.MapSize];
+
+            var rng = new Random();
+
+            for (var i = 0; i < Constants.MapSize; i++)
+            {
+                _edgeOffsets[i] = -1 + rng.Next(3);
+            }
         }
 
         public void Initialise()
@@ -118,7 +128,7 @@ namespace Epsilon.Actors
                         }
                         else
                         {
-                            Draw(position.X, position.Y, h, Map.GetDefaultTerrainType(h), x, y);
+                            Draw(position.X, position.Y, h, Map.GetDefaultTerrainType(h + _edgeOffsets[y == Constants.BoardSize - 1 ? _map.Position.X + x : _map.Position.Y + y]), x, y);
                         }
                     }
 
