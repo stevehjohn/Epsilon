@@ -10,6 +10,8 @@ namespace Epsilon.Controls
 
         private List<Keys> _previouslyPressed;
 
+        public bool Ctrl { get; set; }
+
         public KeyBoardTracker()
         {
             _keyPresses = new Queue<Keys>();
@@ -19,7 +21,9 @@ namespace Epsilon.Controls
 
         public void TrackState()
         {
-            var pressed = Keyboard.GetState().GetPressedKeys().ToList();
+            var state = Keyboard.GetState();
+
+            var pressed = state.GetPressedKeys().ToList();
 
             var unpressed = _previouslyPressed.Except(pressed);
 
@@ -29,6 +33,8 @@ namespace Epsilon.Controls
             }
 
             _previouslyPressed = pressed;
+
+            Ctrl = state.IsKeyDown(Keys.LeftControl);
         }
 
         public Keys? GetKeyPress()

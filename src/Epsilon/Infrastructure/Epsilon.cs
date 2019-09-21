@@ -92,15 +92,30 @@ namespace Epsilon.Infrastructure
                                                 : _map.Rotation - 90;
                             break;
                         case Keys.Up:
-                            GameState.WaterLevel++;
+                            if (_keyBoardTracker.Ctrl)
+                            {
+                                GameState.WaterLevel++;
+                            }
                             break;
                         case Keys.Down:
-                            GameState.WaterLevel--;
+                            if (_keyBoardTracker.Ctrl)
+                            {
+                                GameState.WaterLevel--;
+                            }
                             break;
                         case Keys.E:
                             AppSettings.Instance.Rendering.RenderBoardEdges = ! AppSettings.Instance.Rendering.RenderBoardEdges;
                             break;
                     }
+                }
+
+                if (Keyboard.GetState().IsKeyDown(Keys.Up) && ! _keyBoardTracker.Ctrl)
+                {
+                    GameState.WaterLevel++;
+                }
+                if (Keyboard.GetState().IsKeyDown(Keys.Down) && !_keyBoardTracker.Ctrl)
+                {
+                    GameState.WaterLevel--;
                 }
 
                 var movement = _mouseTracker.GetMapMovement();

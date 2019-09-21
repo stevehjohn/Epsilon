@@ -17,6 +17,13 @@ Improved isometric engine based upon learning experiences with Δ.
 - <kbd>Right Arrow</kbd> Rotate 90° 
 - <kbd>Left Arrow</kbd> Rotate -90°
 
+### Environment
+
+- <kbd>Up Arrow</kbd> Raise water level
+- <kbd>Down Arrow</kbd> Lower water level
+- <kbd>Left Ctrl + Up Arrow</kbd> Raise water level one step
+- <kbd>Left Ctrl + Down Arrow</kbd> Lower water level one step
+
 ### Feature Toggles
 
 - <kbd>E</kbd> Edge rendering
