@@ -265,12 +265,12 @@ namespace Epsilon.Actors
                 return Color.White * 0.6f;
             }
 
-            if (height >= 0 || terrainType == TerrainType.Highlight)
+            if (height >= GameState.WaterLevel || terrainType == TerrainType.Highlight)
             {
                 return Color.White;
             }
 
-            var intensity = (int) (255 * ((Constants.SeaFloor * 1.5f - height) / (Constants.SeaFloor * 1.5f)));
+            var intensity = (int) (255 * ((Constants.SeaFloor * 1.5f - (height - GameState.WaterLevel)) / (Constants.SeaFloor * 1.5f)));
 
             return new Color(intensity, intensity, intensity);
         }
