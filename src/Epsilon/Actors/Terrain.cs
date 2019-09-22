@@ -103,6 +103,37 @@ namespace Epsilon.Actors
                         baseHeight = tile.Height;
                     }
 
+                    if (x == 0 || y == 0)
+                    {
+                        var sky = position.Y - tile.Height * Constants.BlockHeight;
+
+                        do
+                        {
+                            if (x == 0)
+                            {
+                                _spriteBatch.Draw(_scenery,
+                                                  new Vector2(position.X, sky),
+                                                  new Rectangle((int) SceneryType.SkyLeft * Constants.ScenerySpriteWidth, 0, Constants.ScenerySpriteWidth, Constants.ScenerySpriteHeight),
+                                                  Color.White, 0, Vector2.Zero, Vector2.One, SpriteEffects.None, _depth);
+                            }
+
+                            _depth += Constants.DepthIncrement;
+
+                            if (y == 0)
+                            {
+                                _spriteBatch.Draw(_scenery,
+                                                  new Vector2(position.X, sky),
+                                                  new Rectangle((int)SceneryType.SkyRight * Constants.ScenerySpriteWidth, 0, Constants.ScenerySpriteWidth, Constants.ScenerySpriteHeight),
+                                                  Color.White, 0, Vector2.Zero, Vector2.One, SpriteEffects.None, _depth);
+                            }
+
+                            _depth += Constants.DepthIncrement;
+
+                            sky -= Constants.ScenerySpriteHeight - Constants.TileHeightHalf;
+                        }
+                        while (sky >= -Constants.ScenerySpriteHeight);
+                    }
+
                     for (var h = baseHeight; h <= tile.Height; h++)
                     {
                         if (h > tile.Height - 2)

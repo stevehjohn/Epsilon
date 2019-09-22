@@ -5,6 +5,8 @@
         Tree,
         Goat,
         Snowman,
-        Fish
+        Fish,
+        SkyRight,
+        SkyLeft
     }
 }
