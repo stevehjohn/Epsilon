@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using Epsilon.Actors;
 using Epsilon.Controls;
+using Epsilon.Coordination;
 using Epsilon.Environment;
 using Epsilon.Infrastructure.Configuration;
 using Epsilon.State;
@@ -13,6 +14,7 @@ namespace Epsilon.Infrastructure
     public class Epsilon : Game
     {
         private readonly GraphicsDeviceManager _graphics;
+        private readonly EventManager _eventManager;
         private readonly Map _map;
         private readonly MouseTracker _mouseTracker;
         private readonly KeyBoardTracker _keyBoardTracker;
@@ -30,6 +32,8 @@ namespace Epsilon.Infrastructure
 
             Content.RootDirectory = "_Content";
 
+            _eventManager = new EventManager();
+
             _map = new Map();
 
             _mouseTracker = new MouseTracker();
@@ -38,7 +42,7 @@ namespace Epsilon.Infrastructure
             // TODO: Maybe use some assembly scanning technique to pick all IActors up...
             _actors = new List<IActor>
                       {
-                          new Terrain(_map)
+                          new Terrain(_map, _eventManager)
                       };
         }
 
@@ -73,9 +77,6 @@ namespace Epsilon.Infrastructure
 
             if (IsActive)
             {
-                // TODO: Yuck.
-                var terrain = _actors[0] as Terrain;
-
                 _keyBoardTracker.TrackState();
 
                 Keys? key;
@@ -89,19 +90,14 @@ namespace Epsilon.Infrastructure
                                                 ? 0
                                                 : _map.Rotation + 90;
 
-                            // ReSharper disable once PossibleNullReferenceException
-                            terrain.UpdateTileMap = true;
-
+                            _eventManager.RaiseEvent(EventType.RotationChanged);
                             break;
                         case Keys.Left:
                             _map.Rotation = _map.Rotation == 0
                                                 ? 270
                                                 : _map.Rotation - 90;
 
-
-                            // ReSharper disable once PossibleNullReferenceException
-                            terrain.UpdateTileMap = true;
-
+                            _eventManager.RaiseEvent(EventType.RotationChanged);
                             break;
                         case Keys.Up:
                             if (_keyBoardTracker.Ctrl)

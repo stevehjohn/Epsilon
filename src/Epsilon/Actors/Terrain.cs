@@ -1,6 +1,7 @@
 ﻿// #define SlowRender
 
 using System;
+using Epsilon.Coordination;
 using Epsilon.Environment;
 using Epsilon.Infrastructure;
 using Epsilon.Infrastructure.Configuration;
@@ -30,10 +31,12 @@ namespace Epsilon.Actors
 
         public Coordinates SelectedTile { get; set; }
 
-        public Terrain(Map map)
+        public Terrain(Map map, EventManager eventManager)
         {
             _map = map;
             _screenToTileMap = new Coordinates[Constants.ScreenBufferWidth, Constants.ScreenBufferHeight];
+
+            eventManager.AddSubscription(EventType.RotationChanged, () => UpdateTileMap = true);
         }
 
         public void Initialise()

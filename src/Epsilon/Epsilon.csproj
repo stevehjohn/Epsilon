@@ -47,6 +47,8 @@
     <Compile Include="Controls\KeyBoardTracker.cs" />
     <Compile Include="Controls\MouseButton.cs" />
     <Compile Include="Controls\MouseTracker.cs" />
+    <Compile Include="Coordination\EventType.cs" />
+    <Compile Include="Coordination\EventManager.cs" />
     <Compile Include="Environment\Map.cs" />
     <Compile Include="Environment\SceneryType.cs" />
     <Compile Include="Environment\TerrainType.cs" />
