@@ -130,16 +130,14 @@ namespace Epsilon.Actors
                     {
                         for (var h = Constants.SeaFloor; h <= tile.Height; h++)
                         {
-                            var origin = _map.GetOrigin();
-
                             if (y == Constants.BoardSize - 1)
                             {
-                                DrawEdge(position.X, position.Y, h, Map.GetDefaultTerrainType(h + _edgeOffsets[origin.X + x]), true);
+                                DrawEdge(position.X, position.Y, h, Map.GetDefaultTerrainType(h + _edgeOffsets[_map.Position.X + x]), true);
                             }
 
                             if (x == Constants.BoardSize - 1)
                             {
-                                DrawEdge(position.X, position.Y, h, Map.GetDefaultTerrainType(h + _edgeOffsets[origin.Y + y]), false);
+                                DrawEdge(position.X, position.Y, h, Map.GetDefaultTerrainType(h + _edgeOffsets[_map.Position.Y + y]), false);
                             }
                         }
                     }
@@ -198,10 +196,6 @@ namespace Epsilon.Actors
             _previousPosition = _map.Position;
 
             UpdateTileMap = false;
-
-            var o = _map.GetOrigin();
-
-            Console.WriteLine($"{o.X}, {o.Y}");
 
             return _depth;
         }

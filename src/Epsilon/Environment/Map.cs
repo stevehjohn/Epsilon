@@ -114,21 +114,6 @@ namespace Epsilon.Environment
             return TerrainType.Snow;
         }
 
-        public Coordinates GetOrigin()
-        {
-            switch (_rotation)
-            {
-                case 90:
-                    return new Coordinates(Position.X, Position.Y + Constants.BoardSize - 1);
-                case 180:
-                    return new Coordinates(Position.X + Constants.BoardSize - 1, Position.Y + Constants.BoardSize - 1);
-                case 270:
-                    return new Coordinates(Position.X + Constants.BoardSize - 1, Position.Y);
-                default:
-                    return Position;
-            }
-        }
-
         private Tile SafeGetTile(int x, int y)
         {
             x += Position.X;
