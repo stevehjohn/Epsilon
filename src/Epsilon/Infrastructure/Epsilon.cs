@@ -73,6 +73,18 @@ namespace Epsilon.Infrastructure
 
             if (IsActive)
             {
+                var heightManipulation = _mouseTracker.GetMouseHeightManipulation();
+
+                // TODO: Yuck.
+                var terrain = _actors[0] as Terrain;
+
+                // ReSharper disable once PossibleNullReferenceException
+                if (heightManipulation > 0 && terrain.SelectedTile != null)
+                {
+                    // TODO: Map manipulation within map class itself
+                    _map.GetTile(terrain.SelectedTile.X, terrain.SelectedTile.Y).Height += heightManipulation;
+                }
+
                 _keyBoardTracker.TrackState();
 
                 Keys? key;
@@ -85,11 +97,20 @@ namespace Epsilon.Infrastructure
                             _map.Rotation = _map.Rotation == 270
                                                 ? 0
                                                 : _map.Rotation + 90;
+
+                            // ReSharper disable once PossibleNullReferenceException
+                            terrain.UpdateTileMap = true;
+
                             break;
                         case Keys.Left:
                             _map.Rotation = _map.Rotation == 0
                                                 ? 270
                                                 : _map.Rotation - 90;
+
+
+                            // ReSharper disable once PossibleNullReferenceException
+                            terrain.UpdateTileMap = true;
+
                             break;
                         case Keys.Up:
                             if (_keyBoardTracker.Ctrl)
@@ -121,18 +142,6 @@ namespace Epsilon.Infrastructure
                 var movement = _mouseTracker.GetMapMovement();
 
                 _map.Move(movement);
-
-                var heightManipulation = _mouseTracker.GetMouseHeightManipulation();
-
-                // TODO: Yuck.
-                var terrain = _actors[0] as Terrain;
-
-                // ReSharper disable once PossibleNullReferenceException
-                if (heightManipulation > 0 && terrain.SelectedTile != null)
-                {
-                    // TODO: Map manipulation within map class itself
-                    _map.GetTile(terrain.SelectedTile.X, terrain.SelectedTile.Y).Height += heightManipulation;
-                }
             }
 
             foreach (var actor in _actors)
