@@ -235,13 +235,11 @@ namespace Epsilon.Actors
 
         private void DrawEdge(int x, int y, int height, TerrainType? terrainType, bool left)
         {
-            // TODO: Don't like the little tweaks creeping in (+ 1 here, + 2 there)
-            // It's to do with the overlap. Maybe think about the constants naming conventions.
             _spriteBatch.Draw(_tiles,
-                              new Vector2(x + (left ? 0 : Constants.TileSpriteWidthHalf + 1), y - height * Constants.BlockHeight),
-                              new Rectangle(GetTerrainXOffset(terrainType ?? Map.GetDefaultTerrainType(height)) + (left ? 0 : Constants.TileSpriteWidthHalf + 1),
+                              new Vector2(x + (left ? 0 : Constants.TileSpriteWidthHalf), y - height * Constants.BlockHeight),
+                              new Rectangle(GetTerrainXOffset(terrainType ?? Map.GetDefaultTerrainType(height)) + (left ? 0 : Constants.TileSpriteWidthHalf),
                                             Constants.TileSpriteHeight,
-                                            Constants.TileSpriteWidthHalf + 1,
+                                            Constants.TileSpriteWidthHalf,
                                             Constants.TileSpriteHeight),
                               Color.White, 0, Vector2.Zero, Vector2.One, SpriteEffects.None, _depth);
 

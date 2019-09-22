@@ -137,10 +137,8 @@ namespace Epsilon.Environment
                 {
                     var height = TranslateNoiseToHeight(noise[x, y]);
 
-                    // TODO: Magic numbers -1 and 3
                     var terrainType = GetDefaultTerrainType(height - 1 + _rng.Next(3));
 
-                    // TODO: Magic numbers -1 and 3
                     var tile = new Tile(height, terrainType)
                                {
                                    IsEdge = x == 0 || y == 0 || x == Constants.MapSize - 1 || y == Constants.MapSize - 1,
@@ -149,25 +147,21 @@ namespace Epsilon.Environment
 
                     _tiles[x, y] = tile;
 
-                    // TODO: Magic number 10
                     if (terrainType == TerrainType.Grass && _rng.Next(10) == 0)
                     {
                         tile.SceneryType = SceneryType.Tree;
                     }
 
-                    // TODO: Magic number 200
                     if (terrainType == TerrainType.Grass && _rng.Next(200) == 0)
                     {
                         tile.SceneryType = SceneryType.Goat;
                     }
 
-                    // TODO: Magic number 100
                     if (terrainType == TerrainType.Snow && _rng.Next(100) == 0)
                     {
                         tile.SceneryType = SceneryType.Snowman;
                     }
 
-                    // TODO: Magic number 100
                     if (height < -10 && _rng.Next(100) == 0)
                     {
                         tile.SceneryType = SceneryType.Fish;

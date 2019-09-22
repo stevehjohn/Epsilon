@@ -5,7 +5,8 @@
         public const int TileSpriteWidth = 38;
         public const int TileSpriteHeight = 22;
 
-        public const int TileSpriteWidthHalf = 18;
+        public const int TileSpriteWidthHalfWithOverlap = 18;
+        public const int TileSpriteWidthHalf = 19;
 
         public const int TileHeight = 19;
         public const int TileHeightHalf = 9;
