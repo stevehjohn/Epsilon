@@ -57,6 +57,8 @@ namespace Epsilon.Controls
                 return 0;
             }
 
+            // TODO: Clamp to initial tile clicked on
+
             var dy = _previousCoordinates[MouseButton.Right].Y - mouseState.Y;
 
             _previousCoordinates[MouseButton.Right] = new Coordinates(mouseState.Y, mouseState.Y + dy % Constants.BlockHeight);
