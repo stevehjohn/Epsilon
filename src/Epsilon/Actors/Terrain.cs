@@ -136,21 +136,21 @@ namespace Epsilon.Actors
                     {
                         Draw(position.X, position.Y, GameState.WaterLevel, TerrainType.Water);
 
-                        //if (tile.IsEdge)
-                        //{
-                        //    for (var i = GameState.WaterLevel; i > tile.Height; i--)
-                        //    {
-                        //        if (y == Constants.BoardSize - 1)
-                        //        {
-                        //            Draw(position.X, position.Y, i, TerrainType.WaterLeftEdge);
-                        //        }
+                        if (edge)
+                        {
+                            for (var i = GameState.WaterLevel; i > tile.Height; i--)
+                            {
+                                if (_map.GetTile(x, y + 1) == null || y == Constants.BoardSize - 1)
+                                {
+                                    Draw(position.X, position.Y, i, TerrainType.WaterLeftEdge);
+                                }
 
-                        //        if (x == Constants.BoardSize - 1)
-                        //        {
-                        //            Draw(position.X, position.Y, i, TerrainType.WaterRightEdge);
-                        //        }
-                        //    }
-                        //}
+                                if (_map.GetTile(x + 1, y) == null || x == Constants.BoardSize - 1)
+                                {
+                                    Draw(position.X, position.Y, i, TerrainType.WaterRightEdge);
+                                }
+                            }
+                        }
                     }
                 }
             }
