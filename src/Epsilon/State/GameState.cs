@@ -1,6 +1,4 @@
-﻿using Microsoft.Xna.Framework.Graphics;
-
-namespace Epsilon.State
+﻿namespace Epsilon.State
 {
     public static class GameState
     {
