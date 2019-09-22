@@ -48,24 +48,6 @@ namespace Epsilon.Controls
             return direction;
         }
 
-        public int GetMouseHeightManipulation()
-        {
-            var mouseState = Mouse.GetState();
-
-            if (! Tracking(mouseState, MouseButton.Right))
-            {
-                return 0;
-            }
-
-            // TODO: Clamp to initial tile clicked on
-
-            var dy = _previousCoordinates[MouseButton.Right].Y - mouseState.Y;
-
-            _previousCoordinates[MouseButton.Right] = new Coordinates(mouseState.Y, mouseState.Y + dy % Constants.BlockHeight);
-
-            return dy / Constants.BlockHeight;
-        }
-
         private bool Tracking(MouseState mouseState, MouseButton mouseButton)
         {
             if (! mouseState.IsPressed(mouseButton))
