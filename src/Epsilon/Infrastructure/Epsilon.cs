@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using Epsilon.Actors;
 using Epsilon.Controls;
 using Epsilon.Coordination;
@@ -144,7 +145,9 @@ namespace Epsilon.Infrastructure
 
         protected override void Draw(GameTime gameTime)
         {
-            GraphicsDevice.Clear(new Color(99, 69, 44));
+            var brightnessDelta = 255 - GameState.Brightness;
+
+            GraphicsDevice.Clear(new Color(Math.Max(0, 99 - brightnessDelta), Math.Max(0, 69 - brightnessDelta), Math.Max(0, 44 - brightnessDelta)));
 
             _spriteBatch.Begin(SpriteSortMode.FrontToBack, samplerState: SamplerState.PointClamp);
 

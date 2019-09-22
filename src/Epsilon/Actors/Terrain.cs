@@ -117,7 +117,7 @@ namespace Epsilon.Actors
                                 _spriteBatch.Draw(_scenery,
                                                   new Vector2(position.X, sky),
                                                   new Rectangle((int) SceneryType.SkyLeft * Constants.ScenerySpriteWidth, 0, Constants.ScenerySpriteWidth, Constants.ScenerySpriteHeight),
-                                                  Color.White, 0, Vector2.Zero, Vector2.One, SpriteEffects.None, _depth);
+                                                  new Color(GameState.Brightness, GameState.Brightness, GameState.Brightness), 0, Vector2.Zero, Vector2.One, SpriteEffects.None, _depth);
                             }
 
                             _depth += Constants.DepthIncrement;
@@ -127,7 +127,7 @@ namespace Epsilon.Actors
                                 _spriteBatch.Draw(_scenery,
                                                   new Vector2(position.X, sky),
                                                   new Rectangle((int)SceneryType.SkyRight * Constants.ScenerySpriteWidth, 0, Constants.ScenerySpriteWidth, Constants.ScenerySpriteHeight),
-                                                  Color.White, 0, Vector2.Zero, Vector2.One, SpriteEffects.None, _depth);
+                                                  new Color(GameState.Brightness, GameState.Brightness, GameState.Brightness), 0, Vector2.Zero, Vector2.One, SpriteEffects.None, _depth);
                             }
 
                             _depth += Constants.DepthIncrement;
@@ -241,7 +241,7 @@ namespace Epsilon.Actors
                                             Constants.TileSpriteHeight,
                                             Constants.TileSpriteWidthHalf,
                                             Constants.TileSpriteHeight),
-                              Color.White, 0, Vector2.Zero, Vector2.One, SpriteEffects.None, _depth);
+                              new Color(GameState.Brightness, GameState.Brightness, GameState.Brightness), 0, Vector2.Zero, Vector2.One, SpriteEffects.None, _depth);
 
             _depth += Constants.DepthIncrement;
         }
@@ -299,19 +299,26 @@ namespace Epsilon.Actors
             }
         }
 
-        private static Color GetColor(TerrainType? terrainType, int height)
+        private Color GetColor(TerrainType? terrainType, int height)
         {
             if (terrainType == TerrainType.Water || terrainType == TerrainType.WaterLeftEdge || terrainType == TerrainType.WaterRightEdge)
             {
-                return Color.White * 0.6f;
+                return new Color(GameState.Brightness, GameState.Brightness, GameState.Brightness) * 0.6f;
             }
 
             if (height >= GameState.WaterLevel || terrainType == TerrainType.Highlight)
             {
-                return Color.White;
+                return new Color(GameState.Brightness, GameState.Brightness, GameState.Brightness);
             }
 
             var intensity = (int) (255 * ((Constants.SeaFloor * 1.5f - (height - GameState.WaterLevel)) / (Constants.SeaFloor * 1.5f)));
+
+            intensity -= 255 - GameState.Brightness;
+
+            if (intensity < 0)
+            {
+                intensity = 0;
+            }
 
             return new Color(intensity, intensity, intensity);
         }
