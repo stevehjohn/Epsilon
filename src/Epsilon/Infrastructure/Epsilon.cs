@@ -13,7 +13,7 @@ namespace Epsilon.Infrastructure
 {
     public class Epsilon : Game
     {
-        private readonly GraphicsDeviceManager _graphics;
+        private readonly GraphicsDeviceManager _graphicsDeviceManager;
         private readonly EventManager _eventManager;
         private readonly Map _map;
         private readonly MouseTracker _mouseTracker;
@@ -24,11 +24,11 @@ namespace Epsilon.Infrastructure
 
         public Epsilon()
         {
-            _graphics = new GraphicsDeviceManager(this)
-                        {
-                            PreferredBackBufferWidth = Constants.ScreenBufferWidth,
-                            PreferredBackBufferHeight = Constants.ScreenBufferHeight
-                        };
+            _graphicsDeviceManager = new GraphicsDeviceManager(this)
+                                     {
+                                         PreferredBackBufferWidth = Constants.ScreenBufferWidth,
+                                         PreferredBackBufferHeight = Constants.ScreenBufferHeight
+                                     };
 
             Content.RootDirectory = "_Content";
 
@@ -104,12 +104,14 @@ namespace Epsilon.Infrastructure
                             {
                                 GameState.WaterLevel++;
                             }
+
                             break;
                         case Keys.Down:
                             if (_keyBoardTracker.Ctrl)
                             {
                                 GameState.WaterLevel--;
                             }
+
                             break;
                         case Keys.E:
                             AppSettings.Instance.Rendering.RenderBoardEdges = ! AppSettings.Instance.Rendering.RenderBoardEdges;
@@ -121,7 +123,8 @@ namespace Epsilon.Infrastructure
                 {
                     GameState.WaterLevel++;
                 }
-                if (Keyboard.GetState().IsKeyDown(Keys.Down) && !_keyBoardTracker.Ctrl)
+
+                if (Keyboard.GetState().IsKeyDown(Keys.Down) && ! _keyBoardTracker.Ctrl)
                 {
                     GameState.WaterLevel--;
                 }
@@ -151,10 +154,20 @@ namespace Epsilon.Infrastructure
             {
                 depth = actor.Render(depth);
             }
-            
+
             _spriteBatch.End();
 
             base.Draw(gameTime);
+        }
+
+        protected override void Dispose(bool disposing)
+        {
+            if (disposing)
+            {
+                _graphicsDeviceManager.Dispose();
+            }
+
+            base.Dispose(disposing);
         }
     }
 }
