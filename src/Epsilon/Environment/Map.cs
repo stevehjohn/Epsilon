@@ -167,8 +167,8 @@ namespace Epsilon.Environment
                         tile.SceneryType = SceneryType.Snowman;
                     }
 
-                    // TODO: Magic number 150
-                    if (height < -10 && _rng.Next(150) == 0)
+                    // TODO: Magic number 100
+                    if (height < -10 && _rng.Next(100) == 0)
                     {
                         tile.SceneryType = SceneryType.Fish;
                     }
