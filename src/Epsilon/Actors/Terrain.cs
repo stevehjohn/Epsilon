@@ -132,12 +132,12 @@ namespace Epsilon.Actors
                         {
                             if (y == Constants.BoardSize - 1)
                             {
-                                DrawEdge(position.X, position.Y, h, tile.TerrainType, true);
+                                DrawEdge(position.X, position.Y, h, Map.GetDefaultTerrainType(h + _edgeOffsets[y == Constants.BoardSize - 1 ? _map.Position.X + x : _map.Position.Y + y]), true);
                             }
 
                             if (x == Constants.BoardSize - 1)
                             {
-                                DrawEdge(position.X, position.Y, h, tile.TerrainType, false);
+                                DrawEdge(position.X, position.Y, h, Map.GetDefaultTerrainType(h + _edgeOffsets[y == Constants.BoardSize - 1 ? _map.Position.X + x : _map.Position.Y + y]), false);
                             }
                         }
                     }
