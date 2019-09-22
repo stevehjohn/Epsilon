@@ -8,6 +8,8 @@
 
         public SceneryType? SceneryType { get; set; }
 
+        public bool IsEdge { get; set; }
+
         public int EdgeOffset { get; set; }
 
         public Tile(int height, TerrainType? terrainType = null)

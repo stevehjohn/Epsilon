@@ -72,8 +72,6 @@ namespace Epsilon.Actors
             var j = 0;
 #endif
 
-            var origin = _map.GetOrigin();
-
             for (var x = 0; x < Constants.BoardSize; x++)
             {
                 for (var y = 0; y < Constants.BoardSize; y++)
@@ -88,6 +86,7 @@ namespace Epsilon.Actors
                         return _depth;
                     }
 #endif
+
                     var position = Translations.BoardToScreen(x, y);
 
                     var tile = _map.GetTile(x, y);
@@ -116,48 +115,42 @@ namespace Epsilon.Actors
                         }
                     }
 
-                    var edge = x == Constants.BoardSize - 1 || y == Constants.BoardSize - 1 || origin.X + x == Constants.MapSize - 1 || origin.Y + y == Constants.MapSize - 1;
+                    if (tile.SceneryType != null)
+                    {
+                        DrawScenery(position.X, position.Y, tile.Height, tile.SceneryType.Value);
+                    }
+
+                    var edge = tile.IsEdge || x == Constants.BoardSize - 1 || y == Constants.BoardSize - 1;
 
                     if (edge && AppSettings.Instance.Rendering.RenderBoardEdges)
                     {
                         for (var h = Constants.SeaFloor; h <= tile.Height; h++)
                         {
-                            if (y == Constants.BoardSize - 1 || origin.Y + y == Constants.MapSize - 1)
-                            {
-                                DrawEdge(position.X, position.Y, h, Map.GetDefaultTerrainType(h + tile.EdgeOffset), true);
-                            }
+                            DrawEdge(position.X, position.Y, h, Map.GetDefaultTerrainType(h + tile.EdgeOffset), true);
 
-                            if (x == Constants.BoardSize - 1 || origin.X + x == Constants.MapSize - 1)
-                            {
-                                DrawEdge(position.X, position.Y, h, Map.GetDefaultTerrainType(h + tile.EdgeOffset), false);
-                            }
+                            DrawEdge(position.X, position.Y, h, Map.GetDefaultTerrainType(h + tile.EdgeOffset), false);
                         }
-                    }
-
-                    if (tile.SceneryType != null)
-                    {
-                        DrawScenery(position.X, position.Y, tile.Height, tile.SceneryType.Value);
                     }
 
                     if (tile.Height < GameState.WaterLevel)
                     {
                         Draw(position.X, position.Y, GameState.WaterLevel, TerrainType.Water);
 
-                        if (edge)
-                        {
-                            for (var i = GameState.WaterLevel; i > tile.Height; i--)
-                            {
-                                if (y == Constants.BoardSize - 1)
-                                {
-                                    Draw(position.X, position.Y, i, TerrainType.WaterLeftEdge);
-                                }
+                        //if (tile.IsEdge)
+                        //{
+                        //    for (var i = GameState.WaterLevel; i > tile.Height; i--)
+                        //    {
+                        //        if (y == Constants.BoardSize - 1)
+                        //        {
+                        //            Draw(position.X, position.Y, i, TerrainType.WaterLeftEdge);
+                        //        }
 
-                                if (x == Constants.BoardSize - 1)
-                                {
-                                    Draw(position.X, position.Y, i, TerrainType.WaterRightEdge);
-                                }
-                            }
-                        }
+                        //        if (x == Constants.BoardSize - 1)
+                        //        {
+                        //            Draw(position.X, position.Y, i, TerrainType.WaterRightEdge);
+                        //        }
+                        //    }
+                        //}
                     }
                 }
             }
@@ -188,8 +181,6 @@ namespace Epsilon.Actors
             _previousPosition = _map.Position;
 
             UpdateTileMap = false;
-
-            Console.WriteLine($"{origin.X}, {origin.Y}");
 
             return _depth;
         }
