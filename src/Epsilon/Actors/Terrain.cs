@@ -190,8 +190,6 @@ namespace Epsilon.Actors
 
             UpdateTileMap = false;
 
-            Console.WriteLine($"{origin.X}, {origin.Y}");
-
             return _depth;
         }
 
