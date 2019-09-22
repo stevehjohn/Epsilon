@@ -114,6 +114,21 @@ namespace Epsilon.Environment
             return TerrainType.Snow;
         }
 
+        public Coordinates GetOrigin()
+        {
+            switch (_rotation)
+            {
+                case 90:
+                    return new Coordinates(Position.X, Position.Y + Constants.BoardSize - 1);
+                case 180:
+                    return new Coordinates(Position.X + Constants.BoardSize - 1, Position.Y + Constants.BoardSize - 1);
+                case 270:
+                    return new Coordinates(Position.X + Constants.BoardSize - 1, Position.Y);
+                default:
+                    return Position;
+            }
+        }
+
         private Tile SafeGetTile(int x, int y)
         {
             x += Position.X;
@@ -140,30 +155,36 @@ namespace Epsilon.Environment
                     // TODO: Magic numbers -1 and 3
                     var terrainType = GetDefaultTerrainType(height - 1 + _rng.Next(3));
 
-                    _tiles[x, y] = new Tile(height, terrainType);
+                    // TODO: Magic numbers -1 and 3
+                    var tile = new Tile(height, terrainType)
+                               {
+                                   EdgeOffset = -1 + _rng.Next(3)
+                               };
+
+                    _tiles[x, y] = tile;
 
                     // TODO: Magic number 10
                     if (terrainType == TerrainType.Grass && _rng.Next(10) == 0)
                     {
-                        _tiles[x, y].SceneryType = SceneryType.Tree;
+                        tile.SceneryType = SceneryType.Tree;
                     }
 
                     // TODO: Magic number 200
                     if (terrainType == TerrainType.Grass && _rng.Next(200) == 0)
                     {
-                        _tiles[x, y].SceneryType = SceneryType.Goat;
+                        tile.SceneryType = SceneryType.Goat;
                     }
 
                     // TODO: Magic number 100
                     if (terrainType == TerrainType.Snow && _rng.Next(100) == 0)
                     {
-                        _tiles[x, y].SceneryType = SceneryType.Snowman;
+                        tile.SceneryType = SceneryType.Snowman;
                     }
 
                     // TODO: Magic number 150
                     if (height < -10 && _rng.Next(150) == 0)
                     {
-                        _tiles[x, y].SceneryType = SceneryType.Fish;
+                        tile.SceneryType = SceneryType.Fish;
                     }
                 }
             }

@@ -8,7 +8,7 @@ Improved isometric engine based upon learning experiences with Δ.
 - Terrain manipulation
 - Not just height based terrain colouring. Might want areas of desert, mountains grassland etc...
 - Unit tests?
-- Edge noise to account for rotation
+- Edges not rendering when max X and Y of map have been reached
 
 ## Controls
 

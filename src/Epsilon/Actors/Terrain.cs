@@ -23,7 +23,6 @@ namespace Epsilon.Actors
         private byte[,] _tileMap;
         private float _depth;
 
-        private readonly int[] _edgeOffsets;
         private readonly Map _map;
         private readonly Coordinates[,] _screenToTileMap;
 
@@ -35,15 +34,6 @@ namespace Epsilon.Actors
         {
             _map = map;
             _screenToTileMap = new Coordinates[Constants.ScreenBufferWidth, Constants.ScreenBufferHeight];
-
-            _edgeOffsets = new int[Constants.MapSize];
-
-            var rng = new Random();
-
-            for (var i = 0; i < Constants.MapSize; i++)
-            {
-                _edgeOffsets[i] = -1 + rng.Next(3);
-            }
         }
 
         public void Initialise()
@@ -82,6 +72,8 @@ namespace Epsilon.Actors
             var j = 0;
 #endif
 
+            var origin = _map.GetOrigin();
+
             for (var x = 0; x < Constants.BoardSize; x++)
             {
                 for (var y = 0; y < Constants.BoardSize; y++)
@@ -105,7 +97,7 @@ namespace Epsilon.Actors
                         continue;
                     }
 
-                    var baseHeight = Math.Min(_map.GetTile(x + 1, y)?.Height ?? Constants.SeaFloor, _map.GetTile(x, y + 1)?.Height ?? Constants.SeaFloor);
+                    var baseHeight = Math.Min(_map.GetTile(x + 1, y)?.Height ?? tile.Height, _map.GetTile(x, y + 1)?.Height ?? tile.Height);
 
                     if (baseHeight > tile.Height)
                     {
@@ -120,10 +112,11 @@ namespace Epsilon.Actors
                         }
                         else
                         {
-                            Draw(position.X, position.Y, h, Map.GetDefaultTerrainType(h + _edgeOffsets[y == Constants.BoardSize - 1 ? _map.Position.X + x : _map.Position.Y + y]), x, y);
+                            Draw(position.X, position.Y, h, Map.GetDefaultTerrainType(h + tile.EdgeOffset), x, y);
                         }
                     }
 
+                    // TODO: Account for going over end of map (or prevent it)
                     var edge = x == Constants.BoardSize - 1 || y == Constants.BoardSize - 1;
 
                     if (edge && AppSettings.Instance.Rendering.RenderBoardEdges)
@@ -132,12 +125,12 @@ namespace Epsilon.Actors
                         {
                             if (y == Constants.BoardSize - 1)
                             {
-                                DrawEdge(position.X, position.Y, h, Map.GetDefaultTerrainType(h + _edgeOffsets[_map.Position.X + x]), true);
+                                DrawEdge(position.X, position.Y, h, Map.GetDefaultTerrainType(h + tile.EdgeOffset), true);
                             }
 
                             if (x == Constants.BoardSize - 1)
                             {
-                                DrawEdge(position.X, position.Y, h, Map.GetDefaultTerrainType(h + _edgeOffsets[_map.Position.Y + y]), false);
+                                DrawEdge(position.X, position.Y, h, Map.GetDefaultTerrainType(h + tile.EdgeOffset), false);
                             }
                         }
                     }
@@ -168,27 +161,27 @@ namespace Epsilon.Actors
                         }
                     }
                 }
+            }
 
-                var mouseState = Mouse.GetState();
+            var mouseState = Mouse.GetState();
 
-                SelectedTile = null;
+            SelectedTile = null;
 
-                if (mouseState.X >= 0 && mouseState.X < Constants.ScreenBufferWidth && mouseState.Y >= 0 && mouseState.Y < Constants.ScreenBufferHeight)
+            if (mouseState.X >= 0 && mouseState.X < Constants.ScreenBufferWidth && mouseState.Y >= 0 && mouseState.Y < Constants.ScreenBufferHeight)
+            {
+                var tile = _screenToTileMap[mouseState.X, mouseState.Y];
+
+                if (tile != null)
                 {
-                    var tile = _screenToTileMap[mouseState.X, mouseState.Y];
+                    var position = Translations.BoardToScreen(tile.X, tile.Y);
 
-                    if (tile != null)
+                    var mapTile = _map.GetTile(tile.X, tile.Y);
+
+                    if (mapTile != null)
                     {
-                        var position = Translations.BoardToScreen(tile.X, tile.Y);
+                        Draw(position.X, position.Y, mapTile.Height, TerrainType.Highlight);
 
-                        var mapTile = _map.GetTile(tile.X, tile.Y);
-
-                        if (mapTile != null)
-                        {
-                            Draw(position.X, position.Y, mapTile.Height, TerrainType.Highlight);
-
-                            SelectedTile = tile;
-                        }
+                        SelectedTile = tile;
                     }
                 }
             }
@@ -196,6 +189,8 @@ namespace Epsilon.Actors
             _previousPosition = _map.Position;
 
             UpdateTileMap = false;
+
+            Console.WriteLine($"{origin.X}, {origin.Y}");
 
             return _depth;
         }
