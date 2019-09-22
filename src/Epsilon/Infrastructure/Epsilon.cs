@@ -18,7 +18,7 @@ namespace Epsilon.Infrastructure
         private readonly EventManager _eventManager;
         private readonly Map _map;
         private readonly MouseTracker _mouseTracker;
-        private readonly KeyBoardTracker _keyBoardTracker;
+        private readonly KeyboardTracker _keyBoardTracker;
         private readonly List<IActor> _actors;
 
         private SpriteBatch _spriteBatch;
@@ -38,7 +38,7 @@ namespace Epsilon.Infrastructure
             _map = new Map();
 
             _mouseTracker = new MouseTracker();
-            _keyBoardTracker = new KeyBoardTracker();
+            _keyBoardTracker = new KeyboardTracker();
 
             // TODO: Maybe use some assembly scanning technique to pick all IActors up...
             _actors = new List<IActor>

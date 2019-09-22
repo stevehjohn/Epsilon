@@ -4,7 +4,7 @@ using Microsoft.Xna.Framework.Input;
 
 namespace Epsilon.Controls
 {
-    public class KeyBoardTracker
+    public class KeyboardTracker
     {
         private readonly Queue<Keys> _keyPresses;
 
@@ -12,7 +12,7 @@ namespace Epsilon.Controls
 
         public bool Ctrl { get; set; }
 
-        public KeyBoardTracker()
+        public KeyboardTracker()
         {
             _keyPresses = new Queue<Keys>();
 
