@@ -105,18 +105,7 @@ namespace Epsilon.Actors
                         continue;
                     }
 
-                    int baseHeight;
-
-                    var edge = x == Constants.BoardSize - 1 || y == Constants.BoardSize - 1;
-
-                    if (AppSettings.Instance.Rendering.RenderBoardEdges && edge)
-                    {
-                        baseHeight = Constants.SeaFloor;
-                    }
-                    else
-                    {
-                        baseHeight = Math.Min(_map.GetTile(x + 1, y)?.Height ?? Constants.SeaFloor, _map.GetTile(x, y + 1)?.Height ?? Constants.SeaFloor);
-                    }
+                    var baseHeight = Math.Min(_map.GetTile(x + 1, y)?.Height ?? Constants.SeaFloor, _map.GetTile(x, y + 1)?.Height ?? Constants.SeaFloor);
 
                     if (baseHeight > tile.Height)
                     {
@@ -125,17 +114,31 @@ namespace Epsilon.Actors
 
                     for (var h = baseHeight; h <= tile.Height; h++)
                     {
-                        if (h == tile.Height)
+                        if (h > tile.Height - 2)
                         {
                             Draw(position.X, position.Y, h, tile.TerrainType, x, y);
                         }
-                        else if (h > tile.Height - 2)
-                        {
-                            Draw(position.X, position.Y, h, tile.TerrainType, x, y, edge ? Color.White : (Color?) null);
-                        }
                         else
                         {
-                            Draw(position.X, position.Y, h, Map.GetDefaultTerrainType(h + _edgeOffsets[y == Constants.BoardSize - 1 ? _map.Position.X + x : _map.Position.Y + y]), x, y, edge ? Color.White : (Color?) null);
+                            Draw(position.X, position.Y, h, Map.GetDefaultTerrainType(h + _edgeOffsets[y == Constants.BoardSize - 1 ? _map.Position.X + x : _map.Position.Y + y]), x, y);
+                        }
+                    }
+
+                    var edge = x == Constants.BoardSize - 1 || y == Constants.BoardSize - 1;
+
+                    if (edge && AppSettings.Instance.Rendering.RenderBoardEdges)
+                    {
+                        for (var h = Constants.SeaFloor; h <= tile.Height; h++)
+                        {
+                            if (y == Constants.BoardSize - 1)
+                            {
+                                DrawEdge(position.X, position.Y, h, tile.TerrainType, true);
+                            }
+
+                            if (x == Constants.BoardSize - 1)
+                            {
+                                DrawEdge(position.X, position.Y, h, tile.TerrainType, false);
+                            }
                         }
                     }
 
@@ -197,12 +200,12 @@ namespace Epsilon.Actors
             return _depth;
         }
 
-        private void Draw(int x, int y, int height, TerrainType? terrainType, int? tileX = null, int? tileY = null, Color? color = null)
+        private void Draw(int x, int y, int height, TerrainType? terrainType, int? tileX = null, int? tileY = null)
         {
             _spriteBatch.Draw(_tiles,
                               new Vector2(x, y - height * Constants.BlockHeight),
                               new Rectangle(GetTerrainXOffset(terrainType ?? Map.GetDefaultTerrainType(height)), 0, Constants.TileSpriteWidth, Constants.TileSpriteHeight),
-                              color ?? GetColor(terrainType ?? Map.GetDefaultTerrainType(height), height), 0, Vector2.Zero, Vector2.One, SpriteEffects.None, _depth);
+                              GetColor(terrainType ?? Map.GetDefaultTerrainType(height), height), 0, Vector2.Zero, Vector2.One, SpriteEffects.None, _depth);
 
             _depth += Constants.DepthIncrement;
 
@@ -210,6 +213,21 @@ namespace Epsilon.Actors
             {
                 AddTileToScreenMap(x, y, tileX.Value, tileY.Value, height);
             }
+        }
+
+        private void DrawEdge(int x, int y, int height, TerrainType? terrainType, bool left)
+        {
+            // TODO: Don't like the little tweaks creeping in (+ 1 here, + 2 there)
+            // It's to do with the overlap. Maybe think about the constants naming conventions.
+            _spriteBatch.Draw(_tiles,
+                              new Vector2(x + (left ? 0 : Constants.TileSpriteWidthHalf + 1), y - height * Constants.BlockHeight),
+                              new Rectangle(GetTerrainXOffset(terrainType ?? Map.GetDefaultTerrainType(height)) + (left ? 0 : Constants.TileSpriteWidthHalf + 1), 
+                                            Constants.TileSpriteHeight, 
+                                            Constants.TileSpriteWidthHalf + 1,
+                                            Constants.TileSpriteHeight),
+                              Color.White, 0, Vector2.Zero, Vector2.One, SpriteEffects.None, _depth);
+
+            _depth += Constants.DepthIncrement;
         }
 
         private void DrawScenery(int x, int y, int height, SceneryType sceneryType)
@@ -250,7 +268,7 @@ namespace Epsilon.Actors
         {
             var terrains = (TerrainType[]) Enum.GetValues(typeof(TerrainType));
 
-            var colours = new Color[Constants.TileSpriteWidth * terrains.Length * Constants.TileSpriteHeight];
+            var colours = new Color[Constants.TileSpriteWidth * terrains.Length * Constants.TileSpriteHeight * 2];
 
             _tiles.GetData(colours);
 
