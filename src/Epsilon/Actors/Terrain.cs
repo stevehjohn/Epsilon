@@ -116,19 +116,18 @@ namespace Epsilon.Actors
                         }
                     }
 
-                    // TODO: Account for going over end of map (or prevent it)
-                    var edge = x == Constants.BoardSize - 1 || y == Constants.BoardSize - 1;
+                    var edge = x == Constants.BoardSize - 1 || y == Constants.BoardSize - 1 || origin.X + x == Constants.MapSize - 1 || origin.Y + y == Constants.MapSize - 1;
 
                     if (edge && AppSettings.Instance.Rendering.RenderBoardEdges)
                     {
                         for (var h = Constants.SeaFloor; h <= tile.Height; h++)
                         {
-                            if (y == Constants.BoardSize - 1)
+                            if (y == Constants.BoardSize - 1 || origin.Y + y == Constants.MapSize - 1)
                             {
                                 DrawEdge(position.X, position.Y, h, Map.GetDefaultTerrainType(h + tile.EdgeOffset), true);
                             }
 
-                            if (x == Constants.BoardSize - 1)
+                            if (x == Constants.BoardSize - 1 || origin.X + x == Constants.MapSize - 1)
                             {
                                 DrawEdge(position.X, position.Y, h, Map.GetDefaultTerrainType(h + tile.EdgeOffset), false);
                             }
@@ -189,6 +188,8 @@ namespace Epsilon.Actors
             _previousPosition = _map.Position;
 
             UpdateTileMap = false;
+
+            Console.WriteLine($"{origin.X}, {origin.Y}");
 
             return _depth;
         }
