@@ -2,7 +2,7 @@
 
 Improved isometric engine based upon learning experiences with Δ.
 
-## To Dos / Notes
+## To Do / Notes
 
 - Inertial scrolling
 - Terrain manipulation
