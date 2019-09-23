@@ -37,6 +37,8 @@ namespace Epsilon.Controls
                 return new Direction(0, 0);
             }
 
+            // https://stackoverflow.com/a/7224899/1887802
+
             var coordinates = GetMousePositionSeaLevel(mouseState.X, mouseState.Y);
 
             var previousCoordinates = GetMousePositionSeaLevel(_previousCoordinates[MouseButton.Left]);
