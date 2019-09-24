@@ -282,8 +282,15 @@ namespace Epsilon.Actors
 
         private void DrawScenery(int x, int y, int height, SceneryType sceneryType)
         {
+            var ay = y - (height + 1) * Constants.BlockHeight - (Constants.ScenerySpriteHeight - Constants.TileSpriteHeight);
+
+            if (x > Constants.ScenerySpriteWidth && ay > Constants.ScreenBufferHeight)
+            {
+                return;
+            }
+
             _spriteBatch.Draw(_scenery,
-                              new Vector2(x, y - (height + 1) * Constants.BlockHeight - (Constants.ScenerySpriteHeight - Constants.TileSpriteHeight)),
+                              new Vector2(x, ay),
                               new Rectangle((int) sceneryType * Constants.ScenerySpriteWidth, 0, Constants.ScenerySpriteWidth, Constants.ScenerySpriteHeight),
                               GetColor(null, height), 0, Vector2.Zero, Vector2.One, SpriteEffects.None, _depth);
 
