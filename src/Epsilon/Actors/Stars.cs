@@ -71,6 +71,16 @@ namespace Epsilon.Actors
             {
                 star.X += (direction.Dy - direction.Dx) * star.Velocity;
                 //star.Y -= (direction.Dy - direction.Dx) * star.Velocity;
+
+                if (star.X < 0)
+                {
+                    star.X = Constants.ScreenBufferWidth;
+                }
+
+                if (star.X > Constants.ScreenBufferWidth)
+                {
+                    star.X = 0;
+                }
             }
         }
 
