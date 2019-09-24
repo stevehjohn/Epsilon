@@ -11,6 +11,8 @@ Improved isometric engine based upon learning experiences with Δ.
 - Make sky tall tile, fading to transparency
 - Actor to control stars which move parallaxially
 - Animated water overlays?
+- Make edges rock and follow sea level + 1
+- Change terrain generation so that it gets lower as edges of circle are approached
 
 ## Controls
 

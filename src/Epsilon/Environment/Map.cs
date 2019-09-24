@@ -206,30 +206,6 @@ namespace Epsilon.Environment
                                    };
                 }
             }
-
-            //var visited = new List<Coordinates>();
-
-            //var i = 0;
-
-            //for (var radius = 0; radius < Constants.MapSizeHalf; radius++)
-            //{
-            //    for (var radians = 0.0f; radians < Math.PI * 2; radians += (float) (Math.PI * 2 / (radius * 4)))
-            //    {
-            //        var x = (int) (Constants.MapSizeHalf + radius * Math.Sin(radians));
-            //        var y = (int) (Constants.MapSizeHalf + radius * Math.Cos(radians));
-
-            //        if (x >= 0 && x < Constants.MapSize && y >= 0 && y < Constants.MapSize)
-            //        {
-            //            if (! visited.Any(c => c.X == x && c.Y == y))
-            //            {
-            //                _tiles[x, y].Height -= i;
-            //                visited.Add(new Coordinates(x, y));
-            //            }
-            //        }
-            //    }
-
-            //    i++;
-            //}
         }
 
         private static int TranslateNoiseToHeight(float noise)
