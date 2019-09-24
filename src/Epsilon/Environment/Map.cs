@@ -243,7 +243,7 @@ namespace Epsilon.Environment
                             tile.SceneryType = SceneryType.Goat;
                         }
 
-                        if (terrainType == TerrainType.Snow && _rng.Next(100) == 0)
+                        if (terrainType == TerrainType.Snow && _rng.Next(40) == 0)
                         {
                             tile.SceneryType = SceneryType.Snowman;
                         }
