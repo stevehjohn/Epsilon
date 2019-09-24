@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Runtime.CompilerServices;
 using Epsilon.Infrastructure;
 using Epsilon.Maths;
 
@@ -34,7 +35,15 @@ namespace Epsilon.Environment
 
             _rng = new Random();
 
-            InitialiseTerrainWithSimplexNoise();
+            // InitialiseTerrainWithSimplexNoise();
+            
+            for (var x = 0; x < Constants.MapSize; x++)
+            {
+                for (var y = 0; y < Constants.MapSize; y++)
+                {
+                    _tiles[x, y] = new Tile(0, TerrainType.Grass);
+                }
+            }
 
             MakeFlatEarth();
         }
@@ -216,6 +225,22 @@ namespace Epsilon.Environment
 
                 px = x;
                 py = y;
+            }
+
+            for (var x = -Constants.MapSizeHalf; x < 0; x++)
+            {
+                var y = (int) Math.Floor(Math.Sqrt(Math.Pow(Constants.MapSizeHalf, 2) - Math.Pow(x, 2)));
+
+                for (var dy = 0; dy <= y; dy++)
+                {
+                    if (dy > 0)
+                    {
+                        _tiles[Constants.MapSizeHalf + x, Constants.MapSizeHalf + dy - 1].Height = (int)Math.Sqrt(Math.Pow(x, 2) + Math.Pow(dy, 2)) + Constants.SeaFloor;
+                        _tiles[Constants.MapSizeHalf - x - 1, Constants.MapSizeHalf + dy - 1].Height = (int)Math.Sqrt(Math.Pow(x, 2) + Math.Pow(dy, 2)) + Constants.SeaFloor;
+                        _tiles[Constants.MapSizeHalf + x, Constants.MapSizeHalf - dy].Height = (int)Math.Sqrt(Math.Pow(x, 2) + Math.Pow(dy, 2)) + Constants.SeaFloor;
+                        _tiles[Constants.MapSizeHalf - x - 1, Constants.MapSizeHalf - dy].Height = (int)Math.Sqrt(Math.Pow(x, 2) + Math.Pow(dy, 2)) + Constants.SeaFloor;
+                    }
+                }
             }
         }
 
