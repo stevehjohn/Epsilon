@@ -20,6 +20,7 @@ namespace Epsilon.Actors
         private ContentManager _contentManager;
         private Texture2D _tiles;
         private Texture2D _scenery;
+        private Texture2D _sky;
         private Coordinates _previousPosition = new Coordinates(-1, -1);
         private byte[,] _tileMap;
         private float _depth;
@@ -50,6 +51,7 @@ namespace Epsilon.Actors
 
             _tiles = _contentManager.Load<Texture2D>("tile-set");
             _scenery = _contentManager.Load<Texture2D>("scenery");
+            _sky = _contentManager.Load<Texture2D>("sky");
 
             GenerateTileMap();
         }
@@ -108,14 +110,13 @@ namespace Epsilon.Actors
 
                     if (x == 0 || y == 0)
                     {
-                        // TODO: Why -3?
-                        var sky = position.Y - (tile.Height - 3) * Constants.BlockHeight - Constants.ScenerySpriteHeight;
+                        var skyBase = position.Y - Constants.SkySpriteHeight - Constants.SeaFloor * Constants.BlockHeight;
 
                         if (x == 0)
                         {
-                            _spriteBatch.Draw(_scenery,
-                                              new Vector2(position.X, sky),
-                                              new Rectangle((int) SceneryType.SkyLeft * Constants.ScenerySpriteWidth, 0, Constants.ScenerySpriteWidth, Constants.ScenerySpriteHeight),
+                            _spriteBatch.Draw(_sky,
+                                              new Vector2(position.X, skyBase),
+                                              new Rectangle(Constants.SkySpriteWidth, 0, Constants.SkySpriteWidth, Constants.SkySpriteHeight),
                                               new Color(GameState.Brightness, GameState.Brightness, GameState.Brightness), 0, Vector2.Zero, Vector2.One, SpriteEffects.None, _depth);
                         }
 
@@ -123,15 +124,13 @@ namespace Epsilon.Actors
 
                         if (y == 0)
                         {
-                            _spriteBatch.Draw(_scenery,
-                                              new Vector2(position.X, sky),
-                                              new Rectangle((int) SceneryType.SkyRight * Constants.ScenerySpriteWidth, 0, Constants.ScenerySpriteWidth, Constants.ScenerySpriteHeight),
+                            _spriteBatch.Draw(_sky,
+                                              new Vector2(position.X, skyBase),
+                                              new Rectangle(0, 0, Constants.SkySpriteWidth, Constants.SkySpriteHeight),
                                               new Color(GameState.Brightness, GameState.Brightness, GameState.Brightness), 0, Vector2.Zero, Vector2.One, SpriteEffects.None, _depth);
                         }
 
                         _depth += Constants.DepthIncrement;
-
-                        sky -= Constants.ScenerySpriteHeight - Constants.TileHeightHalf;
                     }
 
                     for (var h = baseHeight; h <= tile.Height; h++)

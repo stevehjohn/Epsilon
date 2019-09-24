@@ -17,6 +17,9 @@ namespace Epsilon.Infrastructure
         public const int ScenerySpriteHeight = 60;
         public const int ScenerySpriteWidth = 38;
 
+        public const int SkySpriteHeight = 280;
+        public const int SkySpriteWidth = 38;
+
         public const int BlockHeight = 3;
 
         public const int ScreenBufferWidth = 1280;
