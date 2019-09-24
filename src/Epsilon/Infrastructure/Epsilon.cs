@@ -145,9 +145,7 @@ namespace Epsilon.Infrastructure
 
         protected override void Draw(GameTime gameTime)
         {
-            var brightnessDelta = 255 - GameState.Brightness;
-
-            GraphicsDevice.Clear(new Color(Math.Max(0, 99 - brightnessDelta), Math.Max(0, 69 - brightnessDelta), Math.Max(0, 44 - brightnessDelta)));
+            GraphicsDevice.Clear(Color.Black);
 
             _spriteBatch.Begin(SpriteSortMode.FrontToBack, samplerState: SamplerState.PointClamp);
 

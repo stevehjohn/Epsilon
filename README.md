@@ -10,6 +10,7 @@ Improved isometric engine based upon learning experiences with Δ.
 - Unit tests?
 - Make sky tall tile, fading to transparency
 - Actor to control stars which move parallaxially
+- Animated water overlays?
 
 ## Controls
 
