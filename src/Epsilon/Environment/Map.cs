@@ -197,10 +197,6 @@ namespace Epsilon.Environment
                 }
             }
 
-            var i = 0;
-            var px = 0;
-            var py = 0;
-
             for (var radians = 0.0f; radians < Math.PI * 2; radians += Constants.RadiansHighResolution)
             {
                 var x = (int) (Constants.MapSizeHalf + Constants.MapSizeHalf * Math.Sin(radians));
@@ -208,23 +204,11 @@ namespace Epsilon.Environment
 
                 if (x >= 0 && x < Constants.MapSize && y >= 0 && y < Constants.MapSize)
                 {
-                    _tiles[x, y] = new Tile(i < 4 ? 5 : 8, TerrainType.Rock)
+                    _tiles[x, y] = new Tile(2 + _rng.Next(7), TerrainType.Rock)
                                    {
                                        IsEdge = true
                                    };
                 }
-
-                if (px != x || py != y)
-                {
-                    i++;
-                    if (i > 7)
-                    {
-                        i = 0;
-                    }
-                }
-
-                px = x;
-                py = y;
             }
 
             for (var x = -Constants.MapSizeHalf; x < 0; x++)
