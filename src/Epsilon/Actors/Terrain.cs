@@ -239,6 +239,13 @@ namespace Epsilon.Actors
 
         private void Draw(int x, int y, int height, TerrainType? terrainType, int? tileX = null, int? tileY = null, bool isEdge = false)
         {
+            var ay = y - height * Constants.BlockHeight;
+
+            if (x > Constants.ScenerySpriteWidth && ay > Constants.ScreenBufferHeight)
+            {
+                return;
+            }
+
             _spriteBatch.Draw(_tiles,
                               new Vector2(x, y - height * Constants.BlockHeight),
                               new Rectangle(GetTerrainXOffset(terrainType ?? Map.GetDefaultTerrainType(height)), 0, Constants.TileSpriteWidth, Constants.TileSpriteHeight),
