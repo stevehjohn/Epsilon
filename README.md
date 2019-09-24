@@ -11,6 +11,7 @@ Improved isometric engine based upon learning experiences with Δ.
 - Actor to control stars which move parallaxially
 - Animated water overlays?
 - Make edges sea level + arbitrary number?
+- Fix sky rendering
 
 ## Controls
 
