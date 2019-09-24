@@ -110,7 +110,7 @@ namespace Epsilon.Actors
 
                     if (x == 0 || y == 0)
                     {
-                        var skyBase = position.Y - Constants.SkySpriteHeight - Constants.SeaFloor * Constants.BlockHeight;
+                        var skyBase = position.Y - Constants.SkySpriteHeight - Constants.SeaFloor * Constants.BlockHeight + Constants.TileHeightHalf;
 
                         if (x == 0)
                         {
