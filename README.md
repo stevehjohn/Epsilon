@@ -8,6 +8,8 @@ Improved isometric engine based upon learning experiences with Δ.
 - Terrain manipulation
 - Not just height based terrain colouring. Might want areas of desert, mountains grassland etc...
 - Unit tests?
+- Make sky tall tile, fading to transparency
+- Actor to control stars which move parallaxially
 
 ## Controls
 
