@@ -148,35 +148,13 @@ namespace Epsilon.Environment
                 {
                     var height = TranslateNoiseToHeight(noise[x, y]);
 
-                    var terrainType = GetDefaultTerrainType(height - 1 + _rng.Next(3));
-
-                    var tile = new Tile(height, terrainType)
+                    var tile = new Tile(height)
                                {
                                    IsEdge = x == 0 || y == 0 || x == Constants.MapSize - 1 || y == Constants.MapSize - 1,
                                    EdgeOffset = -1 + _rng.Next(3)
                                };
 
                     _tiles[x, y] = tile;
-
-                    if (terrainType == TerrainType.Grass && _rng.Next(10) == 0)
-                    {
-                        tile.SceneryType = SceneryType.Tree;
-                    }
-
-                    if (terrainType == TerrainType.Grass && _rng.Next(200) == 0)
-                    {
-                        tile.SceneryType = SceneryType.Goat;
-                    }
-
-                    if (terrainType == TerrainType.Snow && _rng.Next(100) == 0)
-                    {
-                        tile.SceneryType = SceneryType.Snowman;
-                    }
-
-                    if (height < -10 && _rng.Next(100) == 0)
-                    {
-                        tile.SceneryType = SceneryType.Fish;
-                    }
                 }
             }
         }
@@ -251,7 +229,30 @@ namespace Epsilon.Environment
 
                     if (tile != null && ! tile.IsEdge)
                     {
-                        tile.TerrainType = GetDefaultTerrainType(tile.Height);
+                        var terrainType = GetDefaultTerrainType(tile.Height);
+
+                        tile.TerrainType = terrainType;
+
+                        if (terrainType == TerrainType.Grass && _rng.Next(10) == 0)
+                        {
+                            tile.SceneryType = SceneryType.Tree;
+                        }
+
+                        if (terrainType == TerrainType.Grass && _rng.Next(200) == 0)
+                        {
+                            tile.SceneryType = SceneryType.Goat;
+                        }
+
+                        if (terrainType == TerrainType.Snow && _rng.Next(100) == 0)
+                        {
+                            tile.SceneryType = SceneryType.Snowman;
+                        }
+
+                        if (tile.Height < -10 && _rng.Next(100) == 0)
+                        {
+                            tile.SceneryType = SceneryType.Fish;
+                        }
+
                     }
                 }
             }
