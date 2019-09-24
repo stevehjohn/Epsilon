@@ -13,7 +13,7 @@ Improved isometric engine based upon learning experiences with Δ.
 - Make edges sea level + arbitrary number?
 - Fix sky rendering
 - Quadrant seasons?
-- Move water edges +1 x and +1 y when above an edge tile
+- Don't water darken edge tile tops?
 
 ## Controls
 
