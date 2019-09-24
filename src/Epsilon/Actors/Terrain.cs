@@ -168,7 +168,7 @@ namespace Epsilon.Actors
                             {
                                 for (var h = tile.Height + 1; h > -100; h--)
                                 {
-                                    DrawEdge(position.X, position.Y + 5, h, TerrainType.WaterLeftEdge, true, colour);
+                                    DrawEdge(position.X, position.Y + 5, h, TerrainType.WaterLeftEdge, true, colour, -2);
                                 }
                             }
 
@@ -176,7 +176,7 @@ namespace Epsilon.Actors
                             {
                                 for (var h = tile.Height + 1; h > -100; h--)
                                 {
-                                    DrawEdge(position.X, position.Y + 5, h, TerrainType.WaterRightEdge, false, colour);
+                                    DrawEdge(position.X, position.Y + 5, h, TerrainType.WaterRightEdge, false, colour, -2);
                                 }
                             }
                         }
@@ -250,10 +250,10 @@ namespace Epsilon.Actors
             }
         }
 
-        private void DrawEdge(int x, int y, int height, TerrainType? terrainType, bool left, Color? colour = null)
+        private void DrawEdge(int x, int y, int height, TerrainType? terrainType, bool left, Color? colour = null, int yOffset = 0)
         {
             _spriteBatch.Draw(_tiles,
-                              new Vector2(x + (left ? 0 : Constants.TileSpriteWidthHalf), y - height * Constants.BlockHeight),
+                              new Vector2(x + (left ? 0 : Constants.TileSpriteWidthHalf), y - height * Constants.BlockHeight + yOffset),
                               new Rectangle(GetTerrainXOffset(terrainType ?? Map.GetDefaultTerrainType(height)) + (left ? 0 : Constants.TileSpriteWidthHalf),
                                             Constants.TileSpriteHeight,
                                             Constants.TileSpriteWidthHalf,
