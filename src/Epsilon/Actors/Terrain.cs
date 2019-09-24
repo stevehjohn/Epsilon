@@ -164,7 +164,7 @@ namespace Epsilon.Actors
                         {
                             var colour = new Color(GameState.Brightness, GameState.Brightness, GameState.Brightness) * 0.6f;
 
-                            if (_map.GetTile(x, y + 1) == null)
+                            if (_map.GetTile(x, y + 1) == null && _map.GetTile(x + 1, y + 1) == null)
                             {
                                 for (var h = tile.Height + 1; h > -((Constants.ScreenBufferHeight - position.Y) / Constants.BlockHeight); h--)
                                 {
@@ -173,7 +173,7 @@ namespace Epsilon.Actors
                                 }
                             }
 
-                            if (_map.GetTile(x + 1, y) == null)
+                            if (_map.GetTile(x + 1, y) == null && _map.GetTile(x + 1, y + 1) == null)
                             {
                                 for (var h = tile.Height + 1; h >  -((Constants.ScreenBufferHeight - position.Y) / Constants.BlockHeight); h--)
                                 {
