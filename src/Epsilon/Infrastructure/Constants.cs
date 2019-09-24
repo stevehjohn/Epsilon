@@ -27,8 +27,8 @@ namespace Epsilon.Infrastructure
 
         public const int YScreenOffset = ScreenBufferHeight / 2 - BoardSize * TileHeightHalf;
 
-        public const int MapSize = 512;
-        public const int MapSizeHalf = 256;
+        public const int MapSize = 100;
+        public const int MapSizeHalf = 50;
 
         public const float RadiansResolution = 0.001f;
         public const float RadiansHighResolution = 0.00001f;

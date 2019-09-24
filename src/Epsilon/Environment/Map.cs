@@ -33,7 +33,7 @@ namespace Epsilon.Environment
         {
             _tiles = new Tile[Constants.MapSize, Constants.MapSize];
 
-            Position = new Coordinates(256, 256);
+            Position = new Coordinates(Constants.MapSizeHalf, Constants.MapSizeHalf);
 
             _rng = new Random();
 
