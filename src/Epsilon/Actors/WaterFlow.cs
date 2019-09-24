@@ -1,4 +1,5 @@
-﻿using Epsilon.Environment;
+﻿using System.Collections.Generic;
+using Epsilon.Environment;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 
@@ -12,9 +13,13 @@ namespace Epsilon.Actors
         private SpriteBatch _spriteBatch;
         private Texture2D _texture;
 
+        private List<Glimmer> _glimmers;
+
         public WaterFlow(Map map)
         {
             _map = map;
+
+            _glimmers = new List<Glimmer>();
         }
 
         public void Initialise()
@@ -31,6 +36,25 @@ namespace Epsilon.Actors
 
         public void UpdateState()
         {
+            var toRemove = new List<Glimmer>();
+
+            foreach (var glimmer in _glimmers)
+            {
+                glimmer.Alpha += glimmer.AlphaDelta;
+
+                if (glimmer.Alpha > 1.0f)
+                {
+                    glimmer.AlphaDelta = -glimmer.AlphaDelta;
+                    glimmer.Alpha += glimmer.AlphaDelta;
+                }
+
+                if (glimmer.Alpha <= 0)
+                {
+                    toRemove.Add(glimmer);
+                }
+            }
+
+            toRemove.ForEach(g => _glimmers.Remove(g));
         }
 
         public float Render(float depth)

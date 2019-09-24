@@ -4,9 +4,9 @@ namespace Epsilon.Environment
 {
     public class Glimmer
     {
-        public int Alpha { get; set; }
+        public float Alpha { get; set; }
 
-        public int AlphaDelta { get; set; }
+        public float AlphaDelta { get; set; }
 
         public Coordinates BoardPosition { get; set; }
 
