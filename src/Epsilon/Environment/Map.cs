@@ -1,6 +1,7 @@
 ﻿using System;
 using Epsilon.Infrastructure;
 using Epsilon.Maths;
+using Epsilon.State;
 
 namespace Epsilon.Environment
 {
@@ -187,6 +188,22 @@ namespace Epsilon.Environment
                     {
                         _tiles[x, y] = null;
                     }
+                }
+            }
+
+            for (var radians = 0.0f; radians < Math.PI * 2; radians += Constants.RadiansResolution)
+            {
+                var x = (int) (Constants.MapSizeHalf + Constants.MapSizeHalf * Math.Sin(radians));
+                var y = (int) (Constants.MapSizeHalf + Constants.MapSizeHalf * Math.Cos(radians));
+
+                Console.WriteLine($"{x}, {y}");
+
+                if (x >= 0 && x < Constants.MapSize && y >= 0 && y < Constants.MapSize)
+                {
+                    _tiles[x, y] = new Tile(-1, TerrainType.Rock)
+                                   {
+                                       IsEdge = true
+                                   };
                 }
             }
         }
