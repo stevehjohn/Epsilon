@@ -112,7 +112,7 @@ namespace Epsilon.Actors
                     {
                         var skyBase = position.Y - Constants.SkySpriteHeight - Constants.SeaFloor * Constants.BlockHeight + Constants.TileHeightHalf;
 
-                        if (x == 0 || _map.GetTile(x - 1, y) == null && _map.GetTile(x - 1, y - 1) == null)
+                        if (x == 0 || _map.GetTile(x - 1, y) == null)
                         {
                             _spriteBatch.Draw(_sky,
                                               new Vector2(position.X, skyBase),
