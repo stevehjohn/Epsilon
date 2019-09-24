@@ -149,12 +149,12 @@ namespace Epsilon.Actors
                     {
                         for (var h = Constants.SeaFloor; h <= tile.Height; h++)
                         {
-                            if (_map.GetTile(x, y + 1) == null || y == Constants.BoardSize - 1)
+                            if (_map.GetTile(x, y + 1) == null || y == Constants.BoardSize + Constants.BoardOverrun - 1)
                             {
                                 DrawEdge(position.X, position.Y, h, tile.IsEdge ? TerrainType.Rock : Map.GetDefaultTerrainType(h + tile.EdgeOffset), true);
                             }
 
-                            if (_map.GetTile(x + 1, y) == null || x == Constants.BoardSize - 1)
+                            if (_map.GetTile(x + 1, y) == null || x == Constants.BoardSize + Constants.BoardOverrun - 1)
                             {
                                 DrawEdge(position.X, position.Y, h, tile.IsEdge ? TerrainType.Rock : Map.GetDefaultTerrainType(h + tile.EdgeOffset), false);
                             }
