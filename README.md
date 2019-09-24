@@ -18,6 +18,7 @@ Improved isometric engine based upon learning experiences with Δ.
 - Terrain edges to account for the height normalisation step
 - Decide terrain type after height normalisation step
 - LAVA!!!
+- Minor sky bug
 
 ## Controls
 

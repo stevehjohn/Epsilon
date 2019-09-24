@@ -39,7 +39,7 @@ namespace Epsilon.Actors
                            {
                                AnchorX = rng.Next(Constants.ScreenBufferWidth),
                                AnchorY = rng.Next(Constants.ScreenBufferHeight),
-                               Type = rng.Next(1),
+                               Type = rng.Next(2),
                                Velocity = rng.Next(10) * 0.2f,
                                Intensity = 0.5f + rng.Next(50) / 100.0f
                            };
@@ -56,6 +56,9 @@ namespace Epsilon.Actors
                         break;
                     case 1:
                         star.Color = Color.LightBlue;
+                        break;
+                    case 2:
+                        star.Color = Color.PaleVioletRed;
                         break;
                 }
 
