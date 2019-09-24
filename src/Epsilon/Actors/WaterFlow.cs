@@ -1,5 +1,8 @@
 ﻿using System.Collections.Generic;
 using Epsilon.Environment;
+using Epsilon.Infrastructure;
+using Epsilon.Maths;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 
@@ -59,6 +62,15 @@ namespace Epsilon.Actors
 
         public float Render(float depth)
         {
+            foreach (var glimmer in _glimmers)
+            {
+                var position = Translations.BoardToScreen(glimmer.BoardPosition.X, glimmer.BoardPosition.Y);
+
+                _spriteBatch.Draw(_texture, new Vector2(position.X, position.Y), new Rectangle(0, 0, 1, 3), Color.White * glimmer.Alpha, 0, Vector2.Zero, Vector2.One, SpriteEffects.None, depth);
+
+                depth += Constants.DepthIncrement;
+            }
+
             return depth;
         }
     }
