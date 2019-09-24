@@ -11,10 +11,10 @@ Improved isometric engine based upon learning experiences with Δ.
 - Actor to control stars which move parallaxially
 - Animated water overlays?
 - Make edges sea level + arbitrary number?
-- Fix sky rendering
 - Quadrant seasons?
 - Prevent scrolling too far from map edge
 - Don't use the shaded water edges above map edge, only on board edge
+- Sky is overlapping raised tile edges
 
 ## Controls
 
