@@ -4,6 +4,10 @@ namespace Epsilon.Environment
 {
     public class Star
     {
+        public float AnchorX { get; set; }
+
+        public float AnchorY { get; set; }
+
         public float X { get; set; }
 
         public float Y { get; set; }

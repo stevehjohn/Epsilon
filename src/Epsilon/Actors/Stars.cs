@@ -12,13 +12,17 @@ namespace Epsilon.Actors
 {
     public class Stars : IActor
     {
+        private readonly Map _map;
+
         private ContentManager _contentManager;
         private SpriteBatch _spriteBatch;
         private Texture2D _texture;
         private List<Star> _stars;
 
-        public Stars(EventManager eventManager)
+        public Stars(EventManager eventManager, Map map)
         {
+            _map = map;
+
             eventManager.AddSubscription(EventType.MapMoved, direction => MapMoved((Direction) direction));
         }
 
@@ -32,12 +36,15 @@ namespace Epsilon.Actors
             {
                 var star = new Star
                            {
-                               X = rng.Next(Constants.ScreenBufferWidth),
-                               Y = rng.Next(Constants.ScreenBufferHeight / 3),
+                               AnchorX = rng.Next(Constants.ScreenBufferWidth),
+                               AnchorY = rng.Next(Constants.ScreenBufferHeight / 3),
                                Type = rng.Next(1),
                                Velocity = rng.Next(10) * 0.2f,
                                Intensity = 0.5f + rng.Next(50) / 100.0f
                            };
+
+                star.X = star.AnchorX;
+                star.Y = star.AnchorY;
 
                 switch (rng.Next(3))
                 {
@@ -69,18 +76,10 @@ namespace Epsilon.Actors
         {
             foreach (var star in _stars)
             {
-                star.X += (direction.Dy - direction.Dx) * star.Velocity;
-                //star.Y -= (direction.Dy - direction.Dx) * star.Velocity;
+                var position = _map.Position;
 
-                if (star.X < 0)
-                {
-                    star.X = Constants.ScreenBufferWidth;
-                }
-
-                if (star.X > Constants.ScreenBufferWidth)
-                {
-                    star.X = 0;
-                }
+                star.X = (star.AnchorX - (position.X - position.Y) * star.Velocity) % Constants.ScreenBufferWidth;
+                star.Y = (star.AnchorY - (position.X + position.Y) * star.Velocity) % Constants.ScreenBufferWidth;
             }
         }
 
