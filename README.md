@@ -15,6 +15,8 @@ Improved isometric engine based upon learning experiences with Δ.
 - Prevent scrolling too far from map edge
 - Don't use the shaded water edges above map edge, only on board edge
 - Sky is overlapping raised tile edges
+- Terrain edges to account for the height normalisation step
+- Decide terrain type after height normalisation step
 
 ## Controls
 
