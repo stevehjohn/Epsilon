@@ -13,8 +13,8 @@ Improved isometric engine based upon learning experiences with Δ.
 - Make edges sea level + arbitrary number?
 - Fix sky rendering
 - Quadrant seasons?
-- Don't water darken edge tile tops?
 - Prevent scrolling too far from map edge
+- Don't use the shaded water edges above map edge, only on board edge
 
 ## Controls
 

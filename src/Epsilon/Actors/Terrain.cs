@@ -135,7 +135,7 @@ namespace Epsilon.Actors
 
                     for (var h = baseHeight; h <= tile.Height; h++)
                     {
-                        Draw(position.X, position.Y, h, h > tile.Height - 2 ? tile.TerrainType : tile.IsEdge ? TerrainType.Rock : Map.GetDefaultTerrainType(h + tile.EdgeOffset), x, y);
+                        Draw(position.X, position.Y, h, h > tile.Height - 2 ? tile.TerrainType : tile.IsEdge ? TerrainType.Rock : Map.GetDefaultTerrainType(h + tile.EdgeOffset), x, y, tile.IsEdge);
                     }
 
                     if (tile.SceneryType != null)
@@ -237,12 +237,12 @@ namespace Epsilon.Actors
             return _depth;
         }
 
-        private void Draw(int x, int y, int height, TerrainType? terrainType, int? tileX = null, int? tileY = null)
+        private void Draw(int x, int y, int height, TerrainType? terrainType, int? tileX = null, int? tileY = null, bool isEdge = false)
         {
             _spriteBatch.Draw(_tiles,
                               new Vector2(x, y - height * Constants.BlockHeight),
                               new Rectangle(GetTerrainXOffset(terrainType ?? Map.GetDefaultTerrainType(height)), 0, Constants.TileSpriteWidth, Constants.TileSpriteHeight),
-                              GetColor(terrainType ?? Map.GetDefaultTerrainType(height), height), 0, Vector2.Zero, Vector2.One, SpriteEffects.None, _depth);
+                              GetColor(terrainType ?? Map.GetDefaultTerrainType(height), height, isEdge), 0, Vector2.Zero, Vector2.One, SpriteEffects.None, _depth);
 
             _depth += Constants.DepthIncrement;
 
@@ -318,7 +318,7 @@ namespace Epsilon.Actors
             }
         }
 
-        private Color GetColor(TerrainType? terrainType, int height)
+        private static Color GetColor(TerrainType? terrainType, int height, bool isEdge = false)
         {
             if (terrainType == TerrainType.Water || terrainType == TerrainType.WaterLeftEdge || terrainType == TerrainType.WaterRightEdge)
             {
@@ -330,7 +330,9 @@ namespace Epsilon.Actors
                 return new Color(GameState.Brightness, GameState.Brightness, GameState.Brightness);
             }
 
-            var intensity = (int) (255 * ((Constants.SeaFloor * 1.5f - (height - GameState.WaterLevel)) / (Constants.SeaFloor * 1.5f)));
+            var intensity = isEdge
+                                ? 255
+                                : (int) (255 * ((Constants.SeaFloor * 1.5f - (height - GameState.WaterLevel)) / (Constants.SeaFloor * 1.5f)));
 
             intensity -= 255 - GameState.Brightness;
 
