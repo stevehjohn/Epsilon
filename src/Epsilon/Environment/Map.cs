@@ -202,7 +202,7 @@ namespace Epsilon.Environment
 
                 if (x >= 0 && x < Constants.MapSize && y >= 0 && y < Constants.MapSize)
                 {
-                    _tiles[x, y] = new Tile(i < 5 ? 5 : 8, TerrainType.Rock)
+                    _tiles[x, y] = new Tile(i < 4 ? 5 : 8, TerrainType.Rock)
                                    {
                                        IsEdge = true
                                    };
