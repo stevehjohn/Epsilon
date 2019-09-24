@@ -1,5 +1,4 @@
-﻿using Epsilon.Maths;
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 
 namespace Epsilon.Environment
 {
@@ -9,7 +8,7 @@ namespace Epsilon.Environment
 
         public float Y { get; set; }
 
-        public float XVelocity { get; set; }
+        public float Velocity { get; set; }
 
         public int Type { get; set; }
 

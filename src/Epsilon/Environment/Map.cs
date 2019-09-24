@@ -1,5 +1,5 @@
 ﻿using System;
-using System.Runtime.CompilerServices;
+using Epsilon.Coordination;
 using Epsilon.Infrastructure;
 using Epsilon.Maths;
 
@@ -7,6 +7,7 @@ namespace Epsilon.Environment
 {
     public class Map
     {
+        private readonly EventManager _eventManager;
         private readonly Tile[,] _tiles;
         private readonly Random _rng;
 
@@ -27,8 +28,10 @@ namespace Epsilon.Environment
             }
         }
 
-        public Map()
+        public Map(EventManager eventManager)
         {
+            _eventManager = eventManager;
+
             _tiles = new Tile[Constants.MapSize, Constants.MapSize];
 
             Position = new Coordinates(Constants.MapSizeHalf, Constants.MapSizeHalf);
@@ -56,6 +59,11 @@ namespace Epsilon.Environment
                 default:
                     Position = new Coordinates(Position.X + direction.Dx, Position.Y - direction.Dy);
                     break;
+            }
+
+            if (direction.Dx != 0 || direction.Dy != 0)
+            {
+                _eventManager.RaiseEvent(EventType.MapMoved, direction);
             }
         }
 

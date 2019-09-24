@@ -34,7 +34,7 @@ namespace Epsilon.Infrastructure
 
             _eventManager = new EventManager();
 
-            _map = new Map();
+            _map = new Map(_eventManager);
 
             _mouseTracker = new MouseTracker();
             _keyBoardTracker = new KeyboardTracker();
@@ -42,7 +42,7 @@ namespace Epsilon.Infrastructure
             // TODO: Maybe use some assembly scanning technique to pick all IActors up...
             _actors = new List<IActor>
                       {
-                          new Stars(),
+                          new Stars(_eventManager),
                           new Terrain(_map, _eventManager)
                       };
         }

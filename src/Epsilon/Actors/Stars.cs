@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
+using Epsilon.Coordination;
 using Epsilon.Environment;
 using Epsilon.Infrastructure;
+using Epsilon.Maths;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
@@ -14,6 +16,11 @@ namespace Epsilon.Actors
         private SpriteBatch _spriteBatch;
         private Texture2D _texture;
         private List<Star> _stars;
+
+        public Stars(EventManager eventManager)
+        {
+            eventManager.AddSubscription(EventType.MapMoved, direction => MapMoved((Direction) direction));
+        }
 
         public void Initialise()
         {
@@ -28,7 +35,7 @@ namespace Epsilon.Actors
                                X = rng.Next(Constants.ScreenBufferWidth),
                                Y = rng.Next(Constants.ScreenBufferHeight / 3),
                                Type = rng.Next(2),
-                               XVelocity = rng.Next(10) * 0.1f,
+                               Velocity = rng.Next(10) * 0.2f,
                                Intensity = 0.5f + rng.Next(50) / 100.0f
                            };
 
@@ -59,6 +66,15 @@ namespace Epsilon.Actors
 
         public void UpdateState()
         {
+        }
+
+        public void MapMoved(Direction direction)
+        {
+            foreach (var star in _stars)
+            {
+                star.X -= (direction.Dy - direction.Dx) * star.Velocity;
+                star.Y -= (direction.Dy - direction.Dx) * star.Velocity;
+            }
         }
 
         public float Render(float depth)
