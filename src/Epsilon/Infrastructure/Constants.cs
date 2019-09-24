@@ -28,6 +28,7 @@ namespace Epsilon.Infrastructure
         public const int MapSizeHalf = 256;
 
         public const float RadiansResolution = 0.001f;
+        public const float RadiansHighResolution = 0.00001f;
 
         public const int BoardSize = 38;
 
