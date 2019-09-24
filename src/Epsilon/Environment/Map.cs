@@ -242,6 +242,19 @@ namespace Epsilon.Environment
                     }
                 }
             }
+
+            for (var x = 0; x < Constants.MapSize; x++)
+            {
+                for (var y = 0; y < Constants.MapSize; y++)
+                {
+                    var tile = _tiles[x, y];
+
+                    if (tile != null && ! tile.IsEdge)
+                    {
+                        tile.TerrainType = GetDefaultTerrainType(tile.Height);
+                    }
+                }
+            }
         }
 
         private static int TranslateNoiseToHeight(float noise)
