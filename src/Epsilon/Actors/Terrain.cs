@@ -77,9 +77,9 @@ namespace Epsilon.Actors
             var j = 0;
 #endif
 
-            for (var x = 0; x < Constants.BoardSize; x++)
+            for (var x = 0; x < Constants.BoardSize + Constants.BoardOverrun; x++)
             {
-                for (var y = 0; y < Constants.BoardSize; y++)
+                for (var y = 0; y < Constants.BoardSize + Constants.BoardOverrun; y++)
                 {
 #if SlowRender
                     j++;
@@ -143,18 +143,18 @@ namespace Epsilon.Actors
                         DrawScenery(position.X, position.Y, tile.Height, tile.SceneryType.Value);
                     }
 
-                    var edge = tile.IsEdge || x == Constants.BoardSize - 1 || y == Constants.BoardSize - 1;
+                    var edge = tile.IsEdge || x == Constants.BoardSize - 1 + Constants.BoardOverrun || y == Constants.BoardSize - 1 + Constants.BoardOverrun;
 
                     if (edge && AppSettings.Instance.Rendering.RenderBoardEdges)
                     {
                         for (var h = Constants.SeaFloor; h <= tile.Height; h++)
                         {
-                            if (_map.GetTile(x, y + 1) == null || y == Constants.BoardSize - 1)
+                            if (_map.GetTile(x, y + 1) == null || y == Constants.BoardSize + Constants.BoardOverrun - 1)
                             {
                                 DrawEdge(position.X, position.Y, h, tile.IsEdge ? TerrainType.Rock : Map.GetDefaultTerrainType(h + tile.EdgeOffset), true);
                             }
 
-                            if (_map.GetTile(x + 1, y) == null || x == Constants.BoardSize - 1)
+                            if (_map.GetTile(x + 1, y) == null || x == Constants.BoardSize + Constants.BoardOverrun - 1)
                             {
                                 DrawEdge(position.X, position.Y, h, tile.IsEdge ? TerrainType.Rock : Map.GetDefaultTerrainType(h + tile.EdgeOffset), false);
                             }

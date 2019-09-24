@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Security.Cryptography.X509Certificates;
 using Epsilon.Coordination;
 using Epsilon.Environment;
 using Epsilon.Infrastructure;
