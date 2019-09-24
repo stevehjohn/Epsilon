@@ -20,6 +20,7 @@ Improved isometric engine based upon learning experiences with Δ.
 - LAVA!!!
 - Minor sky bug
 - Stars to account for rotation :(
+- Water bug
 
 ## Controls
 
