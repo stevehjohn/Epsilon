@@ -35,15 +35,7 @@ namespace Epsilon.Environment
 
             _rng = new Random();
 
-            // InitialiseTerrainWithSimplexNoise();
-
-            for (var x = 0; x < Constants.MapSize; x++)
-            {
-                for (var y = 0; y < Constants.MapSize; y++)
-                {
-                    _tiles[x, y] = new Tile(Constants.SeaFloor, TerrainType.Grass);
-                }
-            }
+            InitialiseTerrainWithSimplexNoise();
 
             MakeFlatEarth();
         }
@@ -233,10 +225,29 @@ namespace Epsilon.Environment
 
                 for (var dy = 1; dy <= y; dy++)
                 {
-                    _tiles[Constants.MapSizeHalf + x, Constants.MapSizeHalf + dy - 1].Height += (int) Math.Sqrt(Math.Pow(x, 2) + Math.Pow(dy, 2));
-                    _tiles[Constants.MapSizeHalf - x - 1, Constants.MapSizeHalf + dy - 1].Height += (int) Math.Sqrt(Math.Pow(x, 2) + Math.Pow(dy, 2));
-                    _tiles[Constants.MapSizeHalf + x, Constants.MapSizeHalf - dy].Height += (int) Math.Sqrt(Math.Pow(x, 2) + Math.Pow(dy, 2));
-                    _tiles[Constants.MapSizeHalf - x - 1, Constants.MapSizeHalf - dy].Height += (int) Math.Sqrt(Math.Pow(x, 2) + Math.Pow(dy, 2));
+                    _tiles[Constants.MapSizeHalf + x, Constants.MapSizeHalf + dy - 1].Height -= (int) Math.Sqrt(Math.Pow(x, 2) + Math.Pow(dy, 2));
+                    if (_tiles[Constants.MapSizeHalf + x, Constants.MapSizeHalf + dy - 1].Height < Constants.SeaFloor)
+                    {
+                        _tiles[Constants.MapSizeHalf + x, Constants.MapSizeHalf + dy - 1].Height = Constants.SeaFloor;
+                    }
+
+                    _tiles[Constants.MapSizeHalf - x - 1, Constants.MapSizeHalf + dy - 1].Height -= (int) Math.Sqrt(Math.Pow(x, 2) + Math.Pow(dy, 2));
+                    if (_tiles[Constants.MapSizeHalf - x - 1, Constants.MapSizeHalf + dy - 1].Height < Constants.SeaFloor)
+                    {
+                        _tiles[Constants.MapSizeHalf - x - 1, Constants.MapSizeHalf + dy - 1].Height = Constants.SeaFloor;
+                    }
+
+                    _tiles[Constants.MapSizeHalf + x, Constants.MapSizeHalf - dy].Height -= (int) Math.Sqrt(Math.Pow(x, 2) + Math.Pow(dy, 2));
+                    if (_tiles[Constants.MapSizeHalf + x, Constants.MapSizeHalf - dy].Height < Constants.SeaFloor)
+                    {
+                        _tiles[Constants.MapSizeHalf + x, Constants.MapSizeHalf - dy].Height = Constants.SeaFloor;
+                    }
+                    
+                    _tiles[Constants.MapSizeHalf - x - 1, Constants.MapSizeHalf - dy].Height -= (int) Math.Sqrt(Math.Pow(x, 2) + Math.Pow(dy, 2));
+                    if (_tiles[Constants.MapSizeHalf - x - 1, Constants.MapSizeHalf - dy].Height < Constants.SeaFloor)
+                    {
+                        _tiles[Constants.MapSizeHalf - x - 1, Constants.MapSizeHalf - dy].Height = Constants.SeaFloor;
+                    }
                 }
             }
         }
