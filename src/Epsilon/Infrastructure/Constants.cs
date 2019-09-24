@@ -32,6 +32,7 @@
         public const float RadiansHighResolution = 0.00001f;
 
         public const int BoardSize = 38;
+        public const int BoardOverrun = 20;
 
         public const float DepthIncrement = 0.00001f;
 

@@ -77,9 +77,9 @@ namespace Epsilon.Actors
             var j = 0;
 #endif
 
-            for (var x = 0; x < Constants.BoardSize; x++)
+            for (var x = 0; x < Constants.BoardSize + Constants.BoardOverrun; x++)
             {
-                for (var y = 0; y < Constants.BoardSize; y++)
+                for (var y = 0; y < Constants.BoardSize + Constants.BoardOverrun; y++)
                 {
 #if SlowRender
                     j++;
