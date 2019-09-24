@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Security.Cryptography.X509Certificates;
 using Epsilon.Coordination;
 using Epsilon.Environment;
 using Epsilon.Infrastructure;
@@ -37,14 +38,16 @@ namespace Epsilon.Actors
                 var star = new Star
                            {
                                AnchorX = rng.Next(Constants.ScreenBufferWidth),
-                               AnchorY = rng.Next(Constants.ScreenBufferHeight / 3),
+                               AnchorY = rng.Next(Constants.ScreenBufferHeight),
                                Type = rng.Next(1),
                                Velocity = rng.Next(10) * 0.2f,
                                Intensity = 0.5f + rng.Next(50) / 100.0f
                            };
 
-                star.X = star.AnchorX;
-                star.Y = star.AnchorY;
+                var position = _map.Position;
+
+                star.X = (star.AnchorX - (position.X - position.Y) * star.Velocity) % Constants.ScreenBufferWidth;
+                star.Y = (star.AnchorY + Constants.MapSize - (position.X + position.Y) * star.Velocity) % Constants.ScreenBufferHeight;
 
                 switch (rng.Next(3))
                 {
@@ -79,7 +82,9 @@ namespace Epsilon.Actors
                 var position = _map.Position;
 
                 star.X = (star.AnchorX - (position.X - position.Y) * star.Velocity) % Constants.ScreenBufferWidth;
-                star.Y = (star.AnchorY - (position.X + position.Y) * star.Velocity) % Constants.ScreenBufferWidth;
+                star.Y = (star.AnchorY + Constants.MapSize - (position.X + position.Y) * star.Velocity) % Constants.ScreenBufferHeight;
+
+                Console.WriteLine($"{star.X}, {star.Y}");
             }
         }
 
