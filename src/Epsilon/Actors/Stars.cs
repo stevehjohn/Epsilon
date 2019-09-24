@@ -34,7 +34,7 @@ namespace Epsilon.Actors
                            {
                                X = rng.Next(Constants.ScreenBufferWidth),
                                Y = rng.Next(Constants.ScreenBufferHeight / 3),
-                               Type = rng.Next(2),
+                               Type = rng.Next(1),
                                Velocity = rng.Next(10) * 0.2f,
                                Intensity = 0.5f + rng.Next(50) / 100.0f
                            };
@@ -45,9 +45,6 @@ namespace Epsilon.Actors
                         star.Color = Color.White;
                         break;
                     case 1:
-                        star.Color = Color.Yellow;
-                        break;
-                    case 2:
                         star.Color = Color.LightBlue;
                         break;
                 }
@@ -58,7 +55,7 @@ namespace Epsilon.Actors
 
         public void LoadContent(ContentManager contentManager, SpriteBatch spriteBatch)
         {
-            _contentManager = contentManager;
+            _contentManager = contentManager; 
             _spriteBatch = spriteBatch;
 
             _texture = _contentManager.Load<Texture2D>("stars");
@@ -72,8 +69,8 @@ namespace Epsilon.Actors
         {
             foreach (var star in _stars)
             {
-                star.X -= (direction.Dy - direction.Dx) * star.Velocity;
-                star.Y -= (direction.Dy - direction.Dx) * star.Velocity;
+                star.X += (direction.Dy - direction.Dx) * star.Velocity;
+                //star.Y -= (direction.Dy - direction.Dx) * star.Velocity;
             }
         }
 
