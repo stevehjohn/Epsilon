@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace Epsilon.Infrastructure
+﻿namespace Epsilon.Infrastructure
 {
     public static class Constants
     {

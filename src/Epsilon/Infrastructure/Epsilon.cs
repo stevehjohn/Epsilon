@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using Epsilon.Actors;
 using Epsilon.Controls;
 using Epsilon.Coordination;
