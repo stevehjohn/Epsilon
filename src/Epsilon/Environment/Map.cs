@@ -229,7 +229,7 @@ namespace Epsilon.Environment
 
                     if (tile != null && ! tile.IsEdge)
                     {
-                        var terrainType = GetDefaultTerrainType(tile.Height);
+                        var terrainType = GetDefaultTerrainType(tile.Height - 1 + _rng.Next(3));
 
                         tile.TerrainType = terrainType;
 
