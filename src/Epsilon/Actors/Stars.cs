@@ -85,8 +85,6 @@ namespace Epsilon.Actors
 
                 star.X = (star.AnchorX - (position.X - position.Y) * star.Velocity) % Constants.ScreenBufferWidth;
                 star.Y = (star.AnchorY + Constants.MapSize - (position.X + position.Y) * star.Velocity) % Constants.ScreenBufferHeight;
-
-                Console.WriteLine($"{star.X}, {star.Y}");
             }
         }
 

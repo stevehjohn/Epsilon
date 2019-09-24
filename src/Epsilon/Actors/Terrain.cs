@@ -261,8 +261,16 @@ namespace Epsilon.Actors
 
         private void DrawEdge(int x, int y, int height, TerrainType? terrainType, bool left, Color? colour = null, int yOffset = 0)
         {
+            var ax = x + (left ? 0 : Constants.TileSpriteWidthHalf);
+            var ay = y - height * Constants.BlockHeight + yOffset;
+
+            if (ax > Constants.ScenerySpriteWidth && ay > Constants.ScreenBufferHeight)
+            {
+                return;
+            }
+
             _spriteBatch.Draw(_tiles,
-                              new Vector2(x + (left ? 0 : Constants.TileSpriteWidthHalf), y - height * Constants.BlockHeight + yOffset),
+                              new Vector2(ax, ay),
                               new Rectangle(GetTerrainXOffset(terrainType ?? Map.GetDefaultTerrainType(height)) + (left ? 0 : Constants.TileSpriteWidthHalf),
                                             Constants.TileSpriteHeight,
                                             Constants.TileSpriteWidthHalf,
