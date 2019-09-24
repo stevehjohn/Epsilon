@@ -143,7 +143,7 @@ namespace Epsilon.Actors
                         DrawScenery(position.X, position.Y, tile.Height, tile.SceneryType.Value);
                     }
 
-                    var edge = tile.IsEdge || x == Constants.BoardSize - 1 || y == Constants.BoardSize - 1;
+                    var edge = tile.IsEdge || x == Constants.BoardSize - 1 + Constants.BoardOverrun || y == Constants.BoardSize - 1 + Constants.BoardOverrun;
 
                     if (edge && AppSettings.Instance.Rendering.RenderBoardEdges)
                     {
