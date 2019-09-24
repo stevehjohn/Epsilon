@@ -166,7 +166,7 @@ namespace Epsilon.Actors
 
                             if (_map.GetTile(x, y + 1) == null)
                             {
-                                for (var h = tile.Height + 1; h > -200; h--)
+                                for (var h = tile.Height + 1; h > -((Constants.ScreenBufferHeight - position.Y) / Constants.BlockHeight); h--)
                                 {
                                     // TODO: Magic number -2
                                     DrawEdge(position.X, position.Y + 5, h, TerrainType.WaterLeftEdge, true, colour, -2);
@@ -175,7 +175,7 @@ namespace Epsilon.Actors
 
                             if (_map.GetTile(x + 1, y) == null)
                             {
-                                for (var h = tile.Height + 1; h > -200; h--)
+                                for (var h = tile.Height + 1; h >  -((Constants.ScreenBufferHeight - position.Y) / Constants.BlockHeight); h--)
                                 {
                                     // TODO: Magic number -2
                                     DrawEdge(position.X, position.Y + 5, h, TerrainType.WaterRightEdge, false, colour, -2);

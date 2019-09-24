@@ -13,6 +13,7 @@ Improved isometric engine based upon learning experiences with Δ.
 - Make edges sea level + arbitrary number?
 - Fix sky rendering
 - Quadrant seasons?
+- Water overflow rotation bug
 
 ## Controls
 
