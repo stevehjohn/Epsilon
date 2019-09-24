@@ -8,6 +8,12 @@ Improved isometric engine based upon learning experiences with Δ.
 - Terrain manipulation
 - Not just height based terrain colouring. Might want areas of desert, mountains grassland etc...
 - Unit tests?
+- Actor to control stars which move parallaxially
+- Animated water overlays?
+- Make edges sea level + arbitrary number?
+- Fix sky rendering
+- Quadrant seasons?
+- Don't water darken edge tile tops?
 
 ## Controls
 

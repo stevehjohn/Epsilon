@@ -15,6 +15,9 @@
         public const int ScenerySpriteHeight = 60;
         public const int ScenerySpriteWidth = 38;
 
+        public const int SkySpriteHeight = 280;
+        public const int SkySpriteWidth = 38;
+
         public const int BlockHeight = 3;
 
         public const int ScreenBufferWidth = 1280;
@@ -22,7 +25,11 @@
 
         public const int YScreenOffset = ScreenBufferHeight / 2 - BoardSize * TileHeightHalf;
 
-        public const int MapSize = 512;
+        public const int MapSize = 170;
+        public const int MapSizeHalf = 85;
+
+        public const float RadiansResolution = 0.001f;
+        public const float RadiansHighResolution = 0.00001f;
 
         public const int BoardSize = 38;
 
@@ -30,5 +37,7 @@
 
         public const int SeaFloor = -20;
         public const int MaxHeight = 65;
+
+        public const int NumberOfStars = 100;
     }
 }

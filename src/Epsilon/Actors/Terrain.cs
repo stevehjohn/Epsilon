@@ -20,6 +20,7 @@ namespace Epsilon.Actors
         private ContentManager _contentManager;
         private Texture2D _tiles;
         private Texture2D _scenery;
+        private Texture2D _sky;
         private Coordinates _previousPosition = new Coordinates(-1, -1);
         private byte[,] _tileMap;
         private float _depth;
@@ -50,6 +51,7 @@ namespace Epsilon.Actors
 
             _tiles = _contentManager.Load<Texture2D>("tile-set");
             _scenery = _contentManager.Load<Texture2D>("scenery");
+            _sky = _contentManager.Load<Texture2D>("sky");
 
             GenerateTileMap();
         }
@@ -106,40 +108,34 @@ namespace Epsilon.Actors
                         baseHeight = tile.Height;
                     }
 
-                    if (x == 0 || y == 0)
+                    if (x == 0 || y == 0 || _map.GetTile(x - 1, y) == null || _map.GetTile(x - 1, y) == null)
                     {
-                        var sky = position.Y - tile.Height * Constants.BlockHeight;
+                        var skyBase = position.Y - Constants.SkySpriteHeight - Constants.SeaFloor * Constants.BlockHeight + Constants.TileHeightHalf;
 
-                        do
+                        if (x == 0 || _map.GetTile(x - 1, y) == null && _map.GetTile(x - 1, y - 1) == null)
                         {
-                            if (x == 0)
-                            {
-                                _spriteBatch.Draw(_scenery,
-                                                  new Vector2(position.X, sky),
-                                                  new Rectangle((int) SceneryType.SkyLeft * Constants.ScenerySpriteWidth, 0, Constants.ScenerySpriteWidth, Constants.ScenerySpriteHeight),
-                                                  new Color(GameState.Brightness, GameState.Brightness, GameState.Brightness), 0, Vector2.Zero, Vector2.One, SpriteEffects.None, _depth);
-                            }
-
-                            _depth += Constants.DepthIncrement;
-
-                            if (y == 0)
-                            {
-                                _spriteBatch.Draw(_scenery,
-                                                  new Vector2(position.X, sky),
-                                                  new Rectangle((int)SceneryType.SkyRight * Constants.ScenerySpriteWidth, 0, Constants.ScenerySpriteWidth, Constants.ScenerySpriteHeight),
-                                                  new Color(GameState.Brightness, GameState.Brightness, GameState.Brightness), 0, Vector2.Zero, Vector2.One, SpriteEffects.None, _depth);
-                            }
-
-                            _depth += Constants.DepthIncrement;
-
-                            sky -= Constants.ScenerySpriteHeight - Constants.TileHeightHalf;
+                            _spriteBatch.Draw(_sky,
+                                              new Vector2(position.X, skyBase),
+                                              new Rectangle(Constants.SkySpriteWidth, 0, Constants.SkySpriteWidth, Constants.SkySpriteHeight),
+                                              new Color(GameState.Brightness, GameState.Brightness, GameState.Brightness), 0, Vector2.Zero, Vector2.One, SpriteEffects.None, _depth);
                         }
-                        while (sky >= -Constants.ScenerySpriteHeight);
+
+                        _depth += Constants.DepthIncrement;
+
+                        if (y == 0 || _map.GetTile(x, y - 1) == null)
+                        {
+                            _spriteBatch.Draw(_sky,
+                                              new Vector2(position.X, skyBase),
+                                              new Rectangle(0, 0, Constants.SkySpriteWidth, Constants.SkySpriteHeight),
+                                              new Color(GameState.Brightness, GameState.Brightness, GameState.Brightness), 0, Vector2.Zero, Vector2.One, SpriteEffects.None, _depth);
+                        }
+
+                        _depth += Constants.DepthIncrement;
                     }
 
                     for (var h = baseHeight; h <= tile.Height; h++)
                     {
-                        Draw(position.X, position.Y, h, h > tile.Height - 2 ? tile.TerrainType : Map.GetDefaultTerrainType(h + tile.EdgeOffset), x, y);
+                        Draw(position.X, position.Y, h, h > tile.Height - 2 ? tile.TerrainType : tile.IsEdge ? TerrainType.Rock : Map.GetDefaultTerrainType(h + tile.EdgeOffset), x, y);
                     }
 
                     if (tile.SceneryType != null)
@@ -155,12 +151,35 @@ namespace Epsilon.Actors
                         {
                             if (_map.GetTile(x, y + 1) == null || y == Constants.BoardSize - 1)
                             {
-                                DrawEdge(position.X, position.Y, h, Map.GetDefaultTerrainType(h + tile.EdgeOffset), true);
+                                DrawEdge(position.X, position.Y, h, tile.IsEdge ? TerrainType.Rock : Map.GetDefaultTerrainType(h + tile.EdgeOffset), true);
                             }
 
                             if (_map.GetTile(x + 1, y) == null || x == Constants.BoardSize - 1)
                             {
-                                DrawEdge(position.X, position.Y, h, Map.GetDefaultTerrainType(h + tile.EdgeOffset), false);
+                                DrawEdge(position.X, position.Y, h, tile.IsEdge ? TerrainType.Rock : Map.GetDefaultTerrainType(h + tile.EdgeOffset), false);
+                            }
+                        }
+
+                        if (tile.IsEdge &&  GameState.WaterLevel > tile.Height)
+                        {
+                            var colour = new Color(GameState.Brightness, GameState.Brightness, GameState.Brightness) * 0.6f;
+
+                            if (_map.GetTile(x, y + 1) == null && _map.GetTile(x + 1, y + 1) == null)
+                            {
+                                for (var h = tile.Height + 1; h > -((Constants.ScreenBufferHeight - position.Y) / Constants.BlockHeight); h--)
+                                {
+                                    // TODO: Magic number -2
+                                    DrawEdge(position.X, position.Y + 5, h, TerrainType.WaterLeftEdge, true, colour, -2);
+                                }
+                            }
+
+                            if (_map.GetTile(x + 1, y) == null && _map.GetTile(x + 1, y + 1) == null)
+                            {
+                                for (var h = tile.Height + 1; h >  -((Constants.ScreenBufferHeight - position.Y) / Constants.BlockHeight); h--)
+                                {
+                                    // TODO: Magic number -2
+                                    DrawEdge(position.X, position.Y + 5, h, TerrainType.WaterRightEdge, false, colour, -2);
+                                }
                             }
                         }
                     }
@@ -233,15 +252,15 @@ namespace Epsilon.Actors
             }
         }
 
-        private void DrawEdge(int x, int y, int height, TerrainType? terrainType, bool left)
+        private void DrawEdge(int x, int y, int height, TerrainType? terrainType, bool left, Color? colour = null, int yOffset = 0)
         {
             _spriteBatch.Draw(_tiles,
-                              new Vector2(x + (left ? 0 : Constants.TileSpriteWidthHalf), y - height * Constants.BlockHeight),
+                              new Vector2(x + (left ? 0 : Constants.TileSpriteWidthHalf), y - height * Constants.BlockHeight + yOffset),
                               new Rectangle(GetTerrainXOffset(terrainType ?? Map.GetDefaultTerrainType(height)) + (left ? 0 : Constants.TileSpriteWidthHalf),
                                             Constants.TileSpriteHeight,
                                             Constants.TileSpriteWidthHalf,
                                             Constants.TileSpriteHeight),
-                              new Color(GameState.Brightness, GameState.Brightness, GameState.Brightness), 0, Vector2.Zero, Vector2.One, SpriteEffects.None, _depth);
+                              colour ?? new Color(GameState.Brightness, GameState.Brightness, GameState.Brightness), 0, Vector2.Zero, Vector2.One, SpriteEffects.None, _depth);
 
             _depth += Constants.DepthIncrement;
         }

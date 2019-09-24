@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using Epsilon.Actors;
 using Epsilon.Controls;
 using Epsilon.Coordination;
@@ -35,7 +34,7 @@ namespace Epsilon.Infrastructure
 
             _eventManager = new EventManager();
 
-            _map = new Map();
+            _map = new Map(_eventManager);
 
             _mouseTracker = new MouseTracker();
             _keyBoardTracker = new KeyboardTracker();
@@ -43,6 +42,7 @@ namespace Epsilon.Infrastructure
             // TODO: Maybe use some assembly scanning technique to pick all IActors up...
             _actors = new List<IActor>
                       {
+                          new Stars(_eventManager),
                           new Terrain(_map, _eventManager)
                       };
         }
@@ -145,9 +145,7 @@ namespace Epsilon.Infrastructure
 
         protected override void Draw(GameTime gameTime)
         {
-            var brightnessDelta = 255 - GameState.Brightness;
-
-            GraphicsDevice.Clear(new Color(Math.Max(0, 99 - brightnessDelta), Math.Max(0, 69 - brightnessDelta), Math.Max(0, 44 - brightnessDelta)));
+            GraphicsDevice.Clear(Color.Black);
 
             _spriteBatch.Begin(SpriteSortMode.FrontToBack, samplerState: SamplerState.PointClamp);
 
