@@ -27,7 +27,7 @@ namespace Epsilon.Actors
                            {
                                X = rng.Next(Constants.ScreenBufferWidth),
                                Y = rng.Next(Constants.ScreenBufferHeight / 3),
-                               Type = rng.Next(1),
+                               Type = rng.Next(2),
                                XVelocity = rng.Next(10) * 0.1f,
                                Intensity = 0.5f + rng.Next(50) / 100.0f
                            };
