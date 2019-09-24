@@ -8,18 +8,15 @@ Improved isometric engine based upon learning experiences with Δ.
 - Terrain manipulation
 - Not just height based terrain colouring. Might want areas of desert, mountains grassland etc...
 - Unit tests?
-- Actor to control stars which move parallaxially
 - Animated water overlays?
-- Make edges sea level + arbitrary number?
 - Quadrant seasons?
 - Prevent scrolling too far from map edge
 - Don't use the shaded water edges above map edge, only on board edge
 - Sky is overlapping raised tile edges
 - Terrain edges to account for the height normalisation step
-- Decide terrain type after height normalisation step
 - LAVA!!!
 - Minor sky bug
-- Stars to account for rotation :(
+- Stars to account for map rotation :(
 - Water bug
 
 ## Controls
