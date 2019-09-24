@@ -36,12 +36,12 @@ namespace Epsilon.Environment
             _rng = new Random();
 
             // InitialiseTerrainWithSimplexNoise();
-            
+
             for (var x = 0; x < Constants.MapSize; x++)
             {
                 for (var y = 0; y < Constants.MapSize; y++)
                 {
-                    _tiles[x, y] = new Tile(0, TerrainType.Grass);
+                    _tiles[x, y] = new Tile(Constants.SeaFloor, TerrainType.Grass);
                 }
             }
 
@@ -231,15 +231,12 @@ namespace Epsilon.Environment
             {
                 var y = (int) Math.Floor(Math.Sqrt(Math.Pow(Constants.MapSizeHalf, 2) - Math.Pow(x, 2)));
 
-                for (var dy = 0; dy <= y; dy++)
+                for (var dy = 1; dy <= y; dy++)
                 {
-                    if (dy > 0)
-                    {
-                        _tiles[Constants.MapSizeHalf + x, Constants.MapSizeHalf + dy - 1].Height = (int)Math.Sqrt(Math.Pow(x, 2) + Math.Pow(dy, 2)) + Constants.SeaFloor;
-                        _tiles[Constants.MapSizeHalf - x - 1, Constants.MapSizeHalf + dy - 1].Height = (int)Math.Sqrt(Math.Pow(x, 2) + Math.Pow(dy, 2)) + Constants.SeaFloor;
-                        _tiles[Constants.MapSizeHalf + x, Constants.MapSizeHalf - dy].Height = (int)Math.Sqrt(Math.Pow(x, 2) + Math.Pow(dy, 2)) + Constants.SeaFloor;
-                        _tiles[Constants.MapSizeHalf - x - 1, Constants.MapSizeHalf - dy].Height = (int)Math.Sqrt(Math.Pow(x, 2) + Math.Pow(dy, 2)) + Constants.SeaFloor;
-                    }
+                    _tiles[Constants.MapSizeHalf + x, Constants.MapSizeHalf + dy - 1].Height += (int) Math.Sqrt(Math.Pow(x, 2) + Math.Pow(dy, 2));
+                    _tiles[Constants.MapSizeHalf - x - 1, Constants.MapSizeHalf + dy - 1].Height += (int) Math.Sqrt(Math.Pow(x, 2) + Math.Pow(dy, 2));
+                    _tiles[Constants.MapSizeHalf + x, Constants.MapSizeHalf - dy].Height += (int) Math.Sqrt(Math.Pow(x, 2) + Math.Pow(dy, 2));
+                    _tiles[Constants.MapSizeHalf - x - 1, Constants.MapSizeHalf - dy].Height += (int) Math.Sqrt(Math.Pow(x, 2) + Math.Pow(dy, 2));
                 }
             }
         }
