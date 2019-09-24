@@ -43,7 +43,8 @@ namespace Epsilon.Infrastructure
             _actors = new List<IActor>
                       {
                           new Stars(_eventManager, _map),
-                          new Terrain(_map, _eventManager)
+                          new Terrain(_map, _eventManager),
+                          new WaterFlow(_map)
                       };
         }
 
