@@ -39,6 +39,13 @@ namespace Epsilon.Actors
 
         public void UpdateState()
         {
+            for (var x = 0; x < Constants.MapSize; x++)
+            {
+                for (var y = 0; y < Constants.MapSize; y++)
+                {
+                }
+            }
+
             var toRemove = new List<Glimmer>();
 
             foreach (var glimmer in _glimmers)
