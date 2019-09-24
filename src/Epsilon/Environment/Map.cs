@@ -35,6 +35,8 @@ namespace Epsilon.Environment
             _rng = new Random();
 
             InitialiseTerrainWithSimplexNoise();
+
+            MakeFlatEarth();
         }
 
         public void Move(Direction direction)
@@ -165,6 +167,25 @@ namespace Epsilon.Environment
                     if (height < -10 && _rng.Next(100) == 0)
                     {
                         tile.SceneryType = SceneryType.Fish;
+                    }
+                }
+            }
+        }
+
+        private void MakeFlatEarth()
+        {
+            for (var radius = Constants.MapSizeHalf; radius < Constants.MapSize; radius++)
+            {
+                for (var radians = 0.0f; radians < Math.PI * 2; radians += Constants.RadiansResolution)
+                {
+                    var x = (int) (Constants.MapSizeHalf + radius * Math.Sin(radians));
+                    var y = (int) (Constants.MapSizeHalf + radius * Math.Cos(radians));
+
+                    Console.WriteLine($"{x}, {y}");
+
+                    if (x >= 0 && x < Constants.MapSize && y >= 0 && y < Constants.MapSize)
+                    {
+                        _tiles[x, y] = null;
                     }
                 }
             }

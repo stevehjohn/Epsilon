@@ -1,4 +1,6 @@
-﻿namespace Epsilon.Infrastructure
+﻿using System;
+
+namespace Epsilon.Infrastructure
 {
     public static class Constants
     {
@@ -23,6 +25,9 @@
         public const int YScreenOffset = ScreenBufferHeight / 2 - BoardSize * TileHeightHalf;
 
         public const int MapSize = 512;
+        public const int MapSizeHalf = 256;
+
+        public const float RadiansResolution = 0.001f;
 
         public const int BoardSize = 38;
 
