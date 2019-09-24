@@ -108,33 +108,30 @@ namespace Epsilon.Actors
 
                     if (x == 0 || y == 0)
                     {
-                        var sky = position.Y - tile.Height * Constants.BlockHeight;
+                        // TODO: Why -3? Aaaargh.
+                        var sky = position.Y - (tile.Height - 3) * Constants.BlockHeight - Constants.ScenerySpriteHeight;
 
-                        do
+                        if (x == 0)
                         {
-                            if (x == 0)
-                            {
-                                _spriteBatch.Draw(_scenery,
-                                                  new Vector2(position.X, sky),
-                                                  new Rectangle((int) SceneryType.SkyLeft * Constants.ScenerySpriteWidth, 0, Constants.ScenerySpriteWidth, Constants.ScenerySpriteHeight),
-                                                  new Color(GameState.Brightness, GameState.Brightness, GameState.Brightness), 0, Vector2.Zero, Vector2.One, SpriteEffects.None, _depth);
-                            }
-
-                            _depth += Constants.DepthIncrement;
-
-                            if (y == 0)
-                            {
-                                _spriteBatch.Draw(_scenery,
-                                                  new Vector2(position.X, sky),
-                                                  new Rectangle((int)SceneryType.SkyRight * Constants.ScenerySpriteWidth, 0, Constants.ScenerySpriteWidth, Constants.ScenerySpriteHeight),
-                                                  new Color(GameState.Brightness, GameState.Brightness, GameState.Brightness), 0, Vector2.Zero, Vector2.One, SpriteEffects.None, _depth);
-                            }
-
-                            _depth += Constants.DepthIncrement;
-
-                            sky -= Constants.ScenerySpriteHeight - Constants.TileHeightHalf;
+                            _spriteBatch.Draw(_scenery,
+                                              new Vector2(position.X, sky),
+                                              new Rectangle((int) SceneryType.SkyLeft * Constants.ScenerySpriteWidth, 0, Constants.ScenerySpriteWidth, Constants.ScenerySpriteHeight),
+                                              new Color(GameState.Brightness, GameState.Brightness, GameState.Brightness), 0, Vector2.Zero, Vector2.One, SpriteEffects.None, _depth);
                         }
-                        while (sky >= -Constants.ScenerySpriteHeight);
+
+                        _depth += Constants.DepthIncrement;
+
+                        if (y == 0)
+                        {
+                            _spriteBatch.Draw(_scenery,
+                                              new Vector2(position.X, sky),
+                                              new Rectangle((int) SceneryType.SkyRight * Constants.ScenerySpriteWidth, 0, Constants.ScenerySpriteWidth, Constants.ScenerySpriteHeight),
+                                              new Color(GameState.Brightness, GameState.Brightness, GameState.Brightness), 0, Vector2.Zero, Vector2.One, SpriteEffects.None, _depth);
+                        }
+
+                        _depth += Constants.DepthIncrement;
+
+                        sky -= Constants.ScenerySpriteHeight - Constants.TileHeightHalf;
                     }
 
                     for (var h = baseHeight; h <= tile.Height; h++)

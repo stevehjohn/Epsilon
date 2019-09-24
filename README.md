@@ -13,6 +13,7 @@ Improved isometric engine based upon learning experiences with Δ.
 - Animated water overlays?
 - Make edges rock and follow sea level + 1
 - Change terrain generation so that it gets lower as edges of circle are approached
+- Every other edge block has overflow?
 
 ## Controls
 
