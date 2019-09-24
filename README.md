@@ -12,6 +12,7 @@ Improved isometric engine based upon learning experiences with Δ.
 - Animated water overlays?
 - Make edges sea level + arbitrary number?
 - Fix sky rendering
+- Quadrant seasons?
 
 ## Controls
 
