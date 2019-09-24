@@ -42,6 +42,7 @@ namespace Epsilon.Infrastructure
             // TODO: Maybe use some assembly scanning technique to pick all IActors up...
             _actors = new List<IActor>
                       {
+                          new Stars(),
                           new Terrain(_map, _eventManager)
                       };
         }

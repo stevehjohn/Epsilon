@@ -37,5 +37,7 @@
 
         public const int SeaFloor = -20;
         public const int MaxHeight = 65;
+
+        public const int NumberOfStars = 100;
     }
 }
