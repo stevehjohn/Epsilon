@@ -108,7 +108,7 @@ namespace Epsilon.Actors
 
                     if (x == 0 || y == 0)
                     {
-                        // TODO: Why -3? Aaaargh.
+                        // TODO: Why -3?
                         var sky = position.Y - (tile.Height - 3) * Constants.BlockHeight - Constants.ScenerySpriteHeight;
 
                         if (x == 0)

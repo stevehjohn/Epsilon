@@ -177,8 +177,6 @@ namespace Epsilon.Environment
 
         private void MakeFlatEarth()
         {
-            // TODO: My god, this is all rather inefficient.
-
             for (var radius = Constants.MapSizeHalf; radius < Constants.MapSize; radius++)
             {
                 for (var radians = 0.0f; radians < Math.PI * 2; radians += Constants.RadiansResolution)
