@@ -168,6 +168,7 @@ namespace Epsilon.Actors
                             {
                                 for (var h = tile.Height + 1; h > -100; h--)
                                 {
+                                    // TODO: Magic number -2
                                     DrawEdge(position.X, position.Y + 5, h, TerrainType.WaterLeftEdge, true, colour, -2);
                                 }
                             }
@@ -176,6 +177,7 @@ namespace Epsilon.Actors
                             {
                                 for (var h = tile.Height + 1; h > -100; h--)
                                 {
+                                    // TODO: Magic number -2
                                     DrawEdge(position.X, position.Y + 5, h, TerrainType.WaterRightEdge, false, colour, -2);
                                 }
                             }
