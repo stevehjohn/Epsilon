@@ -159,6 +159,27 @@ namespace Epsilon.Actors
                                 DrawEdge(position.X, position.Y, h, tile.IsEdge ? TerrainType.Rock : Map.GetDefaultTerrainType(h + tile.EdgeOffset), false);
                             }
                         }
+
+                        if (tile.IsEdge &&  GameState.WaterLevel > tile.Height)
+                        {
+                            var colour = new Color(GameState.Brightness, GameState.Brightness, GameState.Brightness) * 0.6f;
+
+                            if (_map.GetTile(x, y + 1) == null)
+                            {
+                                for (var h = tile.Height + 1; h > -100; h--)
+                                {
+                                    DrawEdge(position.X, position.Y + 5, h, TerrainType.WaterLeftEdge, true, colour);
+                                }
+                            }
+
+                            if (_map.GetTile(x + 1, y) == null)
+                            {
+                                for (var h = tile.Height + 1; h > -100; h--)
+                                {
+                                    DrawEdge(position.X, position.Y + 5, h, TerrainType.WaterRightEdge, false, colour);
+                                }
+                            }
+                        }
                     }
 
                     if (tile.Height < GameState.WaterLevel)
@@ -229,7 +250,7 @@ namespace Epsilon.Actors
             }
         }
 
-        private void DrawEdge(int x, int y, int height, TerrainType? terrainType, bool left)
+        private void DrawEdge(int x, int y, int height, TerrainType? terrainType, bool left, Color? colour = null)
         {
             _spriteBatch.Draw(_tiles,
                               new Vector2(x + (left ? 0 : Constants.TileSpriteWidthHalf), y - height * Constants.BlockHeight),
@@ -237,7 +258,7 @@ namespace Epsilon.Actors
                                             Constants.TileSpriteHeight,
                                             Constants.TileSpriteWidthHalf,
                                             Constants.TileSpriteHeight),
-                              new Color(GameState.Brightness, GameState.Brightness, GameState.Brightness), 0, Vector2.Zero, Vector2.One, SpriteEffects.None, _depth);
+                              colour ?? new Color(GameState.Brightness, GameState.Brightness, GameState.Brightness), 0, Vector2.Zero, Vector2.One, SpriteEffects.None, _depth);
 
             _depth += Constants.DepthIncrement;
         }
