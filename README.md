@@ -19,6 +19,7 @@ Improved isometric engine based upon learning experiences with Δ.
 - Decide terrain type after height normalisation step
 - LAVA!!!
 - Minor sky bug
+- Stars to account for rotation :(
 
 ## Controls
 
