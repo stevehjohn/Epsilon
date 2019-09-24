@@ -14,6 +14,7 @@ Improved isometric engine based upon learning experiences with Δ.
 - Fix sky rendering
 - Quadrant seasons?
 - Don't water darken edge tile tops?
+- Prevent scrolling too far from map edge
 
 ## Controls
 
