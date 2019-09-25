@@ -24,6 +24,7 @@ namespace Epsilon.Actors
             _map = map;
 
             eventManager.AddSubscription(EventType.MapMoved, direction => MapMoved((Direction) direction));
+            eventManager.AddSubscription(EventType.RotationChanged, MapRotated);
         }
 
         public void Initialise()
@@ -77,14 +78,40 @@ namespace Epsilon.Actors
         {
         }
 
-        public void MapMoved(Direction direction)
+        private void MapRotated()
+        {
+            MapMoved(null);
+        }
+
+        private void MapMoved(Direction direction)
         {
             foreach (var star in _stars)
             {
                 var position = _map.Position;
 
-                star.X = (star.AnchorX - (position.X - position.Y) * star.Velocity) % Constants.ScreenBufferWidth;
-                star.Y = (star.AnchorY + Constants.MapSize - (position.X + position.Y) * star.Velocity) % Constants.ScreenBufferHeight;
+                switch (_map.Rotation)
+                {
+                    case 0:
+                        // OK
+                        star.X = (star.AnchorX - (position.X - position.Y) * star.Velocity) % Constants.ScreenBufferWidth;
+                        star.Y = (star.AnchorY + Constants.MapSize - (position.X + position.Y) * star.Velocity) % Constants.ScreenBufferHeight;
+                        break;
+                    case 90:
+                        // OK
+                        star.X = (star.AnchorX + (position.X + position.Y) * star.Velocity) % Constants.ScreenBufferWidth;
+                        star.Y = (star.AnchorY - (position.X - position.Y) * star.Velocity) % Constants.ScreenBufferHeight;
+                        break;
+                    case 180:
+                        // OK
+                        star.X = (star.AnchorX + (position.X - position.Y) * star.Velocity) % Constants.ScreenBufferWidth;
+                        star.Y = (star.AnchorY + (position.X + position.Y) * star.Velocity) % Constants.ScreenBufferHeight;
+                        break;
+                    case 270:
+                        // Duff
+                        star.X = (star.AnchorX - (position.X - position.Y) * star.Velocity) % Constants.ScreenBufferWidth;
+                        star.Y = (star.AnchorY + Constants.MapSize - (position.X + position.Y) * star.Velocity) % Constants.ScreenBufferHeight;
+                        break;
+                }
             }
         }
 
