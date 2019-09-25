@@ -101,6 +101,13 @@ namespace Epsilon.Actors
                         continue;
                     }
 
+                    var ty = position.Y - tile.Height * Constants.BlockHeight;
+
+                    if (position.X < -Constants.TileSpriteWidth || position.X > Constants.ScreenBufferWidth || ty < -Constants.TileSpriteHeight || ty > Constants.ScreenBufferHeight)
+                    {
+                        continue;
+                    }
+
                     var baseHeight = Math.Min(_map.GetTile(x + 1, y)?.Height ?? tile.Height, _map.GetTile(x, y + 1)?.Height ?? tile.Height);
 
                     if (baseHeight > tile.Height)
