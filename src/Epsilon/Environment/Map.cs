@@ -43,6 +43,21 @@ namespace Epsilon.Environment
             MakeFlatEarth();
         }
 
+        public Coordinates GetOrigin()
+        {
+            switch (_rotation)
+            {
+                case 90:
+                    return new Coordinates(Position.X, Position.Y + Constants.BoardSize - 1);
+                case 180:
+                    return new Coordinates(Position.X + Constants.BoardSize - 1, Position.Y + Constants.BoardSize - 1);
+                case 270:
+                    return new Coordinates(Position.X + Constants.BoardSize - 1, Position.Y);
+                default:
+                    return Position;
+            }
+        }
+
         public void Move(Direction direction)
         {
             switch (_rotation)
@@ -65,6 +80,16 @@ namespace Epsilon.Environment
             {
                 _eventManager.RaiseEvent(EventType.MapMoved, direction);
             }
+        }
+
+        public Tile GetMapTile(int x, int y)
+        {
+            if (x < 0 || x >= Constants.MapSize || y < 0 || y >= Constants.MapSize)
+            {
+                return null;
+            }
+
+            return _tiles[x, y];
         }
 
         public Tile GetTile(int x, int y)
