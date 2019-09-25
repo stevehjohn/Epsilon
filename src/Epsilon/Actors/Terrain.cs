@@ -77,9 +77,9 @@ namespace Epsilon.Actors
             var j = 0;
 #endif
 
-            for (var x = 0; x < Constants.BoardSize + Constants.BoardOverrun; x++)
+            for (var x = -Constants.BoardOverrun; x < Constants.BoardSize + Constants.BoardOverrun; x++)
             {
-                for (var y = 0; y < Constants.BoardSize + Constants.BoardOverrun; y++)
+                for (var y = -Constants.BoardOverrun; y < Constants.BoardSize + Constants.BoardOverrun; y++)
                 {
 #if SlowRender
                     j++;
@@ -108,7 +108,7 @@ namespace Epsilon.Actors
                         baseHeight = tile.Height;
                     }
 
-                    if (x == 0 || y == 0 || _map.GetTile(x - 1, y) == null || _map.GetTile(x, y - 1) == null)
+                    if (_map.GetTile(x - 1, y) == null || _map.GetTile(x, y - 1) == null)
                     {
                         var skyBase = position.Y - Constants.SkySpriteHeight - Constants.SeaFloor * Constants.BlockHeight + Constants.TileHeightHalf;
 
