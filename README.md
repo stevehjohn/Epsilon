@@ -8,7 +8,7 @@ Improved isometric engine based upon learning experiences with Δ.
 - Terrain manipulation
 - Not just height based terrain colouring. Might want areas of desert, mountains grassland etc...
 - Unit tests?
-- Animated water overlays?
+- Animated water overlays? 
 - Quadrant seasons?
 - Prevent scrolling too far from map edge
 - Don't use the shaded water edges above map edge, only on board edge
@@ -16,7 +16,6 @@ Improved isometric engine based upon learning experiences with Δ.
 - Terrain edges to account for the height normalisation step
 - LAVA!!!
 - Minor sky bug
-- Stars to account for map rotation :(
 - Water bug
 
 ## Controls

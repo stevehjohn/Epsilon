@@ -92,22 +92,18 @@ namespace Epsilon.Actors
                 switch (_map.Rotation)
                 {
                     case 0:
-                        // OK
                         star.X = (star.AnchorX - (position.X - position.Y) * star.Velocity) % Constants.ScreenBufferWidth;
-                        star.Y = (star.AnchorY + Constants.MapSize - (position.X + position.Y) * star.Velocity) % Constants.ScreenBufferHeight;
+                        star.Y = (star.AnchorY - (position.X + position.Y) * star.Velocity) % Constants.ScreenBufferHeight;
                         break;
                     case 90:
-                        // OK
                         star.X = (star.AnchorX + (position.X + position.Y) * star.Velocity) % Constants.ScreenBufferWidth;
                         star.Y = (star.AnchorY - (position.X - position.Y) * star.Velocity) % Constants.ScreenBufferHeight;
                         break;
                     case 180:
-                        // OK
                         star.X = (star.AnchorX + (position.X - position.Y) * star.Velocity) % Constants.ScreenBufferWidth;
                         star.Y = (star.AnchorY + (position.X + position.Y) * star.Velocity) % Constants.ScreenBufferHeight;
                         break;
                     case 270:
-                        // Duff
                         star.X = (star.AnchorX - (position.X + position.Y) * star.Velocity) % Constants.ScreenBufferWidth;
                         star.Y = (star.AnchorY + (position.X - position.Y) * star.Velocity) % Constants.ScreenBufferHeight;
                         break;
