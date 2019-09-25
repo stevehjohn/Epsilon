@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using Epsilon.Coordination;
 using Epsilon.Environment;
 using Epsilon.Infrastructure;
-using Epsilon.Maths;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
@@ -23,7 +22,7 @@ namespace Epsilon.Actors
         {
             _map = map;
 
-            eventManager.AddSubscription(EventType.MapMoved, direction => MapMoved((Direction) direction));
+            eventManager.AddSubscription(EventType.MapMoved, MapMoved);
             eventManager.AddSubscription(EventType.RotationChanged, MapRotated);
         }
 
@@ -80,10 +79,11 @@ namespace Epsilon.Actors
 
         private void MapRotated()
         {
-            MapMoved(null);
+            MapMoved();
         }
 
-        private void MapMoved(Direction direction)
+        // ReSharper disable once UnusedParameter.Local
+        private void MapMoved()
         {
             foreach (var star in _stars)
             {

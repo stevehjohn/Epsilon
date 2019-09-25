@@ -63,7 +63,7 @@ namespace Epsilon.Environment
 
             if (direction.Dx != 0 || direction.Dy != 0)
             {
-                _eventManager.RaiseEvent(EventType.MapMoved, direction);
+                _eventManager.RaiseEvent(EventType.MapMoved);
             }
         }
 
