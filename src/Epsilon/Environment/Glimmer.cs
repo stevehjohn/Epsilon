@@ -12,6 +12,8 @@ namespace Epsilon.Environment
 
         public float YOffset { get; set; }
 
+        public float XOffset { get; set; }
+
         public float Velocity { get; set; }
     }
 }
