@@ -102,12 +102,12 @@ namespace Epsilon.Environment
                 return TerrainType.Soil;
             }
 
-            if (height < 10)
+            if (height < 5)
             {
                 return TerrainType.Sand;
             }
 
-            if (height < 15)
+            if (height < 13)
             {
                 return TerrainType.Soil;
             }
