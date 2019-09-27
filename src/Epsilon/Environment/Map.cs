@@ -196,28 +196,12 @@ namespace Epsilon.Environment
                 for (var dy = 1; dy <= y; dy++)
                 {
                     _tiles[Constants.MapSizeHalf + x, Constants.MapSizeHalf + dy - 1].Height -= (int) (Math.Sqrt(Math.Pow(x, 2) + Math.Pow(dy, 2)) * 0.75d);
-                    if (_tiles[Constants.MapSizeHalf + x, Constants.MapSizeHalf + dy - 1].Height < Constants.SeaFloor)
-                    {
-                        _tiles[Constants.MapSizeHalf + x, Constants.MapSizeHalf + dy - 1].Height = Constants.SeaFloor;
-                    }
 
                     _tiles[Constants.MapSizeHalf - x - 1, Constants.MapSizeHalf + dy - 1].Height -= (int) (Math.Sqrt(Math.Pow(x, 2) + Math.Pow(dy, 2)) * 0.75d);
-                    if (_tiles[Constants.MapSizeHalf - x - 1, Constants.MapSizeHalf + dy - 1].Height < Constants.SeaFloor)
-                    {
-                        _tiles[Constants.MapSizeHalf - x - 1, Constants.MapSizeHalf + dy - 1].Height = Constants.SeaFloor;
-                    }
 
                     _tiles[Constants.MapSizeHalf + x, Constants.MapSizeHalf - dy].Height -= (int) (Math.Sqrt(Math.Pow(x, 2) + Math.Pow(dy, 2)) * 0.75d);
-                    if (_tiles[Constants.MapSizeHalf + x, Constants.MapSizeHalf - dy].Height < Constants.SeaFloor)
-                    {
-                        _tiles[Constants.MapSizeHalf + x, Constants.MapSizeHalf - dy].Height = Constants.SeaFloor;
-                    }
                     
                     _tiles[Constants.MapSizeHalf - x - 1, Constants.MapSizeHalf - dy].Height -= (int) (Math.Sqrt(Math.Pow(x, 2) + Math.Pow(dy, 2)) * 0.75d);
-                    if (_tiles[Constants.MapSizeHalf - x - 1, Constants.MapSizeHalf - dy].Height < Constants.SeaFloor)
-                    {
-                        _tiles[Constants.MapSizeHalf - x - 1, Constants.MapSizeHalf - dy].Height = Constants.SeaFloor;
-                    }
                 }
             }
 
