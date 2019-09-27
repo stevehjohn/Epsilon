@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using Epsilon.Coordination;
 using Epsilon.Environment;
 using Epsilon.Infrastructure;
+using Epsilon.State;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
@@ -116,7 +117,7 @@ namespace Epsilon.Actors
             foreach (var star in _stars)
             {
                 // TODO: Magic numbers
-                _spriteBatch.Draw(_texture, new Vector2(star.X, star.Y), new Rectangle(7 * star.Type, 0, 7, 7), star.Color * star.Intensity, 0, Vector2.Zero, Vector2.One, SpriteEffects.None, depth);
+                _spriteBatch.Draw(_texture, new Vector2(star.X / GameState.Scale, star.Y / GameState.Scale), new Rectangle(7 * star.Type, 0, 7, 7), star.Color * star.Intensity, 0, Vector2.Zero, Vector2.One, SpriteEffects.None, depth);
 
                 depth += Constants.DepthIncrement;
             }

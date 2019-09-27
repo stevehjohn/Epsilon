@@ -14,7 +14,6 @@ Improved isometric engine based upon learning experiences with Δ.
 - Don't use the shaded water edges above map edge, only on board edge
 - Sky is overlapping raised tile edges
 - LAVA!!!
-- Minor sky bug - renders twice sometimes
 - Water bug - need to render short bit of water when a tile is directly below
 - Day/Night cycle?
 - Weather
