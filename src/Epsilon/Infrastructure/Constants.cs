@@ -42,5 +42,7 @@
         public const int NumberOfStars = 400;
 
         public const int MaxWaterHeight = 9;
+        public const int MinEdgeHeight = 2;
+        public const int MaxEdgeHeight = 8;
     }
 }
