@@ -252,7 +252,6 @@ namespace Epsilon.Environment
                         {
                             tile.SceneryType = SceneryType.Fish;
                         }
-
                     }
                 }
             }
