@@ -19,6 +19,7 @@ Improved isometric engine based upon learning experiences with Δ.
 - Weather
 - Sky to account for scale
 - Waterfall fade over world edge
+- Fix mouse tracking when scaled
 
 ## Controls
 
