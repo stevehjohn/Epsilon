@@ -27,14 +27,12 @@ namespace Epsilon.State
             }
         }
 
-        public static int Brightness { get; set; }
 
         public static float Scale { get; set; }
 
         static GameState()
         {
             WaterLevel = 0;
-            Brightness = 255;
             Scale = 0.5f;
         }
     }

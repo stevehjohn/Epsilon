@@ -44,5 +44,7 @@
         public const int MaxWaterHeight = 9;
         public const int MinEdgeHeight = 2;
         public const int MaxEdgeHeight = 8;
+
+        public const int WaterFlowDepth = -60;
     }
 }

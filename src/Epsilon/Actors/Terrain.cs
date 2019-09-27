@@ -125,7 +125,7 @@ namespace Epsilon.Actors
                             _spriteBatch.Draw(_sky,
                                               new Vector2(position.X, skyBase),
                                               new Rectangle(Constants.SkySpriteWidth, 0, Constants.SkySpriteWidth, Constants.SkySpriteHeight),
-                                              new Color(GameState.Brightness, GameState.Brightness, GameState.Brightness), 0, Vector2.Zero, Vector2.One, SpriteEffects.None, _depth);
+                                              Color.White, 0, Vector2.Zero, Vector2.One, SpriteEffects.None, _depth);
                         }
 
                         _depth += Constants.DepthIncrement;
@@ -135,7 +135,7 @@ namespace Epsilon.Actors
                             _spriteBatch.Draw(_sky,
                                               new Vector2(position.X, skyBase),
                                               new Rectangle(0, 0, Constants.SkySpriteWidth, Constants.SkySpriteHeight),
-                                              new Color(GameState.Brightness, GameState.Brightness, GameState.Brightness), 0, Vector2.Zero, Vector2.One, SpriteEffects.None, _depth);
+                                              Color.White, 0, Vector2.Zero, Vector2.One, SpriteEffects.None, _depth);
                         }
 
                         _depth += Constants.DepthIncrement;
@@ -153,6 +153,7 @@ namespace Epsilon.Actors
 
                     var edge = tile.IsEdge;
 
+                    // TODO: In full screen mode, the feature toggle is redundant
                     if (edge && AppSettings.Instance.Rendering.RenderBoardEdges)
                     {
                         for (var h = Constants.SeaFloor; h <= tile.Height; h++)
@@ -170,23 +171,21 @@ namespace Epsilon.Actors
 
                         if (tile.IsEdge &&  GameState.WaterLevel > tile.Height)
                         {
-                            var colour = new Color(GameState.Brightness, GameState.Brightness, GameState.Brightness) * 0.6f;
-
                             if (_map.GetTile(x, y + 1) == null && _map.GetTile(x + 1, y + 1) == null)
                             {
-                                for (var h = tile.Height + 1; h > -((Constants.ScreenBufferHeight - position.Y) / Constants.BlockHeight); h--)
+                                for (var h = tile.Height + 1; h > Constants.WaterFlowDepth; h--)
                                 {
                                     // TODO: Magic number -2
-                                    DrawEdge(position.X, position.Y + 5, h, TerrainType.WaterLeftEdge, true, colour, -2);
+                                    DrawEdge(position.X, position.Y + 5, h, TerrainType.WaterLeftEdge, true, h < 0 ? Color.White * 0.6f * (1 - Math.Abs(Constants.WaterFlowDepth / 255) * h) : Color.White * 0.6f, -2);
                                 }
                             }
 
                             if (_map.GetTile(x + 1, y) == null && _map.GetTile(x + 1, y + 1) == null)
                             {
-                                for (var h = tile.Height + 1; h >  -((Constants.ScreenBufferHeight - position.Y) / Constants.BlockHeight); h--)
+                                for (var h = tile.Height + 1; h > Constants.WaterFlowDepth; h--)
                                 {
                                     // TODO: Magic number -2
-                                    DrawEdge(position.X, position.Y + 5, h, TerrainType.WaterRightEdge, false, colour, -2);
+                                    DrawEdge(position.X, position.Y + 5, h, TerrainType.WaterRightEdge, false, Color.White * 0.6f, -2);
                                 }
                             }
                         }
@@ -289,7 +288,7 @@ namespace Epsilon.Actors
                                             Constants.TileSpriteHeight,
                                             Constants.TileSpriteWidthHalf,
                                             Constants.TileSpriteHeight),
-                              colour ?? new Color(GameState.Brightness, GameState.Brightness, GameState.Brightness), 0, Vector2.Zero, Vector2.One, SpriteEffects.None, _depth);
+                              colour ?? Color.White, 0, Vector2.Zero, Vector2.One, SpriteEffects.None, _depth);
 
             _depth += Constants.DepthIncrement;
         }
@@ -361,19 +360,17 @@ namespace Epsilon.Actors
         {
             if (terrainType == TerrainType.Water || terrainType == TerrainType.WaterLeftEdge || terrainType == TerrainType.WaterRightEdge)
             {
-                return new Color(GameState.Brightness, GameState.Brightness, GameState.Brightness) * 0.6f;
+                return Color.White * 0.6f;
             }
 
             if (height >= GameState.WaterLevel || terrainType == TerrainType.Highlight)
             {
-                return new Color(GameState.Brightness, GameState.Brightness, GameState.Brightness);
+                return Color.White;
             }
 
             var intensity = isEdge
                                 ? 255
                                 : (int) (255 * ((Constants.SeaFloor * 1.5f - (height - GameState.WaterLevel)) / (Constants.SeaFloor * 1.5f)));
-
-            intensity -= 255 - GameState.Brightness;
 
             if (intensity < 0)
             {

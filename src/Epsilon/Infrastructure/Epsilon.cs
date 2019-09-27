@@ -171,6 +171,7 @@ namespace Epsilon.Infrastructure
             if (disposing)
             {
                 _graphicsDeviceManager.Dispose();
+                _spriteBatch.Dispose();
             }
 
             base.Dispose(disposing);
