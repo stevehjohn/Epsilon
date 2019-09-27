@@ -103,7 +103,10 @@ namespace Epsilon.Actors
 
                     var ty = position.Y - tile.Height * Constants.BlockHeight;
 
-                    if (position.X < -Constants.TileSpriteWidth || position.X > Constants.ScreenBufferWidth || ty < -Constants.TileSpriteHeight - (Constants.BlockHeight + Math.Abs(Constants.SeaFloor)) * Constants.MaxEdgeHeight || ty > Constants.ScreenBufferHeight)
+                    if (position.X < -Constants.TileSpriteWidth 
+                        || position.X > Constants.ScreenBufferWidth 
+                        || ty < -Constants.TileSpriteHeight - (Constants.BlockHeight + Math.Abs(Constants.SeaFloor)) * Constants.MaxEdgeHeight 
+                        || ty > Constants.ScreenBufferHeight + (Constants.BlockHeight + Math.Abs(Constants.SeaFloor)) * Constants.MaxWaterHeight)
                     {
                         continue;
                     }
