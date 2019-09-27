@@ -176,7 +176,7 @@ namespace Epsilon.Actors
                                 for (var h = tile.Height + 1; h > Constants.WaterFlowDepth; h--)
                                 {
                                     // TODO: Magic number -2
-                                    DrawEdge(position.X, position.Y + 5, h, TerrainType.WaterLeftEdge, true, h < 0 ? Color.White * 0.6f * (1 - Math.Abs(Constants.WaterFlowDepth / 255) * h) : Color.White * 0.6f, -2);
+                                    DrawEdge(position.X, position.Y + 5, h, TerrainType.WaterLeftEdge, true, Color.White * 0.6f, -2);
                                 }
                             }
 

@@ -18,6 +18,8 @@ Improved isometric engine based upon learning experiences with Δ.
 - Water bug - need to render short bit of water when a tile is directly below
 - Day/Night cycle?
 - Weather
+- Sky to account for scale
+- Waterfall fade over world edge
 
 ## Controls
 
