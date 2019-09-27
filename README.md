@@ -5,18 +5,19 @@ Improved isometric engine based upon learning experiences with Δ.
 ## To Do / Notes
 
 - Inertial scrolling
-- Terrain manipulation
+- Terrain manipulation?
 - Not just height based terrain colouring. Might want areas of desert, mountains grassland etc...
 - Unit tests?
-- Animated water overlays? 
+- Animated water overlays?
 - Quadrant seasons?
 - Prevent scrolling too far from map edge
 - Don't use the shaded water edges above map edge, only on board edge
 - Sky is overlapping raised tile edges
-- Terrain edges to account for the height normalisation step
 - LAVA!!!
-- Minor sky bug
-- Water bug
+- Minor sky bug - renders twice sometimes
+- Water bug - need to render short bit of water when a tile is directly below
+- Day/Night cycle?
+- Weather
 
 ## Controls
 
@@ -25,6 +26,7 @@ Improved isometric engine based upon learning experiences with Δ.
 - <kbd>Left Mouse</kbd> Drag map
 - <kbd>Right Arrow</kbd> Rotate 90° 
 - <kbd>Left Arrow</kbd> Rotate -90°
+- <kbd>S</kbd> Toggle scale
 
 ### Environment
 

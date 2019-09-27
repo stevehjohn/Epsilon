@@ -77,21 +77,10 @@ namespace Epsilon.Actors
             var j = 0;
 #endif
 
-            for (var x = -Constants.BoardOverrun; x < Constants.BoardSize + Constants.BoardOverrun; x++)
+            for (var x = (int) (-Constants.BoardOverrun / GameState.Scale); x < (Constants.BoardSize + Constants.BoardOverrun) / GameState.Scale; x++)
             {
-                for (var y = -Constants.BoardOverrun; y < Constants.BoardSize + Constants.BoardOverrun; y++)
+                for (var y = (int) (-Constants.BoardOverrun / GameState.Scale); y < (Constants.BoardSize + Constants.BoardOverrun) / GameState.Scale; y++)
                 {
-#if SlowRender
-                    j++;
-
-                    if (j >= i)
-                    {
-                        i++;
-
-                        return _depth;
-                    }
-#endif
-
                     var position = Translations.BoardToScreen(x, y);
 
                     var tile = _map.GetTile(x, y);
@@ -104,13 +93,22 @@ namespace Epsilon.Actors
                     var ty = position.Y - tile.Height * Constants.BlockHeight;
 
                     if (position.X < -Constants.TileSpriteWidth 
-                        || position.X > Constants.ScreenBufferWidth 
+                        || position.X > Constants.ScreenBufferWidth / GameState.Scale
                         || ty < -Constants.TileSpriteHeight - (Constants.BlockHeight + Math.Abs(Constants.SeaFloor)) * Constants.MaxEdgeHeight 
-                        || ty > Constants.ScreenBufferHeight + (Constants.BlockHeight + Math.Abs(Constants.SeaFloor)) * Constants.MaxWaterHeight)
+                        || ty > (Constants.ScreenBufferHeight + (Constants.BlockHeight + Math.Abs(Constants.SeaFloor)) * Constants.MaxWaterHeight) / GameState.Scale)
                     {
                         continue;
                     }
+#if SlowRender
+                    j++;
 
+                    if (j >= i)
+                    {
+                        i++;
+
+                        return _depth;
+                    }
+#endif
                     var baseHeight = Math.Min(_map.GetTile(x + 1, y)?.Height ?? tile.Height, _map.GetTile(x, y + 1)?.Height ?? tile.Height);
 
                     if (baseHeight > tile.Height)
@@ -153,7 +151,7 @@ namespace Epsilon.Actors
                         DrawScenery(position.X, position.Y, tile.Height, tile.SceneryType.Value);
                     }
 
-                    var edge = tile.IsEdge || x == Constants.BoardSize - 1 + Constants.BoardOverrun || y == Constants.BoardSize - 1 + Constants.BoardOverrun;
+                    var edge = tile.IsEdge;
 
                     if (edge && AppSettings.Instance.Rendering.RenderBoardEdges)
                     {
@@ -251,7 +249,10 @@ namespace Epsilon.Actors
         {
             var ay = y - height * Constants.BlockHeight;
 
-            if (x > Constants.ScenerySpriteWidth && ay > Constants.ScreenBufferHeight)
+            if (x > Constants.ScreenBufferWidth / GameState.Scale 
+                || x < -(Constants.TileSpriteWidth / GameState.Scale)
+                || ay > Constants.ScreenBufferHeight / GameState.Scale
+                || ay < -(Constants.TileSpriteHeight / GameState.Scale))
             {
                 return;
             }
@@ -274,7 +275,10 @@ namespace Epsilon.Actors
             var ax = x + (left ? 0 : Constants.TileSpriteWidthHalf);
             var ay = y - height * Constants.BlockHeight + yOffset;
 
-            if (ax > Constants.ScenerySpriteWidth && ay > Constants.ScreenBufferHeight)
+            if (ax > Constants.ScreenBufferWidth / GameState.Scale 
+                || ax < -(Constants.TileSpriteWidth / GameState.Scale)
+                || ay > Constants.ScreenBufferHeight / GameState.Scale
+                || ay < -(Constants.TileSpriteHeight / GameState.Scale))
             {
                 return;
             }
@@ -294,7 +298,10 @@ namespace Epsilon.Actors
         {
             var ay = y - (height + 1) * Constants.BlockHeight - (Constants.ScenerySpriteHeight - Constants.TileSpriteHeight);
 
-            if (x > Constants.ScenerySpriteWidth && ay > Constants.ScreenBufferHeight)
+            if (x > Constants.ScreenBufferWidth / GameState.Scale 
+                || x < -(Constants.TileSpriteWidth / GameState.Scale)
+                || ay > Constants.ScreenBufferHeight / GameState.Scale
+                || ay < -(Constants.TileSpriteHeight / GameState.Scale))
             {
                 return;
             }

@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using Epsilon.Actors;
 using Epsilon.Controls;
 using Epsilon.Coordination;
@@ -117,6 +118,10 @@ namespace Epsilon.Infrastructure
                         case Keys.E:
                             AppSettings.Instance.Rendering.RenderBoardEdges = ! AppSettings.Instance.Rendering.RenderBoardEdges;
                             break;
+
+                        case Keys.S:
+                            GameState.Scale = Math.Abs(GameState.Scale - 0.5f) < 0.01 ? 1.0f : 0.5f;
+                            break;
                     }
                 }
 
@@ -147,7 +152,7 @@ namespace Epsilon.Infrastructure
         {
             GraphicsDevice.Clear(Color.Black);
 
-            _spriteBatch.Begin(SpriteSortMode.FrontToBack, samplerState: SamplerState.PointClamp);
+            _spriteBatch.Begin(SpriteSortMode.FrontToBack, samplerState: SamplerState.PointClamp, transformMatrix: Matrix.CreateScale(GameState.Scale));
 
             var depth = 0.0f;
 
