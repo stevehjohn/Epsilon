@@ -21,6 +21,7 @@ Improved isometric engine based upon learning experiences with Δ.
 - Waterfall fade over world edge
 - Fix mouse tracking when scaled
 - Change the water/terrain height so everything looks good when water is about halfway up the walls
+- Fix weird floor bug
 
 ## Controls
 
