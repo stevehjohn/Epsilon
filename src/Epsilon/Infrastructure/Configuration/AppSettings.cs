@@ -1,6 +1,7 @@
 ﻿using System;
 using System.IO;
 using System.Text.Json;
+using System.Text.Json.Serialization;
 
 namespace Epsilon.Infrastructure.Configuration;
 
@@ -12,6 +13,7 @@ public class AppSettings
 
     public Rendering Rendering { get; init; }
 
+    [JsonConstructor]
     private AppSettings()
     {
     }
