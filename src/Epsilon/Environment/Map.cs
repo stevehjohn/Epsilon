@@ -48,17 +48,13 @@ public class Map
 
     public Coordinates GetOrigin()
     {
-        switch (_rotation)
+        return _rotation switch
         {
-            case 90:
-                return new Coordinates(Position.X, Position.Y + Constants.BoardSize - 1);
-            case 180:
-                return new Coordinates(Position.X + Constants.BoardSize - 1, Position.Y + Constants.BoardSize - 1);
-            case 270:
-                return new Coordinates(Position.X + Constants.BoardSize - 1, Position.Y);
-            default:
-                return Position;
-        }
+            90 => new Coordinates(Position.X, Position.Y + Constants.BoardSize - 1),
+            180 => new Coordinates(Position.X + Constants.BoardSize - 1, Position.Y + Constants.BoardSize - 1),
+            270 => new Coordinates(Position.X + Constants.BoardSize - 1, Position.Y),
+            _ => Position
+        };
     }
 
     public void Move(Direction direction)
