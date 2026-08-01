@@ -1,4 +1,6 @@
-﻿namespace Epsilon.Infrastructure.Configuration;
+﻿using JetBrains.Annotations;
+
+namespace Epsilon.Infrastructure.Configuration;
 
 [UsedImplicitly]
 public class Rendering
