@@ -2,21 +2,17 @@
 using Epsilon.Controls;
 using Microsoft.Xna.Framework.Input;
 
-namespace Epsilon.Extensions
+namespace Epsilon.Extensions;
+
+public static class MouseStateExtensions
 {
-    public static class MouseStateExtensions
+    public static bool IsPressed(this MouseState mouseState, MouseButton mouseButton)
     {
-        public static bool IsPressed(this MouseState mouseState, MouseButton mouseButton)
+        return mouseButton switch
         {
-            switch (mouseButton)
-            {
-                case MouseButton.Left:
-                    return mouseState.LeftButton == ButtonState.Pressed;
-                case MouseButton.Right:
-                    return mouseState.RightButton == ButtonState.Pressed;
-                default:
-                    throw new ArgumentOutOfRangeException(nameof(mouseButton), mouseButton, null);
-            }
-        }
+            MouseButton.Left => mouseState.LeftButton == ButtonState.Pressed,
+            MouseButton.Right => mouseState.RightButton == ButtonState.Pressed,
+            _ => throw new ArgumentOutOfRangeException(nameof(mouseButton), mouseButton, null)
+        };
     }
 }

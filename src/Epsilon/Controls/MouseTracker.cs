@@ -5,87 +5,89 @@ using Epsilon.Infrastructure;
 using Epsilon.Maths;
 using Microsoft.Xna.Framework.Input;
 
-namespace Epsilon.Controls
+namespace Epsilon.Controls;
+
+public class MouseTracker
 {
-    public class MouseTracker
+    private readonly Dictionary<MouseButton, bool> _tracking;
+
+    private readonly Dictionary<MouseButton, Coordinates> _previousCoordinates;
+
+    public MouseTracker()
     {
-        private readonly Dictionary<MouseButton, bool> _tracking;
+        var buttons = Enum.GetValues<MouseButton>();
 
-        private readonly Dictionary<MouseButton, Coordinates> _previousCoordinates;
+        _tracking = new Dictionary<MouseButton, bool>();
+        _previousCoordinates = new Dictionary<MouseButton, Coordinates>();
 
-        public MouseTracker()
+        foreach (var button in buttons)
         {
-            var buttons = (MouseButton[]) Enum.GetValues(typeof(MouseButton));
+            _tracking.Add(button, false);
 
-            _tracking = new Dictionary<MouseButton, bool>();
-            _previousCoordinates = new Dictionary<MouseButton, Coordinates>();
+            _previousCoordinates.Add(button, null);
+        }
+    }
 
-            foreach (var button in buttons)
-            {
-                _tracking.Add(button, false);
+    public Direction GetMapMovement()
+    {
+        var mouseState = Mouse.GetState();
 
-                _previousCoordinates.Add(button, null);
-            }
+        if (! Tracking(mouseState, MouseButton.Left))
+        {
+            return new Direction(0, 0);
         }
 
-        public Direction GetMapMovement()
+        // https://stackoverflow.com/a/7224899/1887802
+
+        var coordinates = GetMousePositionSeaLevel(mouseState.X, mouseState.Y);
+
+        var previousCoordinates = GetMousePositionSeaLevel(_previousCoordinates[MouseButton.Left]);
+
+        var direction = new Direction(previousCoordinates.X - coordinates.X, coordinates.Y - previousCoordinates.Y);
+
+        _previousCoordinates[MouseButton.Left] = new Coordinates(mouseState);
+
+        return direction;
+    }
+
+    private bool Tracking(MouseState mouseState, MouseButton mouseButton)
+    {
+        if (! mouseState.IsPressed(mouseButton))
         {
-            var mouseState = Mouse.GetState();
+            _tracking[mouseButton] = false;
 
-            if (! Tracking(mouseState, MouseButton.Left))
-            {
-                return new Direction(0, 0);
-            }
-
-            // https://stackoverflow.com/a/7224899/1887802
-
-            var coordinates = GetMousePositionSeaLevel(mouseState.X, mouseState.Y);
-
-            var previousCoordinates = GetMousePositionSeaLevel(_previousCoordinates[MouseButton.Left]);
-
-            var direction = new Direction(previousCoordinates.X - coordinates.X, coordinates.Y - previousCoordinates.Y);
-
-            _previousCoordinates[MouseButton.Left] = new Coordinates(mouseState);
-
-            return direction;
+            return false;
         }
 
-        private bool Tracking(MouseState mouseState, MouseButton mouseButton)
+        if (! _tracking[mouseButton])
         {
-            if (! mouseState.IsPressed(mouseButton))
-            {
-                _tracking[mouseButton] = false;
+            _tracking[mouseButton] = true;
 
-                return false;
-            }
+            _previousCoordinates[mouseButton] = new Coordinates(mouseState);
 
-            if (! _tracking[mouseButton])
-            {
-                _tracking[mouseButton] = true;
-
-                _previousCoordinates[mouseButton] = new Coordinates(mouseState);
-
-                return false;
-            }
-
-            return true;
+            return false;
         }
 
-        private static Coordinates GetMousePositionSeaLevel(Coordinates coordinates)
-        {
-            return GetMousePositionSeaLevel(coordinates.X, coordinates.Y);
-        }
+        return true;
+    }
 
-        private static Coordinates GetMousePositionSeaLevel(int x, int y)
-        {
-            var mouseX = (double) x - (Constants.ScreenBufferWidth / 2 - Constants.TileWidthHalf) - Constants.TileWidthHalf;
-            // TODO: Get rid of magic number 12. Where does it come from?
-            var mouseY = (double) y - 12 - Constants.TileHeightHalf;
+    private static Coordinates GetMousePositionSeaLevel(Coordinates coordinates)
+    {
+        return GetMousePositionSeaLevel(coordinates.X, coordinates.Y);
+    }
 
-            var px = (int) Math.Floor((mouseX / Constants.TileWidthHalf + mouseY / Constants.TileHeightHalf) / 2);
-            var py = (int) Math.Floor((mouseY / Constants.TileHeightHalf - mouseX / Constants.TileWidthHalf) / 2);
+    private static Coordinates GetMousePositionSeaLevel(int x, int y)
+    {
+        // ReSharper disable once PossibleLossOfFraction
+        var mouseX = (double) x - (Constants.ScreenBufferWidth / 2 - Constants.TileWidthHalf) - Constants.TileWidthHalf;
+        
+        // TODO: Get rid of magic number 12. Where does it come from?
+        var mouseY = (double) y - 12 - Constants.TileHeightHalf;
 
-            return new Coordinates(px, py);
-        }
+        var px = (int) Math.Floor((mouseX / Constants.TileWidthHalf + mouseY / Constants.TileHeightHalf) / 2);
+        
+        var py = (int) Math.Floor((mouseY / Constants.TileHeightHalf - mouseX / Constants.TileWidthHalf) / 2);
+
+        return new Coordinates(px, py);
     }
 }

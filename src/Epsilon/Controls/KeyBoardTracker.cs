@@ -2,46 +2,38 @@
 using System.Linq;
 using Microsoft.Xna.Framework.Input;
 
-namespace Epsilon.Controls
+namespace Epsilon.Controls;
+
+public class KeyboardTracker
 {
-    public class KeyboardTracker
+    private readonly Queue<Keys> _keyPresses = new();
+
+    private List<Keys> _previouslyPressed = [];
+
+    public bool Ctrl { get; private set; }
+
+    public void TrackState()
     {
-        private readonly Queue<Keys> _keyPresses;
+        var state = Keyboard.GetState();
 
-        private List<Keys> _previouslyPressed;
+        var pressed = state.GetPressedKeys().ToList();
 
-        public bool Ctrl { get; set; }
+        var unpressed = _previouslyPressed.Except(pressed);
 
-        public KeyboardTracker()
+        foreach (var key in unpressed)
         {
-            _keyPresses = new Queue<Keys>();
-
-            _previouslyPressed = new List<Keys>();
+            _keyPresses.Enqueue(key);
         }
 
-        public void TrackState()
-        {
-            var state = Keyboard.GetState();
+        _previouslyPressed = pressed;
 
-            var pressed = state.GetPressedKeys().ToList();
+        Ctrl = state.IsKeyDown(Keys.LeftControl);
+    }
 
-            var unpressed = _previouslyPressed.Except(pressed);
-
-            foreach (var key in unpressed)
-            {
-                _keyPresses.Enqueue(key);
-            }
-
-            _previouslyPressed = pressed;
-
-            Ctrl = state.IsKeyDown(Keys.LeftControl);
-        }
-
-        public Keys? GetKeyPress()
-        {
-            return _keyPresses.Count > 0
-                       ? _keyPresses.Dequeue()
-                       : (Keys?) null;
-        }
+    public Keys? GetKeyPress()
+    {
+        return _keyPresses.Count > 0
+            ? _keyPresses.Dequeue()
+            : null;
     }
 }

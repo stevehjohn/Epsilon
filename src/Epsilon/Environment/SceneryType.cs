@@ -1,10 +1,9 @@
-﻿namespace Epsilon.Environment
+﻿namespace Epsilon.Environment;
+
+public enum SceneryType
 {
-    public enum SceneryType
-    {
-        Tree,
-        Goat,
-        Snowman,
-        Fish
-    }
+    Tree,
+    Goat,
+    Snowman,
+    Fish
 }

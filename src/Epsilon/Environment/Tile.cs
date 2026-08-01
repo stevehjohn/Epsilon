@@ -1,21 +1,20 @@
-﻿namespace Epsilon.Environment
+﻿namespace Epsilon.Environment;
+
+public class Tile
 {
-    public class Tile
+    public int Height { get; set; }
+
+    public TerrainType? TerrainType { get; set; }
+
+    public SceneryType? SceneryType { get; set; }
+
+    public bool IsEdge { get; init; }
+
+    public int EdgeOffset { get; init; }
+
+    public Tile(int height, TerrainType? terrainType = null)
     {
-        public int Height { get; set; }
-
-        public TerrainType? TerrainType { get; set; }
-
-        public SceneryType? SceneryType { get; set; }
-
-        public bool IsEdge { get; set; }
-
-        public int EdgeOffset { get; set; }
-
-        public Tile(int height, TerrainType? terrainType = null)
-        {
-            Height = height;
-            TerrainType = terrainType;
-        }
+        Height = height;
+        TerrainType = terrainType;
     }
 }

@@ -1,35 +1,34 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace Epsilon.Coordination
+namespace Epsilon.Coordination;
+
+public class EventManager
 {
-    public class EventManager
+    private readonly Dictionary<EventType, List<Action>> _subscriptions;
+
+    public EventManager()
     {
-        private readonly Dictionary<EventType, List<Action>> _subscriptions;
+        _subscriptions = new Dictionary<EventType, List<Action>>();
 
-        public EventManager()
+        var eventTypes = Enum.GetValues<EventType>();
+
+        foreach (var eventType in eventTypes)
         {
-            _subscriptions = new Dictionary<EventType, List<Action>>();
-
-            var eventTypes = (EventType[]) Enum.GetValues(typeof(EventType));
-
-            foreach (var eventType in eventTypes)
-            {
-                _subscriptions.Add(eventType, new List<Action>());
-            }
+            _subscriptions.Add(eventType, []);
         }
+    }
 
-        public void AddSubscription(EventType eventType, Action action)
-        {
-            _subscriptions[eventType].Add(action);
-        }
+    public void AddSubscription(EventType eventType, Action action)
+    {
+        _subscriptions[eventType].Add(action);
+    }
 
-        public void RaiseEvent(EventType eventType)
+    public void RaiseEvent(EventType eventType)
+    {
+        foreach (var action in _subscriptions[eventType])
         {
-            foreach (var action in _subscriptions[eventType])
-            {
-                action.Invoke();
-            }
+            action.Invoke();
         }
     }
 }
