@@ -1,23 +1,22 @@
 ﻿using Microsoft.Xna.Framework;
 
-namespace Epsilon.Environment
+namespace Epsilon.Environment;
+
+public class Star
 {
-    public class Star
-    {
-        public float AnchorX { get; set; }
+    public float AnchorX { get; init; }
 
-        public float AnchorY { get; set; }
+    public float AnchorY { get; init; }
 
-        public float X { get; set; }
+    public float X { get; set; }
 
-        public float Y { get; set; }
+    public float Y { get; set; }
 
-        public float Velocity { get; set; }
+    public float Velocity { get; init; }
 
-        public int Type { get; set; }
+    public int Type { get; init; }
 
-        public Color Color { get; set; }
+    public Color Color { get; set; }
 
-        public float Intensity { get; set; }
-    }
+    public float Intensity { get; init; }
 }

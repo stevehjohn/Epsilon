@@ -1,16 +1,14 @@
 ﻿using System;
 
-namespace Epsilon.Infrastructure
+namespace Epsilon.Infrastructure;
+
+public static class EntryPoint
 {
-    public static class EntryPoint
+    [STAThread]
+    public static void Main()
     {
-        [STAThread]
-        public static void Main()
-        {
-            using (var game = new Epsilon())
-            {
-                game.Run();
-            }
-        }
+        using var game = new Epsilon();
+        
+        game.Run();
     }
 }

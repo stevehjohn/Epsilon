@@ -1,8 +1,7 @@
-﻿namespace Epsilon.Controls
+﻿namespace Epsilon.Controls;
+
+public enum MouseButton
 {
-    public enum MouseButton
-    {
-        Left,
-        Right
-    }
+    Left,
+    Right
 }

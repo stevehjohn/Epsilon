@@ -1,15 +1,14 @@
-﻿namespace Epsilon.State
+﻿namespace Epsilon.State;
+
+public static class GameState
 {
-    public static class GameState
+    public static int WaterLevel { get; set; }
+
+    public static int Brightness { get; }
+
+    static GameState()
     {
-        public static int WaterLevel { get; set; }
-
-        public static int Brightness { get; set; }
-
-        static GameState()
-        {
-            WaterLevel = 0;
-            Brightness = 255;
-        }
+        WaterLevel = 0;
+        Brightness = 255;
     }
 }

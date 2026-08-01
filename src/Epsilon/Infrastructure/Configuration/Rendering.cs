@@ -1,7 +1,9 @@
-﻿namespace Epsilon.Infrastructure.Configuration
+﻿using JetBrains.Annotations;
+
+namespace Epsilon.Infrastructure.Configuration;
+
+[UsedImplicitly]
+public class Rendering
 {
-    public class Rendering
-    {
-        public bool RenderBoardEdges { get; set; }
-    }
+    public bool RenderBoardEdges { get; set; }
 }

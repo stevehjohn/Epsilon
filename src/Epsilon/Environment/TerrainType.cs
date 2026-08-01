@@ -1,16 +1,15 @@
-﻿namespace Epsilon.Environment
+﻿namespace Epsilon.Environment;
+
+public enum TerrainType
 {
-    public enum TerrainType
-    {
-        Grass,
-        Sand,
-        Soil,
-        Rock,
-        Snow,
-        Water,
-        WaterLeftEdge,
-        WaterRightEdge,
-        Highlight,
-        Reference
-    }
+    Grass,
+    Sand,
+    Soil,
+    Rock,
+    Snow,
+    Water,
+    WaterLeftEdge,
+    WaterRightEdge,
+    Highlight,
+    Reference
 }

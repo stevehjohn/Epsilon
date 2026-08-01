@@ -1,8 +1,7 @@
-﻿namespace Epsilon.Coordination
+﻿namespace Epsilon.Coordination;
+
+public enum EventType
 {
-    public enum EventType
-    {
-        RotationChanged,
-        MapMoved
-    }
+    RotationChanged,
+    MapMoved
 }

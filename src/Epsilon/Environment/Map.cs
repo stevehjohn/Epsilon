@@ -3,289 +3,269 @@ using Epsilon.Coordination;
 using Epsilon.Infrastructure;
 using Epsilon.Maths;
 
-namespace Epsilon.Environment
+namespace Epsilon.Environment;
+
+public class Map
 {
-    public class Map
+    private readonly EventManager _eventManager;
+
+    private readonly Tile[,] _tiles;
+
+    private readonly Random _rng;
+
+    private int _rotation;
+
+    public Coordinates Position;
+
+    public int Rotation
     {
-        private readonly EventManager _eventManager;
-        private readonly Tile[,] _tiles;
-        private readonly Random _rng;
-
-        private int _rotation;
-        public Coordinates Position;
-
-        public int Rotation
+        get => _rotation;
+        set
         {
-            get => _rotation;
-            set
+            if (value < 0 || value > 270 || value % 90 != 0)
             {
-                if (value < 0 || value > 270 || value % 90 != 0)
+                throw new ArgumentOutOfRangeException(nameof(value), "Rotation must be 0, 90, 180 or 270");
+            }
+
+            _rotation = value;
+        }
+    }
+
+    public Map(EventManager eventManager)
+    {
+        _eventManager = eventManager;
+
+        _tiles = new Tile[Constants.MapSize, Constants.MapSize];
+
+        Position = new Coordinates(Constants.MapSizeHalf, Constants.MapSizeHalf);
+
+        _rng = new Random();
+
+        InitialiseTerrainWithSimplexNoise();
+
+        MakeFlatEarth();
+    }
+
+    public Coordinates GetOrigin()
+    {
+        switch (_rotation)
+        {
+            case 90:
+                return new Coordinates(Position.X, Position.Y + Constants.BoardSize - 1);
+            case 180:
+                return new Coordinates(Position.X + Constants.BoardSize - 1, Position.Y + Constants.BoardSize - 1);
+            case 270:
+                return new Coordinates(Position.X + Constants.BoardSize - 1, Position.Y);
+            default:
+                return Position;
+        }
+    }
+
+    public void Move(Direction direction)
+    {
+        Position = _rotation switch
+        {
+            90 => new Coordinates(Position.X - direction.Dy, Position.Y - direction.Dx),
+            180 => new Coordinates(Position.X - direction.Dx, Position.Y + direction.Dy),
+            270 => new Coordinates(Position.X + direction.Dy, Position.Y + direction.Dx),
+            _ => new Coordinates(Position.X + direction.Dx, Position.Y - direction.Dy)
+        };
+
+        if (direction.Dx != 0 || direction.Dy != 0)
+        {
+            _eventManager.RaiseEvent(EventType.MapMoved);
+        }
+    }
+
+    public Tile GetMapTile(int x, int y)
+    {
+        if (x < 0 || x >= Constants.MapSize || y < 0 || y >= Constants.MapSize)
+        {
+            return null;
+        }
+
+        return _tiles[x, y];
+    }
+
+    public Tile GetTile(int x, int y)
+    {
+        var tx = x;
+        var ty = y;
+
+        switch (_rotation)
+        {
+            case 0:
+                break;
+            case 90:
+                tx = y;
+                ty = Constants.BoardSize - 1 - x;
+                break;
+            case 180:
+                tx = Constants.BoardSize - 1 - x;
+                ty = Constants.BoardSize - 1 - y;
+                break;
+            case 270:
+                tx = Constants.BoardSize - 1 - y;
+                ty = x;
+                break;
+            default:
+                throw new InvalidOperationException("Rotation is not a valid value, it should be 0, 90, 180 or 270");
+        }
+
+        return SafeGetTile(tx, ty);
+    }
+
+    public static TerrainType GetDefaultTerrainType(int height)
+    {
+        return height switch
+        {
+            < -4 => TerrainType.Soil,
+            < 10 => TerrainType.Sand,
+            < 15 => TerrainType.Soil,
+            < 40 => TerrainType.Grass,
+            < 57 => TerrainType.Rock,
+            _ => TerrainType.Snow
+        };
+    }
+
+    private Tile SafeGetTile(int x, int y)
+    {
+        x += Position.X;
+
+        y += Position.Y;
+
+        if (x < 0 || x >= Constants.MapSize || y < 0 || y >= Constants.MapSize)
+        {
+            return null;
+        }
+
+        return _tiles[x, y];
+    }
+
+    private void InitialiseTerrainWithSimplexNoise()
+    {
+        var noise = Noise.Calc2D(Constants.MapSize, Constants.MapSize, 0.025f);
+
+        for (var x = 0; x < Constants.MapSize; x++)
+        {
+            for (var y = 0; y < Constants.MapSize; y++)
+            {
+                var height = TranslateNoiseToHeight(noise[x, y]);
+
+                var tile = new Tile(height)
                 {
-                    throw new ArgumentOutOfRangeException(nameof(value), "Rotation must be 0, 90, 180 or 270");
-                }
+                    IsEdge = x == 0 || y == 0 || x == Constants.MapSize - 1 || y == Constants.MapSize - 1,
+                    EdgeOffset = -1 + _rng.Next(3)
+                };
 
-                _rotation = value;
+                _tiles[x, y] = tile;
             }
         }
+    }
 
-        public Map(EventManager eventManager)
+    private void MakeFlatEarth()
+    {
+        for (var radius = Constants.MapSizeHalf; radius < Constants.MapSize; radius++)
         {
-            _eventManager = eventManager;
-
-            _tiles = new Tile[Constants.MapSize, Constants.MapSize];
-
-            Position = new Coordinates(Constants.MapSizeHalf, Constants.MapSizeHalf);
-
-            _rng = new Random();
-
-            InitialiseTerrainWithSimplexNoise();
-
-            MakeFlatEarth();
-        }
-
-        public Coordinates GetOrigin()
-        {
-            switch (_rotation)
+            for (var radians = 0.0f; radians < Math.PI * 2; radians += Constants.RadiansResolution)
             {
-                case 90:
-                    return new Coordinates(Position.X, Position.Y + Constants.BoardSize - 1);
-                case 180:
-                    return new Coordinates(Position.X + Constants.BoardSize - 1, Position.Y + Constants.BoardSize - 1);
-                case 270:
-                    return new Coordinates(Position.X + Constants.BoardSize - 1, Position.Y);
-                default:
-                    return Position;
-            }
-        }
-
-        public void Move(Direction direction)
-        {
-            switch (_rotation)
-            {
-                case 90:
-                    Position = new Coordinates(Position.X - direction.Dy, Position.Y - direction.Dx);
-                    break;
-                case 180:
-                    Position = new Coordinates(Position.X - direction.Dx, Position.Y + direction.Dy);
-                    break;
-                case 270:
-                    Position = new Coordinates(Position.X + direction.Dy, Position.Y + direction.Dx);
-                    break;
-                default:
-                    Position = new Coordinates(Position.X + direction.Dx, Position.Y - direction.Dy);
-                    break;
-            }
-
-            if (direction.Dx != 0 || direction.Dy != 0)
-            {
-                _eventManager.RaiseEvent(EventType.MapMoved, direction);
-            }
-        }
-
-        public Tile GetMapTile(int x, int y)
-        {
-            if (x < 0 || x >= Constants.MapSize || y < 0 || y >= Constants.MapSize)
-            {
-                return null;
-            }
-
-            return _tiles[x, y];
-        }
-
-        public Tile GetTile(int x, int y)
-        {
-            var tx = x;
-            var ty = y;
-
-            switch (_rotation)
-            {
-                case 0:
-                    break;
-                case 90:
-                    tx = y;
-                    ty = Constants.BoardSize - 1 - x;
-                    break;
-                case 180:
-                    tx = Constants.BoardSize - 1 - x;
-                    ty = Constants.BoardSize - 1 - y;
-                    break;
-                case 270:
-                    tx = Constants.BoardSize - 1 - y;
-                    ty = x;
-                    break;
-                default:
-                    throw new InvalidOperationException("Rotation is not a valid value, it should be 0, 90, 180 or 270");
-            }
-
-            return SafeGetTile(tx, ty);
-        }
-
-        public static TerrainType GetDefaultTerrainType(int height)
-        {
-            if (height < -4)
-            {
-                return TerrainType.Soil;
-            }
-
-            if (height < 10)
-            {
-                return TerrainType.Sand;
-            }
-
-            if (height < 15)
-            {
-                return TerrainType.Soil;
-            }
-
-            if (height < 40)
-            {
-                return TerrainType.Grass;
-            }
-
-            if (height < 57)
-            {
-                return TerrainType.Rock;
-            }
-
-            return TerrainType.Snow;
-        }
-
-        private Tile SafeGetTile(int x, int y)
-        {
-            x += Position.X;
-            y += Position.Y;
-
-            if (x < 0 || x >= Constants.MapSize || y < 0 || y >= Constants.MapSize)
-            {
-                return null;
-            }
-
-            return _tiles[x, y];
-        }
-
-        private void InitialiseTerrainWithSimplexNoise()
-        {
-            var noise = SimplexNoise.Noise.Calc2D(Constants.MapSize, Constants.MapSize, 0.025f);
-
-            for (var x = 0; x < Constants.MapSize; x++)
-            {
-                for (var y = 0; y < Constants.MapSize; y++)
-                {
-                    var height = TranslateNoiseToHeight(noise[x, y]);
-
-                    var tile = new Tile(height)
-                               {
-                                   IsEdge = x == 0 || y == 0 || x == Constants.MapSize - 1 || y == Constants.MapSize - 1,
-                                   EdgeOffset = -1 + _rng.Next(3)
-                               };
-
-                    _tiles[x, y] = tile;
-                }
-            }
-        }
-
-        private void MakeFlatEarth()
-        {
-            for (var radius = Constants.MapSizeHalf; radius < Constants.MapSize; radius++)
-            {
-                for (var radians = 0.0f; radians < Math.PI * 2; radians += Constants.RadiansResolution)
-                {
-                    var x = (int) (Constants.MapSizeHalf + radius * Math.Sin(radians));
-                    var y = (int) (Constants.MapSizeHalf + radius * Math.Cos(radians));
-
-                    if (x >= 0 && x < Constants.MapSize && y >= 0 && y < Constants.MapSize)
-                    {
-                        _tiles[x, y] = null;
-                    }
-                }
-            }
-
-            for (var radians = 0.0f; radians < Math.PI * 2; radians += Constants.RadiansHighResolution)
-            {
-                var x = (int) (Constants.MapSizeHalf + Constants.MapSizeHalf * Math.Sin(radians));
-                var y = (int) (Constants.MapSizeHalf + Constants.MapSizeHalf * Math.Cos(radians));
+                var x = (int) (Constants.MapSizeHalf + radius * Math.Sin(radians));
+                
+                var y = (int) (Constants.MapSizeHalf + radius * Math.Cos(radians));
 
                 if (x >= 0 && x < Constants.MapSize && y >= 0 && y < Constants.MapSize)
                 {
-                    _tiles[x, y] = new Tile(2 + _rng.Next(7), TerrainType.Rock)
-                                   {
-                                       IsEdge = true
-                                   };
-                }
-            }
-
-            for (var x = -Constants.MapSizeHalf; x < 0; x++)
-            {
-                var y = (int) Math.Floor(Math.Sqrt(Math.Pow(Constants.MapSizeHalf, 2) - Math.Pow(x, 2)));
-
-                for (var dy = 1; dy <= y; dy++)
-                {
-                    _tiles[Constants.MapSizeHalf + x, Constants.MapSizeHalf + dy - 1].Height -= (int) (Math.Sqrt(Math.Pow(x, 2) + Math.Pow(dy, 2)) * 0.75d);
-                    if (_tiles[Constants.MapSizeHalf + x, Constants.MapSizeHalf + dy - 1].Height < Constants.SeaFloor)
-                    {
-                        _tiles[Constants.MapSizeHalf + x, Constants.MapSizeHalf + dy - 1].Height = Constants.SeaFloor;
-                    }
-
-                    _tiles[Constants.MapSizeHalf - x - 1, Constants.MapSizeHalf + dy - 1].Height -= (int) (Math.Sqrt(Math.Pow(x, 2) + Math.Pow(dy, 2)) * 0.75d);
-                    if (_tiles[Constants.MapSizeHalf - x - 1, Constants.MapSizeHalf + dy - 1].Height < Constants.SeaFloor)
-                    {
-                        _tiles[Constants.MapSizeHalf - x - 1, Constants.MapSizeHalf + dy - 1].Height = Constants.SeaFloor;
-                    }
-
-                    _tiles[Constants.MapSizeHalf + x, Constants.MapSizeHalf - dy].Height -= (int) (Math.Sqrt(Math.Pow(x, 2) + Math.Pow(dy, 2)) * 0.75d);
-                    if (_tiles[Constants.MapSizeHalf + x, Constants.MapSizeHalf - dy].Height < Constants.SeaFloor)
-                    {
-                        _tiles[Constants.MapSizeHalf + x, Constants.MapSizeHalf - dy].Height = Constants.SeaFloor;
-                    }
-                    
-                    _tiles[Constants.MapSizeHalf - x - 1, Constants.MapSizeHalf - dy].Height -= (int) (Math.Sqrt(Math.Pow(x, 2) + Math.Pow(dy, 2)) * 0.75d);
-                    if (_tiles[Constants.MapSizeHalf - x - 1, Constants.MapSizeHalf - dy].Height < Constants.SeaFloor)
-                    {
-                        _tiles[Constants.MapSizeHalf - x - 1, Constants.MapSizeHalf - dy].Height = Constants.SeaFloor;
-                    }
-                }
-            }
-
-            for (var x = 0; x < Constants.MapSize; x++)
-            {
-                for (var y = 0; y < Constants.MapSize; y++)
-                {
-                    var tile = _tiles[x, y];
-
-                    if (tile != null && ! tile.IsEdge)
-                    {
-                        var terrainType = GetDefaultTerrainType(tile.Height - 1 + _rng.Next(3));
-
-                        tile.TerrainType = terrainType;
-
-                        if (terrainType == TerrainType.Grass && _rng.Next(10) == 0)
-                        {
-                            tile.SceneryType = SceneryType.Tree;
-                        }
-
-                        if (terrainType == TerrainType.Grass && _rng.Next(200) == 0)
-                        {
-                            tile.SceneryType = SceneryType.Goat;
-                        }
-
-                        if (terrainType == TerrainType.Snow && _rng.Next(40) == 0)
-                        {
-                            tile.SceneryType = SceneryType.Snowman;
-                        }
-
-                        if (tile.Height < -10 && _rng.Next(100) == 0)
-                        {
-                            tile.SceneryType = SceneryType.Fish;
-                        }
-
-                    }
+                    _tiles[x, y] = null;
                 }
             }
         }
 
-        private static int TranslateNoiseToHeight(float noise)
+        for (var radians = 0.0f; radians < Math.PI * 2; radians += Constants.RadiansHighResolution)
         {
-            return (int) (Constants.SeaFloor + noise / 255 * (Constants.MaxHeight + Math.Abs(Constants.SeaFloor)));
+            var x = (int) (Constants.MapSizeHalf + Constants.MapSizeHalf * Math.Sin(radians));
+            
+            var y = (int) (Constants.MapSizeHalf + Constants.MapSizeHalf * Math.Cos(radians));
+
+            if (x >= 0 && x < Constants.MapSize && y >= 0 && y < Constants.MapSize)
+            {
+                _tiles[x, y] = new Tile(2 + _rng.Next(7), TerrainType.Rock)
+                {
+                    IsEdge = true
+                };
+            }
         }
+
+        for (var x = -Constants.MapSizeHalf; x < 0; x++)
+        {
+            var y = (int) Math.Floor(Math.Sqrt(Math.Pow(Constants.MapSizeHalf, 2) - Math.Pow(x, 2)));
+
+            for (var dy = 1; dy <= y; dy++)
+            {
+                _tiles[Constants.MapSizeHalf + x, Constants.MapSizeHalf + dy - 1].Height -= (int) (Math.Sqrt(Math.Pow(x, 2) + Math.Pow(dy, 2)) * 0.75d);
+                
+                if (_tiles[Constants.MapSizeHalf + x, Constants.MapSizeHalf + dy - 1].Height < Constants.SeaFloor)
+                {
+                    _tiles[Constants.MapSizeHalf + x, Constants.MapSizeHalf + dy - 1].Height = Constants.SeaFloor;
+                }
+
+                _tiles[Constants.MapSizeHalf - x - 1, Constants.MapSizeHalf + dy - 1].Height -= (int) (Math.Sqrt(Math.Pow(x, 2) + Math.Pow(dy, 2)) * 0.75d);
+                
+                if (_tiles[Constants.MapSizeHalf - x - 1, Constants.MapSizeHalf + dy - 1].Height < Constants.SeaFloor)
+                {
+                    _tiles[Constants.MapSizeHalf - x - 1, Constants.MapSizeHalf + dy - 1].Height = Constants.SeaFloor;
+                }
+
+                _tiles[Constants.MapSizeHalf + x, Constants.MapSizeHalf - dy].Height -= (int) (Math.Sqrt(Math.Pow(x, 2) + Math.Pow(dy, 2)) * 0.75d);
+                
+                if (_tiles[Constants.MapSizeHalf + x, Constants.MapSizeHalf - dy].Height < Constants.SeaFloor)
+                {
+                    _tiles[Constants.MapSizeHalf + x, Constants.MapSizeHalf - dy].Height = Constants.SeaFloor;
+                }
+
+                _tiles[Constants.MapSizeHalf - x - 1, Constants.MapSizeHalf - dy].Height -= (int) (Math.Sqrt(Math.Pow(x, 2) + Math.Pow(dy, 2)) * 0.75d);
+                
+                if (_tiles[Constants.MapSizeHalf - x - 1, Constants.MapSizeHalf - dy].Height < Constants.SeaFloor)
+                {
+                    _tiles[Constants.MapSizeHalf - x - 1, Constants.MapSizeHalf - dy].Height = Constants.SeaFloor;
+                }
+            }
+        }
+
+        for (var x = 0; x < Constants.MapSize; x++)
+        {
+            for (var y = 0; y < Constants.MapSize; y++)
+            {
+                var tile = _tiles[x, y];
+
+                if (tile != null && ! tile.IsEdge)
+                {
+                    var terrainType = GetDefaultTerrainType(tile.Height - 1 + _rng.Next(3));
+
+                    tile.TerrainType = terrainType;
+
+                    if (terrainType == TerrainType.Grass && _rng.Next(10) == 0)
+                    {
+                        tile.SceneryType = SceneryType.Tree;
+                    }
+
+                    tile.SceneryType = terrainType switch
+                    {
+                        TerrainType.Grass when _rng.Next(200) == 0 => SceneryType.Goat,
+                        TerrainType.Snow when _rng.Next(40) == 0 => SceneryType.Snowman,
+                        _ => tile.SceneryType
+                    };
+
+                    if (tile.Height < -10 && _rng.Next(100) == 0)
+                    {
+                        tile.SceneryType = SceneryType.Fish;
+                    }
+                }
+            }
+        }
+    }
+
+    private static int TranslateNoiseToHeight(float noise)
+    {
+        return (int) (Constants.SeaFloor + noise / 255 * (Constants.MaxHeight + Math.Abs(Constants.SeaFloor)));
     }
 }
