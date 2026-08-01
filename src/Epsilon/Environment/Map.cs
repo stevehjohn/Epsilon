@@ -8,10 +8,13 @@ namespace Epsilon.Environment;
 public class Map
 {
     private readonly EventManager _eventManager;
+    
     private readonly Tile[,] _tiles;
+    
     private readonly Random _rng;
 
     private int _rotation;
+    
     public Coordinates Position;
 
     public int Rotation
@@ -103,6 +106,7 @@ public class Map
     private Tile SafeGetTile(int x, int y)
     {
         x += Position.X;
+        
         y += Position.Y;
 
         if (x < 0 || x >= Constants.MapSize || y < 0 || y >= Constants.MapSize)
@@ -115,7 +119,7 @@ public class Map
 
     private void InitialiseTerrainWithSimplexNoise()
     {
-        var noise = SimplexNoise.Noise.Calc2D(Constants.MapSize, Constants.MapSize, 0.025f);
+        var noise = Noise.Calc2D(Constants.MapSize, Constants.MapSize, 0.025f);
 
         for (var x = 0; x < Constants.MapSize; x++)
         {
