@@ -37,13 +37,15 @@ public class Epsilon : Game
         _map = new Map(_eventManager);
 
         _mouseTracker = new MouseTracker();
+        
         _keyBoardTracker = new KeyboardTracker();
 
         // TODO: Maybe use some assembly scanning technique to pick all IActors up...
         _actors =
         [
             new Stars(_eventManager, _map),
-            new Terrain(_map, _eventManager)
+            new Terrain(_map, _eventManager),
+            new WaterFlow(_map)
         ];
     }
 
